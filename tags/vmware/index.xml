@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Vmware on EtherealBoyJiang</title>
+        <link>http://localhost:1313/tags/vmware/</link>
+        <description>Recent content in Vmware on EtherealBoyJiang</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>EtherealBoyJiang</copyright>
+        <lastBuildDate>Fri, 10 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/vmware/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>使用VMware搭建测试环境</title>
+        <link>http://localhost:1313/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</link>
+        <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</guid>
+        <description>&lt;img src="http://localhost:1313/img/Other/VMware1/0.png" alt="Featured image of post 使用VMware搭建测试环境" /&gt;&lt;h2 id=&#34;part1背景&#34;&gt;Part1.背景
+&lt;/h2&gt;&lt;p&gt;咱们测试同学有时候不得不需要自己去搭建一个测试环境，保证自己的测试可以顺畅进行。测试环境可以运行在物理机或者虚拟机上。测试环境在物理机上无疑更真实、准确，但物理机价格、便捷方面都不如虚拟机。而且虚拟机通过精心搭配，真实、准确方面也不容小觑。&lt;/p&gt;
+&lt;p&gt;现在市面上可以搭建虚拟机的软件不少。如&lt;strong&gt;Vmware&lt;/strong&gt;、&lt;strong&gt;VirtualBox&lt;/strong&gt;、&lt;strong&gt;QEMU&lt;/strong&gt;、&lt;strong&gt;Parallels Desktop&lt;/strong&gt;、&lt;strong&gt;Microsoft Hyper-V&lt;/strong&gt;等。我为什么推荐VMware呢？因为我第一次搭建虚拟机使用的就是它，而且只用过它😅。无论如何，开始我们的VMware之旅吧。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part2准备vmware&#34;&gt;Part2.准备VMware
+&lt;/h2&gt;&lt;p&gt;&lt;em&gt;&lt;strong&gt;下载VMware&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;div&gt;
+&lt;a1 href=&#34;https://www.vmware.com/products/desktop-hypervisor.html&#34; target=&#34;_blank&#34;&gt;
+    &lt;div class=&#34;zhengti&#34;&gt;
+        &lt;a href=&#34;https://www.vmware.com/products/desktop-hypervisor.html&#34;&gt;
+            &lt;div class=&#34;wenzi&#34;&gt;
+                &lt;div class=&#34;linkk&#34;&gt;
+                    &lt;div class=&#34;namee&#34;&gt;VMware下载地址&lt;/div&gt;&lt;div class=&#34;descc&#34;&gt;包含Mac和window版本&lt;/div&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;div class=&#34;linktext&#34;&gt;https://www.vmware.com/products/desktop-hypervisor.html&lt;/div&gt;
+
+        &lt;/div&gt;
+        &lt;div class=&#34;daimg&#34;&gt;
+            &lt;img class=&#34;link-card-img&#34; loading=&#34;lazy&#34; src=&#34;https://api.thumbnail.ws/api/ab41148c7048bd95441b7b09816cbd5db1ed220134d3/thumbnail/get?width=720&amp;url=https%3a%2f%2fwww.vmware.com%2fproducts%2fdesktop-hypervisor.html&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/a1&gt;
+
+&lt;style&gt;
+    a1 {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .zhengti {
+        margin: auto;
+        padding-top: 4%;
+        padding-right: 4%;
+        padding-bottom: 4%;
+        padding-left: 4%;
+        width: 100%;
+        display: flex;
+        align-items: left;
+        flex-direction: row;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        background-color: #ffffff;
+        transition: border 0.3s ease-in-out;
+        box-shadow: 2px 4px 16px rgba(0, 0, 0, .05);
+    }
+    
+    .wenzi {
+        display: flex;
+        align-items: left;
+        flex-direction: column;
+        flex: 2;
+    }
+    
+    .zhengti:hover {
+        transform: scale(1.03);
+        box-shadow: 2px 4px 16px rgba(0, 0, 0, .05);
+    }
+    
+    .linkk {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .iconn {
+        display: flex;
+        align-items: center;
+    }
+    
+    .iconn1 {
+        width: 1.2em;
+        height: 1.2em;
+        margin-right: 0.5em;
+        margin-bottom: 0.2em;
+    }
+    
+    .namee {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--card-text-color-main);
+    }
+    
+    .descc {
+        font-size: 1.3rem;
+        color: #9ca3af;
+        margin-bottom: 0.5rem;
+    }
+    
+    .linktext {
+        font-size: 0.9rem;
+        color: #9ca3af;
+    }
+     
+    
+    .link-card-icoon {
+        width: 16px;
+        height: 16px;
+        margin-right: 0.5rem;
+    }
+     
+    
+    .daimg {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        align-self: right;
+    }
+    
+    .link-card-img {
+        display: block;
+        height: auto;
+        max-height: 200px;
+        width: 100%;
+         
+        object-fit: cover;
+        max-width: 50%;
+        margin-right: 2px;
+        border-radius: 0.25rem;
+    }
+    
+    a1:hover {
+        background-color: var(--color-zoom-bg);
+        border: 1px solid var(--theme);
+    }
+    
+    @media (max-width:900px) {
+        a1 {
+            max-height: 25em;
+            overflow-y: auto;
+            padding-right: 4%;
+        }
+        .zhengti {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    
+    [data-scheme=&#34;dark&#34;] {
+        .zhengti {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+        }
+        .descc {
+            color: #9ca3af;
+        }
+        .linktext {
+            color: #9ca3af;
+        }
+    }
+&lt;/style&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;根据自己的系统去下载对应版本&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/1.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;请注意这里下载的是Pro版本，是收费的。你也可以去下载免费版本，或者去搜激活码来进行激活。不过你懂的。我不提供方法。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;安装VMware&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;下载成功后，双击安装后一直下一步就行。然后界面如下：&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/2.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;我这里已经搭建了2个虚拟机了，你们刚进去的时候，是没有这两个虚拟机的。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part3新建虚拟机&#34;&gt;Part3.新建虚拟机
+&lt;/h2&gt;&lt;p&gt;如图.&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/3.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/4.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;此时一个虚拟机就搭建好了。图中的&lt;code&gt;测试安装centos 7&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/5.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part4设置虚拟机&#34;&gt;Part4.设置虚拟机
+&lt;/h2&gt;&lt;p&gt;后面还需要对虚拟机进行一些设置，才能达成目的。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/6.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;有关&lt;code&gt;网络连接&lt;/code&gt;的知识可以点击下方卡片进行了解。&lt;/p&gt;
+&lt;div&gt;
+&lt;a1 href=&#34;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-0CE1AE01-7E79-41BB-9EA8-4F839BE40E1A.html&#34; target=&#34;_blank&#34;&gt;
+    &lt;div class=&#34;zhengti&#34;&gt;
+        &lt;a href=&#34;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-0CE1AE01-7E79-41BB-9EA8-4F839BE40E1A.html&#34;&gt;
+            &lt;div class=&#34;wenzi&#34;&gt;
+                &lt;div class=&#34;linkk&#34;&gt;
+                    &lt;div class=&#34;namee&#34;&gt;使用 VMware Workstation Pro&lt;/div&gt;&lt;/div&gt;
+        &lt;/a&gt;&lt;div class=&#34;linktext&#34;&gt;https://docs.vmware.com/cn/VMware-Workstation-Pro/17/com.vmware.ws.using.doc/GUID-0CE1AE01-7E79-41BB-9EA8-4F839BE40E1A.html&lt;/div&gt;
+
+        &lt;/div&gt;
+        &lt;div class=&#34;daimg&#34;&gt;
+            &lt;img class=&#34;link-card-img&#34; loading=&#34;lazy&#34; src=&#34;https://api.thumbnail.ws/api/ab41148c7048bd95441b7b09816cbd5db1ed220134d3/thumbnail/get?width=720&amp;url=https%3a%2f%2fdocs.vmware.com%2fcn%2fVMware-Workstation-Pro%2f17%2fcom.vmware.ws.using.doc%2fGUID-0CE1AE01-7E79-41BB-9EA8-4F839BE40E1A.html&#34; alt=&#34;&#34; /&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/a1&gt;
+
+&lt;style&gt;
+    a1 {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .zhengti {
+        margin: auto;
+        padding-top: 4%;
+        padding-right: 4%;
+        padding-bottom: 4%;
+        padding-left: 4%;
+        width: 100%;
+        display: flex;
+        align-items: left;
+        flex-direction: row;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        background-color: #ffffff;
+        transition: border 0.3s ease-in-out;
+        box-shadow: 2px 4px 16px rgba(0, 0, 0, .05);
+    }
+    
+    .wenzi {
+        display: flex;
+        align-items: left;
+        flex-direction: column;
+        flex: 2;
+    }
+    
+    .zhengti:hover {
+        transform: scale(1.03);
+        box-shadow: 2px 4px 16px rgba(0, 0, 0, .05);
+    }
+    
+    .linkk {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .iconn {
+        display: flex;
+        align-items: center;
+    }
+    
+    .iconn1 {
+        width: 1.2em;
+        height: 1.2em;
+        margin-right: 0.5em;
+        margin-bottom: 0.2em;
+    }
+    
+    .namee {
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--card-text-color-main);
+    }
+    
+    .descc {
+        font-size: 1.3rem;
+        color: #9ca3af;
+        margin-bottom: 0.5rem;
+    }
+    
+    .linktext {
+        font-size: 0.9rem;
+        color: #9ca3af;
+    }
+     
+    
+    .link-card-icoon {
+        width: 16px;
+        height: 16px;
+        margin-right: 0.5rem;
+    }
+     
+    
+    .daimg {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        align-self: right;
+    }
+    
+    .link-card-img {
+        display: block;
+        height: auto;
+        max-height: 200px;
+        width: 100%;
+         
+        object-fit: cover;
+        max-width: 50%;
+        margin-right: 2px;
+        border-radius: 0.25rem;
+    }
+    
+    a1:hover {
+        background-color: var(--color-zoom-bg);
+        border: 1px solid var(--theme);
+    }
+    
+    @media (max-width:900px) {
+        a1 {
+            max-height: 25em;
+            overflow-y: auto;
+            padding-right: 4%;
+        }
+        .zhengti {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    
+    [data-scheme=&#34;dark&#34;] {
+        .zhengti {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+        }
+        .descc {
+            color: #9ca3af;
+        }
+        .linktext {
+            color: #9ca3af;
+        }
+    }
+&lt;/style&gt;
+
+&lt;/div&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part5运行虚拟机&#34;&gt;Part5.运行虚拟机
+&lt;/h2&gt;&lt;p&gt;点击运行虚拟机后，VMware开始运行ISO镜像文件。然后就是各个系统经典的初始化界面。我这里以&lt;code&gt;centos 7&lt;/code&gt; 为例。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/7.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;以上示例的是&lt;code&gt;centos7&lt;/code&gt;。需要知道的是，每个系统的初始化界面可能有区别。比如&lt;code&gt;windows&lt;/code&gt;一定与&lt;code&gt;centos 7&lt;/code&gt;不同。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part6网络配置&#34;&gt;Part6.网络配置
+&lt;/h2&gt;&lt;p&gt;此时安装好的&lt;code&gt;centos 7&lt;/code&gt;还不能访问inter网、局域网，甚至主机。访问其他网络，需要进行一些配置。我们以&lt;code&gt;桥接模式&lt;/code&gt;为例。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;VMware上进行设置&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/8.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;centos 7上进行配置&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;查看网口信息&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 查看网口信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ip link
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 示例centos 7，输出信息如下：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2: ens33: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    link/ether 00:0c:29:cf:f0:d8 brd ff:ff:ff:ff:ff:ff
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出的网口信息有&lt;code&gt;lo&lt;/code&gt;、&lt;code&gt;ens33&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;lo&lt;/code&gt; 是本地回环接口，通常用于本地主机上的网络服务。它总是激活的，并且可以用于本地主机上的网络请求。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;ens33&lt;/code&gt; 是一个以太网接口。这个接口是连接到物理网络的，但是当前的输出并没有显示IP地址分配情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;编辑网络配置文件&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 编辑ens33的配置文件
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;vi /etc/sysconfig/network-scripts/ifcfg-ens33
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置网络接口&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 只需要自动分配IP就行。修改以下配置。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;BOOTPROTO=dhcp
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ONBOOT=yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;重启网络服务&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 保存并关闭配置文件，然后重启网络服务以应用更改
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo systemctl restart network
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;验证网络配置&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 使用ping命令测试网络连接
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ping -c 4 8.8.8.8
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 使用ip addr 检查IP地址
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ip addr
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/VMware/VMware1/9.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;远程连接&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;MobaXterm&lt;/code&gt;远程。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;http://localhost:1313/img/VMware/VMware1/10.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;如果远程失败，可以使用&lt;code&gt;systemctl stop firewalld&lt;/code&gt;关闭防火墙，再远程。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;以上以&lt;code&gt;centos 7&lt;/code&gt;为示例。其他系统的IP设置可能不是这样，至少&lt;code&gt;windows&lt;/code&gt;肯定与&lt;code&gt;centos 7&lt;/code&gt;不同。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part7最后要说&#34;&gt;Part7.最后要说
+&lt;/h2&gt;&lt;p&gt;到这一步呢，距离你搭建完整的测试环境，只剩下部署你们的产品了。我就没有发言权了。另外还有网络这块，VMware还有&lt;code&gt;NAT模式、仅主机模式、自定义、LAN区段&lt;/code&gt;值得探讨。除此之外，还有其他的内容。不过都放在之后的文章中吧，本文不在阐述。&lt;/p&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

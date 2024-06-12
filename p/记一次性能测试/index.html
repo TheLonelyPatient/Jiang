@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="杂乱的一篇">
+<meta name="keywords" content="性能测试"><title>记一次性能测试</title>
+
+<link rel='canonical' href='http://localhost:1313/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.52f62e800333e0a4808ddfa83d167fd432b8d1ed15f8b65a4683be9218b5f549.css"><meta property='og:title' content="记一次性能测试">
+<meta property='og:description' content="杂乱的一篇">
+<meta property='og:url' content='http://localhost:1313/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/'>
+<meta property='og:site_name' content='EtherealBoyJiang'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='性能测试' /><meta property='article:published_time' content='2024-05-28T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-05-31T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/img/Other/Performance/0.png' />
+<meta name="twitter:title" content="记一次性能测试">
+<meta name="twitter:description" content="杂乱的一篇"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/img/Other/Performance/0.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css">
+
+    <link rel="stylesheet" href="https://thelonelypatient.github.io/Jiang/myjs/APlayer.min.css">
+</head>
+<body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended">
+
+
+        <div id="article-toolbar" style="position: sticky;top: 5px;z-index: 1000;">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#part1背景">Part1.背景</a></li>
+    <li><a href="#part2影响项目性能的因素分析">Part2.影响项目性能的因素分析</a></li>
+    <li><a href="#part3策划初步测试方案">Part3.策划初步测试方案</a></li>
+    <li><a href="#part4-搭建测试方案所需环境">Part4. 搭建测试方案所需环境</a></li>
+    <li><a href="#part5-测试结束后后分析整理本地数据">Part5. 测试结束后后，分析、整理本地数据</a></li>
+    <li><a href="#part6-将分析整理后的数据制作成图表">Part6. 将分析整理后的数据制作成图表</a></li>
+    <li><a href="#part7-最后要说的话">Part7. 最后要说的话</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">
+                
+                    <img src="/img/Other/Performance/0.png" loading="lazy" alt="Featured image of post 记一次性能测试" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/other/" >
+                杂篇
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">记一次性能测试</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            杂乱的一篇
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024/05/28</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="part1背景">Part1.背景
+</h2><p>我负责的一个项目经过长时间的开发，终于在客户现场正式运行了。虽然在正式运行前很长一段时间里我一直计划进行一次性能测试，但由于各种原因，测试一直没有进行。我们的运维人员在正式运行前进行了试运行，结果在一定数量的并发下，由于硬盘顶不住，系统直接卡死了。好吧！那就直接来吧。</p>
+<br>
+<h2 id="part2影响项目性能的因素分析">Part2.影响项目性能的因素分析
+</h2><p>我负责的这个项目的主要功能就是对监控设备进行切片、存储，然后生成URL供平台调阅。它主要分为两个部分，<code>切片&amp;&amp;存储</code>。存储方面，提供3中存储方式——<code>本地存储、S3接口存储、智能云存储</code>。其中S3接口存储、智能云存储都可以放在另外的服务器中，与切片分开。</p>
+<p>先要进行性能测试，首先要知道影响项目性能的因素有那些。通过与研发进行沟通，确认需要关注切片服务器的<code>cpu使用率、内存使用率、平均负载</code>、存储服务器的<code>cpu使用率、内存使用率、硬盘信息</code>及切片服务器与存储服务器之间的<code>网络通信信息</code>。</p>
+<br>
+<h2 id="part3策划初步测试方案">Part3.策划初步测试方案
+</h2><p>首先需要明确，此项目主要功能的流程。</p>
+<p><div class="bigImg">
+  <img src="/img/Other/Performance/1.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>其中<code>S3接口存储</code>,<code>智能云存储</code>都是有另外服务器作为存储服务器。只有<code>本地存储</code>没有另外的服务器。
+<code>S3接口存储</code>,<code>智能云存储</code>实现方式不一样，就不详细说明了。其他方面看没什么区别。</p>
+<p>由此可以初步策划两套测试方案。</p>
+<ul>
+<li>
+<p><strong>第一套</strong></p>
+<ol>
+<li>使用<code>Jmeter</code>下发切片指令，切片服务器中使用<code>top命令</code>获取切片服务器切片过程中的<code>cpu、平均负载、内存</code>等信息</li>
+<li>切片完成后。存储服务器中使用<code>top命令</code>获取切片视频存储过程中的<code>cpu、平均负载、内存</code>等信息，使用<code>iostat命令</code>获取切片视频存储过程中存储服务器存储过程中的<code>硬盘信息</code>；切片服务器中使用<code>nload命令</code>获取切片视频存储过程中的网络传输信息。</li>
+<li>分析并整理获取到的所有信息</li>
+<li>制作成结果图表</li>
+</ol>
+</li>
+<li>
+<p><strong>第二套</strong></p>
+<ol>
+<li>使用<code>Jmeter</code>下发切片指令后，切片服务器中使用<code>top命令</code>获取切片服务器中的<code>cpu、平均负载、内存</code>等信息，使用<code>iostat命令</code>获取切片服务器存储过程中的<code>硬盘信息</code>。</li>
+<li>分析并整理获取到的所有信息（分出切片、存储两个时间段）</li>
+<li>制作成结果图表</li>
+</ol>
+</li>
+</ul>
+<br>
+<h2 id="part4-搭建测试方案所需环境">Part4. 搭建测试方案所需环境
+</h2><p><strong>以第一套为例：</strong></p>
+<ol>
+<li>
+<p><strong>准备切片服务器</strong></p>
+<ul>
+<li>
+<p>服务器系统使用Linux系统</p>
+</li>
+<li>
+<p>服务器中部署切片服务</p>
+</li>
+<li>
+<p>服务器中安装<code>iostat、nload</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>准备存储服务器</strong></p>
+<ul>
+<li>
+<p>服务器中部署存储服务(研发已经部署，直接白嫖)</p>
+</li>
+<li>
+<p>服务器中安装<code>iostat</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>编写服务器脚本，获取服务器信息</strong></p>
+<ul>
+<li>
+<p>服务器中编写所需<code>top、iostat、nload</code>脚本命令。</p>
+<p><strong>top脚本，用于切片服务器、存储服务器</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 总循环时间（秒）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">total_time</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查是否提供了总时间参数</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="nv">$total_time</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;Usage: </span><span class="nv">$0</span><span class="s2"> &lt;total_time&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 记录开始时间</span>
+</span></span><span class="line"><span class="cl"><span class="nv">start_time</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 循环直到达到总时间</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">	<span class="c1"># 计算当前时间与开始时间的差值（秒）</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">current_time</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">elapsed_time</span><span class="o">=</span><span class="k">$((</span>current_time <span class="o">-</span> start_time<span class="k">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 如果已经达到或超过总时间，则退出循环</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="o">[</span> <span class="nv">$elapsed_time</span> -ge <span class="nv">$total_time</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">break</span>
+</span></span><span class="line"><span class="cl">	<span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 执行提供的命令</span>
+</span></span><span class="line"><span class="cl">	top -n <span class="m">1</span> -b <span class="p">|</span> head -n <span class="m">6</span> &gt;&gt; /top.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1"># 睡眠2秒</span>
+</span></span><span class="line"><span class="cl">	sleep <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p><strong>iostat脚本，用于切片服务器、存储服务器</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 总持续时间（秒）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">total_time</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查是否提供了总时间参数</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="nv">$total_time</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;Usage: </span><span class="nv">$0</span><span class="s2"> &lt;total_time&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 记录开始时间</span>
+</span></span><span class="line"><span class="cl"><span class="nv">start_time</span><span class="o">=</span><span class="k">$(</span>date +%s<span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 iostat命令 并将输出重定向到日志文件，同时将其放入后台运行，根据需要写iostat。</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">(</span>iostat -x -m -t <span class="m">2</span> &gt; /iostat.log<span class="o">)</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 保存 nload 的进程ID</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等待$1秒</span>
+</span></span><span class="line"><span class="cl">sleep <span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 终止 iostat 进程</span>
+</span></span><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$PID</span>
+</span></span></code></pre></div><p><strong>nload脚本，用于切片服务器</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-Shell" data-lang="Shell"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 总持续时间（秒）</span>
+</span></span><span class="line"><span class="cl"><span class="nv">total_time</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查是否提供了总时间参数</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="nv">$total_time</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;Usage: </span><span class="nv">$0</span><span class="s2"> &lt;total_time&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">exit</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 nload 并将输出重定向到日志文件，同时将其放入后台运行</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>nload eno1 -u M -m -t <span class="m">1500</span> &gt; /nload.log<span class="o">)</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 保存 nload 的进程ID</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 等待60秒</span>
+</span></span><span class="line"><span class="cl">sleep <span class="nv">$1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 终止 nload 进程</span>
+</span></span><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$PID</span>
+</span></span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><strong>使用python编写服务远程执行top、iostat脚本</strong></p>
+<p>主要目的是为了一键自动化，不需要自己手动执行top、iostat脚本。
+思路是：使用Flask实现一个前置服务。Jmeter下发切片指令前请求前置服务，自动远程执行top、iostat脚本。
+看读者可能会有疑问，nload脚本呢？
+我也想远程执行，但是远程执行后获取的log文件内没有任何信息。
+查询得知，运行nload，Linux会拉起一个终端，但远程执行没有终端被拉起，花了一些时间也没找到解决办法，就只能手动执行了。</p>
+<p><strong>代码如下：</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Getdata.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">paramiko</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">time</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">threading</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Blueprint</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">request</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">GetData</span> <span class="o">=</span> <span class="n">Blueprint</span><span class="p">(</span><span class="s1">&#39;GetData&#39;</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">,</span> <span class="n">template_folder</span><span class="o">=</span><span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_ssh_client</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_key_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;创建并返回一个SSH客户端的辅助函数。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">private_key</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">RSAKey</span><span class="o">.</span><span class="n">from_private_key_file</span><span class="p">(</span><span class="n">private_key_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">client</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="n">client</span><span class="o">.</span><span class="n">set_missing_host_key_policy</span><span class="p">(</span><span class="n">paramiko</span><span class="o">.</span><span class="n">AutoAddPolicy</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">	<span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">pkey</span><span class="o">=</span><span class="n">private_key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">client</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">execute_command_async</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;在SSH客户端上执行命令的辅助函数。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">stdout</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">recv_exit_status</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">fetch_files</span><span class="p">(</span><span class="n">ssh_client</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;从远程服务器拉取文件的辅助函数。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="k">with</span> <span class="n">ssh_client</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">()</span> <span class="k">as</span> <span class="n">sftp_client</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="n">sftp_client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;成功获取 </span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2"> 到 </span><span class="si">{</span><span class="n">local_path</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;获取 </span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2"> 时出错: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">delete_remote_files</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;删除远程服务器上的文件的辅助函数。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">		<span class="n">client</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;rm </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">test165</span><span class="p">(</span><span class="n">long</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">hostname_command</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;切片快结束时，执行存储服务器上的脚本。&#34;&#34;&#34;</span>	
+</span></span><span class="line"><span class="cl">	<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">long</span> <span class="o">-</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">execute_command_async</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">hostname_command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@GetData.route</span><span class="p">(</span><span class="s1">&#39;/api/GetTop/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">gettop</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;获取切片时长&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">long</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;time&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">print</span><span class="p">(</span><span class="n">long</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s2">&#34;&#34;&#34;定义脚本执行时长&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">shi</span> <span class="o">=</span> <span class="mi">600</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">def</span> <span class="nf">background_task</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">		<span class="s2">&#34;&#34;&#34;定义服务器的信息&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">hostname1</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.111&#39;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">hostname2</span> <span class="o">=</span> <span class="s1">&#39;192.168.1.112&#39;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">port</span> <span class="o">=</span> <span class="mi">22</span>
+</span></span><span class="line"><span class="cl">		<span class="n">username</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">private_key_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;C:\Users\Ethereal Jiang\.ssh\id_rsa&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="s2">&#34;&#34;&#34;实例化ssh客户端并执行脚本命令。使用多线程是两个服务器互不影响。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">client1</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">		<span class="n">client2</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">		<span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="n">client1</span> <span class="o">=</span> <span class="n">create_ssh_client</span><span class="p">(</span><span class="n">hostname1</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_key_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">client2</span> <span class="o">=</span> <span class="n">create_ssh_client</span><span class="p">(</span><span class="n">hostname2</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_key_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">hostname1_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;bash /opt/top_start.sh </span><span class="si">{</span><span class="n">long</span> <span class="o">+</span> <span class="n">shi</span><span class="si">}</span><span class="s1"> &amp; bash /opt/iostat_start.sh </span><span class="si">{</span><span class="n">long</span> <span class="o">+</span> <span class="n">shi</span><span class="si">}</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">hostname2_command</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;bash /opt/top_start.sh </span><span class="si">{</span><span class="n">shi</span><span class="si">}</span><span class="s1"> &amp; bash /opt/iostat_start.sh </span><span class="si">{</span><span class="n">shi</span><span class="si">}</span><span class="s1">&#39;</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">execute_command_async</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">client1</span><span class="p">,</span> <span class="n">hostname1_command</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread2</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">test165</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">long</span><span class="p">,</span> <span class="n">client2</span><span class="p">,</span> <span class="n">hostname2_command</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread2</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="n">thread2</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;An error occurred: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">finally</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="ow">not</span> <span class="n">client1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">				<span class="n">client1</span> <span class="o">=</span> <span class="n">create_ssh_client</span><span class="p">(</span><span class="n">hostname1</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_key_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="ow">not</span> <span class="n">client2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">				<span class="n">client2</span> <span class="o">=</span> <span class="n">create_ssh_client</span><span class="p">(</span><span class="n">hostname1</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_key_path</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">fetch_files</span><span class="p">(</span><span class="n">client2</span><span class="p">,</span> <span class="s1">&#39;/top.log&#39;</span><span class="p">,</span> <span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">165</span><span class="se">\\</span><span class="s1">top.log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">fetch_files</span><span class="p">(</span><span class="n">client2</span><span class="p">,</span> <span class="s1">&#39;/iostat.log&#39;</span><span class="p">,</span> <span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">165</span><span class="se">\\</span><span class="s1">iostat.log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">delete_remote_files</span><span class="p">(</span><span class="n">client2</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;/top.log&#39;</span><span class="p">,</span> <span class="s1">&#39;/iostat.log&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">			<span class="n">fetch_files</span><span class="p">(</span><span class="n">client1</span><span class="p">,</span> <span class="s1">&#39;/top.log&#39;</span><span class="p">,</span> <span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">169</span><span class="se">\\</span><span class="s1">top.log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">fetch_files</span><span class="p">(</span><span class="n">client1</span><span class="p">,</span> <span class="s1">&#39;/iostat.log&#39;</span><span class="p">,</span> <span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">169</span><span class="se">\\</span><span class="s1">iostat.log&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="n">delete_remote_files</span><span class="p">(</span><span class="n">client1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;/top.log&#39;</span><span class="p">,</span> <span class="s1">&#39;/iostat.log&#39;</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="n">client1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">				<span class="n">client1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="n">client2</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">				<span class="n">client2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;结束&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="n">task_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">background_task</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">task_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">jsonify</span><span class="p">({</span><span class="s2">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;任务已开始在后台处理&#34;</span><span class="p">}),</span> <span class="mi">202</span>
+</span></span></code></pre></div> <br>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># app.py</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Getdata</span> <span class="kn">import</span> <span class="n">GetData</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">app</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="s1">&#39;jiang&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">app</span><span class="o">.</span><span class="n">register_blueprint</span><span class="p">(</span><span class="n">GetData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">	<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>编写Jmeter脚本，下发切片指令</strong></p>
+<p><strong>如图所示：</strong>
+<div class="bigImg">
+  <img src="/img/Other/Performance/2.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>执行脚本后，首先会请求前置服务，执行服务器脚本，然后，开始并发切片指令。nload脚本就需要在切片快结束时，手动执行。结束后，前置服务自动拉取信息文件到本地。</p>
+</li>
+</ol>
+<br>
+<h2 id="part5-测试结束后后分析整理本地数据">Part5. 测试结束后后，分析、整理本地数据
+</h2><p>每次并发测试三轮，信息文件放在对应的文件夹中。使用Notepad++和WPS表格处理数据。</p>
+<p><strong>Notepad++查询复制数据，WPS表格分列数据。如图：</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Other/Performance/3.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<br>
+<h2 id="part6-将分析整理后的数据制作成图表">Part6. 将分析整理后的数据制作成图表
+</h2><p>我使用的是cdn库的<code>Chart.js</code>。示例如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;utf-8&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>性能测试<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://cdn.staticfile.net/Chart.js/3.9.1/chart.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="nt">body</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">background</span><span class="p">:</span> <span class="mh">#9e9e9e</span><span class="mi">1</span><span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span> <span class="c">/* 移除默认的外边距 */</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="nc">card</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">3</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">background</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">border</span><span class="p">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="kc">solid</span> <span class="mh">#dcdee2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">border-color</span><span class="p">:</span> <span class="mh">#e8eaec</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">border-radius</span><span class="p">:</span> <span class="mi">15</span><span class="kt">px</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">width</span><span class="p">:</span> <span class="mi">80</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="c">/* 设置左右边距为自动 */</span>
+</span></span><span class="line"><span class="cl">		<span class="k">margin</span><span class="p">:</span> <span class="mi">2</span><span class="kt">%</span> <span class="kc">auto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">.</span><span class="nc">data</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">margin-top</span><span class="p">:</span> <span class="mi">2</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">margin-bottom</span><span class="p">:</span> <span class="mi">4</span><span class="kt">%</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;card&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;data&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>5个并发<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">canvas</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;c5_169&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">canvas</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&#34;data&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">		<span class="p">&lt;</span><span class="nt">canvas</span> <span class="na">id</span><span class="o">=</span><span class="s">&#34;c5_165&#34;</span> <span class="p">&gt;&lt;/</span><span class="nt">canvas</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 并发5
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">c5_169_Ctx</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c5_169&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_169_Labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;%错误率&#39;</span><span class="p">,</span> <span class="s1">&#39;切片-%CPU最大使用率&#39;</span><span class="p">,</span> <span class="s1">&#39;切片-CPU最大负载(1分钟)&#39;</span><span class="p">,</span><span class="s1">&#39;切片-内存最大使用-GiB&#39;</span><span class="p">,</span> <span class="s1">&#39;平均宽带速率-MByte/s&#39;</span><span class="p">,</span> <span class="s1">&#39;最小宽带速率-MByte/s&#39;</span><span class="p">,</span> <span class="s1">&#39;最大宽带速率-MByte/s&#39;</span><span class="p">,</span> <span class="s1">&#39;视频总体积-GByte&#39;</span><span class="p">,</span> <span class="s1">&#39;总流程时间(分)&#39;</span><span class="p">,</span> <span class="s1">&#39;存储写入时长(分)&#39;</span><span class="p">,</span> <span class="s1">&#39;存储-%CPU最大使用率&#39;</span><span class="p">,</span> <span class="s1">&#39;存储-CPU最大负载(1分钟)&#39;</span><span class="p">,</span> <span class="s1">&#39;存储-内存最大使用率-GiB&#39;</span> <span class="p">];</span>  <span class="c1">// 设置 X 轴上对应的标签
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">c5_169_Data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">labels</span><span class="o">:</span> <span class="nx">c5_169_Labels</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">datasets</span><span class="o">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;结果&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">11.16666667</span><span class="p">,</span> <span class="mf">0.906666667</span><span class="p">,</span> <span class="mf">6.707091217</span><span class="p">,</span> <span class="mf">53.87263617</span><span class="p">,</span> <span class="mf">8.97</span><span class="p">,</span> <span class="mf">69.28666667</span><span class="p">,</span> <span class="mf">1.86</span><span class="p">,</span> <span class="mf">10.61666667</span><span class="p">,</span> <span class="mf">0.555555556</span><span class="p">,</span> <span class="mf">20.66666667</span><span class="p">,</span> <span class="mf">1.936666667</span><span class="p">,</span> <span class="mf">24.95719945</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">backgroundColor</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">	  <span class="s1">&#39;rgba(255, 99, 132, 0.2)&#39;</span><span class="p">,</span> <span class="c1">// 粉色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(255, 159, 64, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 橙色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(255, 205, 86, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 浅黄色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(75, 192, 192, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 青绿色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(153, 102, 255, 0.2)&#39;</span><span class="p">,</span> <span class="c1">// 紫罗兰
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(255, 206, 86, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 金色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(75, 191, 92, 0.2)&#39;</span><span class="p">,</span>   <span class="c1">// 橄榄绿
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(120, 75, 192, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 深紫罗兰
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(255, 92, 159, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 品红色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(92, 255, 206, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 浅绿松石色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(206, 92, 255, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 浅洋红色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(159, 255, 92, 0.2)&#39;</span><span class="p">,</span>  <span class="c1">// 浅黄色绿色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgba(102, 86, 255, 0.2)&#39;</span>   <span class="c1">// 浅灰蓝色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">],</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">borderColor</span><span class="o">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">	  <span class="s1">&#39;rgb(255, 99, 132)&#39;</span><span class="p">,</span>  <span class="c1">// 粉色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(255, 159, 64)&#39;</span><span class="p">,</span>   <span class="c1">// 橙色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(255, 205, 86)&#39;</span><span class="p">,</span>   <span class="c1">// 浅黄色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(75, 192, 192)&#39;</span><span class="p">,</span>   <span class="c1">// 青绿色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(153, 102, 255)&#39;</span><span class="p">,</span>  <span class="c1">// 紫罗兰
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(255, 206, 86)&#39;</span><span class="p">,</span>   <span class="c1">// 金色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(75, 191, 92)&#39;</span><span class="p">,</span>    <span class="c1">// 橄榄绿
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(120, 75, 192)&#39;</span><span class="p">,</span>   <span class="c1">// 深紫罗兰
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(255, 92, 159)&#39;</span><span class="p">,</span>   <span class="c1">// 品红色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(92, 255, 206)&#39;</span><span class="p">,</span>   <span class="c1">// 浅绿松石色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(206, 92, 255)&#39;</span><span class="p">,</span>   <span class="c1">// 浅洋红色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(159, 255, 92)&#39;</span><span class="p">,</span>   <span class="c1">// 浅黄色绿色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	  <span class="s1">&#39;rgb(102, 86, 255)&#39;</span>    <span class="c1">// 浅灰蓝色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderWidth</span><span class="o">:</span> <span class="mi">1</span>     <span class="c1">// 设置线条宽度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_169_Config</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="c1">// 设置图表类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">data</span><span class="o">:</span> <span class="nx">c5_169_Data</span><span class="p">,</span>  <span class="c1">// 设置数据集
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">scales</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">y</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">beginAtZero</span><span class="o">:</span> <span class="kc">true</span> <span class="c1">// 设置 y 轴从 0 开始
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">plugins</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">display</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="c1">// 这里设置图表的标题
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">datalabels</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">anchor</span><span class="o">:</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">align</span><span class="o">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// 设置标签格式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span><span class="nx">ChartDataLabels</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_169_Chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chart</span><span class="p">(</span><span class="nx">c5_169_Ctx</span><span class="p">,</span> <span class="nx">c5_169_Config</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_165_ctx</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c5_165&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_165_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;avg-wMB/s&#39;</span><span class="p">,</span> <span class="s1">&#39;min-wMB/s&#39;</span><span class="p">,</span> <span class="s1">&#39;max-wMB/s&#39;</span><span class="p">,</span><span class="s1">&#39;avg-w_await&#39;</span><span class="p">,</span> <span class="s1">&#39;min-w_await&#39;</span><span class="p">,</span> <span class="s1">&#39;max-w_await&#39;</span><span class="p">,</span> <span class="s1">&#39;avg-%util&#39;</span><span class="p">,</span> <span class="s1">&#39;min-%util&#39;</span><span class="p">,</span> <span class="s1">&#39;max-%util&#39;</span><span class="p">];</span>  <span class="c1">// 设置 X 轴上对应的标签
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">c5_165_data</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">labels</span><span class="o">:</span> <span class="nx">c5_165_labels</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">datasets</span><span class="o">:</span> <span class="p">[{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;sdb&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">[</span><span class="mf">52.36925926</span><span class="p">,</span> <span class="mf">5.89</span><span class="p">,</span> <span class="mf">83.85</span><span class="p">,</span> <span class="mf">28.26445534</span><span class="p">,</span> <span class="mf">8.703333333</span><span class="p">,</span> <span class="mf">59.62</span><span class="p">,</span> <span class="mf">89.57178649</span><span class="p">,</span> <span class="mf">28.28333333</span><span class="p">,</span> <span class="mf">98.7</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="p">[</span>      <span class="c1">// 设置每个柱形图的背景颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133, 0.2)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderColor</span><span class="o">:</span> <span class="p">[</span>     <span class="c1">//设置每个柱形图边框线条颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderWidth</span><span class="o">:</span> <span class="mi">1</span>     <span class="c1">// 设置线条宽度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;sdc&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">[</span><span class="mf">52.37021786</span><span class="p">,</span> <span class="mf">6.886666667</span><span class="p">,</span> <span class="mf">83.69333333</span><span class="p">,</span> <span class="mf">26.18413943</span><span class="p">,</span> <span class="mf">7.443333333</span><span class="p">,</span> <span class="mf">60.51333333</span><span class="p">,</span> <span class="mf">87.21247277</span><span class="p">,</span> <span class="mf">23.35</span><span class="p">,</span> <span class="mf">97.43333333</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="p">[</span>      <span class="c1">// 设置每个柱形图的背景颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133, 0.2)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderColor</span><span class="o">:</span> <span class="p">[</span>     <span class="c1">//设置每个柱形图边框线条颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderWidth</span><span class="o">:</span> <span class="mi">1</span>     <span class="c1">// 设置线条宽度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">label</span><span class="o">:</span> <span class="s1">&#39;sdd&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">data</span><span class="o">:</span> <span class="p">[</span><span class="mf">52.37001089</span><span class="p">,</span> <span class="mf">6.553333333</span><span class="p">,</span> <span class="mf">83.18666667</span><span class="p">,</span> <span class="mf">26.98811547</span><span class="p">,</span> <span class="mf">8.673333333</span><span class="p">,</span> <span class="mf">56.51</span><span class="p">,</span> <span class="mf">89.42472767</span><span class="p">,</span> <span class="mf">26.16666667</span><span class="p">,</span> <span class="mf">98.3</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="p">[</span>      <span class="c1">// 设置每个柱形图的背景颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66, 0.2)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133, 0.2)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderColor</span><span class="o">:</span> <span class="p">[</span>     <span class="c1">//设置每个柱形图边框线条颜色
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="s1">&#39;rgba(55, 163, 236)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(76, 193, 192)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(256, 205, 87)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(152, 103, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 65)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 100, 133)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(154, 101, 254)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 160, 66)&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">		<span class="s1">&#39;rgba(254, 98, 133)&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">borderWidth</span><span class="o">:</span> <span class="mi">1</span>     <span class="c1">// 设置线条宽度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_165_config</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="c1">// 设置图表类型
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">data</span><span class="o">:</span> <span class="nx">c5_165_data</span><span class="p">,</span>  <span class="c1">// 设置数据集
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">scales</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">y</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">beginAtZero</span><span class="o">:</span> <span class="kc">true</span> <span class="c1">// 设置 y 轴从 0 开始
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">plugins</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">title</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">display</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;存储-硬盘信息&#39;</span> <span class="c1">// 这里设置图表的标题
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>      <span class="p">},</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">datalabels</span><span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">anchor</span><span class="o">:</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">align</span><span class="o">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">formatter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="k">return</span> <span class="nx">value</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// 设置标签格式
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span><span class="nx">ChartDataLabels</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c5_165_Chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Chart</span><span class="p">(</span><span class="nx">c5_165_ctx</span><span class="p">,</span> <span class="nx">c5_165_config</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p><code>chart.js</code>还是比较强的，可以访问<a class="link" href="https://chart.nodejs.cn/"  target="_blank" rel="noopener"
+    >Chart.js</a>学习使用。</p>
+<br>
+<h2 id="part7-最后要说的话">Part7. 最后要说的话
+</h2><p>本文一是对本次测试做下总结，二是希望能够供读者们借鉴。</p>
+<p>整个过程还是挺漫长的，即要等待每轮测试结束，还要分析整理数据并制作成图表。不过完成这个性能测试，确给我带来了成就感。也知道自己还有很多不足，希望有大佬同我交流讨论，共同进步。</p>
+<p>本篇就在此止步了。</p>
+<hr>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/">性能测试</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans"  target="_blank" rel="noopener"
+    >CC BY-NC-ND 4.0</a></span>
+    </section>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024/05/31
+        </span>
+    </section></footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Other/VMware1/0.png" loading="lazy" data-key="" data-hash="/img/Other/VMware1/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用VMware搭建测试环境</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 EtherealBoyJiang
+    </section>
+    
+	<section class="running-time">
+	本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+		 &emsp;·💡 9篇文章&emsp; ·
+		⌨ 30.72k字
+	</section>
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.25.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+        </main>
+    </div>
+    <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var tocLinks = document.querySelectorAll("#TableOfContents a");
+    var sections = Array.from(tocLinks).map(link => document.querySelector(link.getAttribute("href")));
+
+    function onScroll() {
+        var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (var i = sections.length - 1; i >= 0; i--) {
+            if (scrollPosition >= sections[i].offsetTop - 10) {
+                tocLinks.forEach(link => link.parentElement.classList.remove("active"));
+                tocLinks[i].parentElement.classList.add("active");
+                break;
+            }
+        }
+    }
+
+    document.addEventListener("scroll", onScroll);
+    
+    onScroll();
+});
+</script>   
+
+
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js" async></script>
+<script type='text/javascript' src="https://thelonelypatient.github.io/Jiang/myjs/APlayer.min.js"></script>
+<script type='text/javascript' src="https://thelonelypatient.github.io/Jiang/myjs/player.js"></script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button class="close" id="close">X</button>
+        </div>
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+
+
+</body>
+</html>
