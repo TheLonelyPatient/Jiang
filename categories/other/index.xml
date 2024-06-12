@@ -2,28 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>杂篇 on EtherealBoyJiang</title>
-        <link>http://localhost:1313/categories/other/</link>
+        <link>https://www.jzy-blogs.cn/categories/other/</link>
         <description>Recent content in 杂篇 on EtherealBoyJiang</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>EtherealBoyJiang</copyright>
-        <lastBuildDate>Tue, 28 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/other/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.jzy-blogs.cn/categories/other/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>记一次性能测试</title>
-        <link>http://localhost:1313/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</link>
+        <link>https://www.jzy-blogs.cn/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</link>
         <pubDate>Tue, 28 May 2024 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</guid>
-        <description>&lt;img src="http://localhost:1313/img/Other/Performance/0.png" alt="Featured image of post 记一次性能测试" /&gt;&lt;h2 id=&#34;part1背景&#34;&gt;Part1.背景
-&lt;/h2&gt;&lt;p&gt;我负责的一个项目经过长时间的开发，终于在客户现场正式运行了。虽然在正式运行前很长一段时间里我一直计划进行一次性能测试，但由于各种原因，测试一直没有进行。我们的运维人员在正式运行前进行了试运行，结果在一定数量的并发下，由于硬盘顶不住，系统直接卡死了。好吧！那就直接来吧。&lt;/p&gt;
+        <guid>https://www.jzy-blogs.cn/p/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/</guid>
+        <description>&lt;img src="https://www.jzy-blogs.cn/img/Other/Performance/0.png" alt="Featured image of post 记一次性能测试" /&gt;&lt;h2 id=&#34;part1背景&#34;&gt;Part1.背景
+&lt;/h2&gt;&lt;p&gt;我负责的一个项目经过长时间的开发，终于在客户现场正式运行了。虽然在正式运行前很长一段时间里我一直计划进行一次性能测试，但由于各种原因，测试一直没有进行。我们的运维人员在正式运行前进行了试运行，结果在一定数量的并发下，由于硬盘顶不住，系统直接卡死了。好吧！&lt;/p&gt;
 &lt;br&gt;
 &lt;h2 id=&#34;part2影响项目性能的因素分析&#34;&gt;Part2.影响项目性能的因素分析
-&lt;/h2&gt;&lt;p&gt;我负责的这个项目的主要功能就是对监控设备进行切片、存储，然后生成URL供平台调阅。它主要分为两个部分，&lt;code&gt;切片&amp;amp;&amp;amp;存储&lt;/code&gt;。存储方面，提供3中存储方式——&lt;code&gt;本地存储、S3接口存储、智能云存储&lt;/code&gt;。其中S3接口存储、智能云存储都可以放在另外的服务器中，与切片分开。&lt;/p&gt;
-&lt;p&gt;先要进行性能测试，首先要知道影响项目性能的因素有那些。通过与研发进行沟通，确认需要关注切片服务器的&lt;code&gt;cpu使用率、内存使用率、平均负载&lt;/code&gt;、存储服务器的&lt;code&gt;cpu使用率、内存使用率、硬盘信息&lt;/code&gt;及切片服务器与存储服务器之间的&lt;code&gt;网络通信信息&lt;/code&gt;。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;我负责的这个项目的主要功能就是对监控设备的视频流进行切片、存储，然后生成URL供平台调阅。它主要分为两个部分，&lt;code&gt;切片、存储&lt;/code&gt;。这个项目中，不同存储方式导致项目架构不同。&lt;/p&gt;
+&lt;p&gt;存储方面，提供3中存储方式——&lt;code&gt;本地存储、S3接口存储、智能云存储&lt;/code&gt;。&lt;code&gt;S3接口存储、智能云存储&lt;/code&gt;需额外配置存储服务器，与切片服务器分开，切片视频文件放在存储服务器中。&lt;code&gt;本地存储&lt;/code&gt;则不需额外配置存储服务器，直接把切片视频文件放在切片服务器中。&lt;/p&gt;
+&lt;p&gt;进行性能测试，首先要知道影响项目性能的因素有那些。与研发沟通后。切片时需关注&lt;code&gt;cpu使用率、平均负载、内存使用&lt;/code&gt;。存储时需关注存储&lt;code&gt;cpu使用率、内存使用率、平均负载、系统读写带宽信息、硬盘读写带宽信息&lt;/code&gt;。非&lt;code&gt;本地存储&lt;/code&gt;时，还需要获取切片服务器与存储服务器之间的&lt;code&gt;网络宽带信息&lt;/code&gt;。&lt;/p&gt;
 &lt;br&gt;
 &lt;h2 id=&#34;part3策划初步测试方案&#34;&gt;Part3.策划初步测试方案
 &lt;/h2&gt;&lt;p&gt;首先需要明确，此项目主要功能的流程。&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/Performance/1.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/Performance/1.png&#34;
        
        
        
@@ -33,8 +34,6 @@
   &gt;
 &lt;/div&gt;
 &lt;/p&gt;
-&lt;p&gt;其中&lt;code&gt;S3接口存储&lt;/code&gt;,&lt;code&gt;智能云存储&lt;/code&gt;都是有另外服务器作为存储服务器。只有&lt;code&gt;本地存储&lt;/code&gt;没有另外的服务器。
-&lt;code&gt;S3接口存储&lt;/code&gt;,&lt;code&gt;智能云存储&lt;/code&gt;实现方式不一样，就不详细说明了。其他方面看没什么区别。&lt;/p&gt;
 &lt;p&gt;由此可以初步策划两套测试方案。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -303,7 +302,7 @@
 &lt;p&gt;&lt;strong&gt;编写Jmeter脚本，下发切片指令&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;如图所示：&lt;/strong&gt;
 &lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/Performance/2.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/Performance/2.png&#34;
        
        
        
@@ -321,7 +320,7 @@
 &lt;/h2&gt;&lt;p&gt;每次并发测试三轮，信息文件放在对应的文件夹中。使用Notepad++和WPS表格处理数据。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Notepad++查询复制数据，WPS表格分列数据。如图：&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/Performance/3.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/Performance/3.png&#34;
        
        
        
@@ -570,11 +569,11 @@
         </item>
         <item>
         <title>使用VMware搭建测试环境</title>
-        <link>http://localhost:1313/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</link>
+        <link>https://www.jzy-blogs.cn/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</link>
         <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</guid>
-        <description>&lt;img src="http://localhost:1313/img/Other/VMware1/0.png" alt="Featured image of post 使用VMware搭建测试环境" /&gt;&lt;h2 id=&#34;part1背景&#34;&gt;Part1.背景
+        <guid>https://www.jzy-blogs.cn/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</guid>
+        <description>&lt;img src="https://www.jzy-blogs.cn/img/Other/VMware1/0.png" alt="Featured image of post 使用VMware搭建测试环境" /&gt;&lt;h2 id=&#34;part1背景&#34;&gt;Part1.背景
 &lt;/h2&gt;&lt;p&gt;咱们测试同学有时候不得不需要自己去搭建一个测试环境，保证自己的测试可以顺畅进行。测试环境可以运行在物理机或者虚拟机上。测试环境在物理机上无疑更真实、准确，但物理机价格、便捷方面都不如虚拟机。而且虚拟机通过精心搭配，真实、准确方面也不容小觑。&lt;/p&gt;
 &lt;p&gt;现在市面上可以搭建虚拟机的软件不少。如&lt;strong&gt;Vmware&lt;/strong&gt;、&lt;strong&gt;VirtualBox&lt;/strong&gt;、&lt;strong&gt;QEMU&lt;/strong&gt;、&lt;strong&gt;Parallels Desktop&lt;/strong&gt;、&lt;strong&gt;Microsoft Hyper-V&lt;/strong&gt;等。我为什么推荐VMware呢？因为我第一次搭建虚拟机使用的就是它，而且只用过它😅。无论如何，开始我们的VMware之旅吧。&lt;/p&gt;
 &lt;br&gt;
@@ -727,7 +726,7 @@
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;根据自己的系统去下载对应版本&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/1.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/1.png&#34;
        
        
        
@@ -741,7 +740,7 @@
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;安装VMware&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;下载成功后，双击安装后一直下一步就行。然后界面如下：&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/2.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/2.png&#34;
        
        
        
@@ -756,7 +755,7 @@
 &lt;h2 id=&#34;part3新建虚拟机&#34;&gt;Part3.新建虚拟机
 &lt;/h2&gt;&lt;p&gt;如图.&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/3.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/3.png&#34;
        
        
        
@@ -767,7 +766,7 @@
 &lt;/div&gt;
 &lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/4.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/4.png&#34;
        
        
        
@@ -779,7 +778,7 @@
 &lt;/p&gt;
 &lt;p&gt;此时一个虚拟机就搭建好了。图中的&lt;code&gt;测试安装centos 7&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/5.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/5.png&#34;
        
        
        
@@ -793,7 +792,7 @@
 &lt;h2 id=&#34;part4设置虚拟机&#34;&gt;Part4.设置虚拟机
 &lt;/h2&gt;&lt;p&gt;后面还需要对虚拟机进行一些设置，才能达成目的。&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/6.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/6.png&#34;
        
        
        
@@ -953,7 +952,7 @@
 &lt;h2 id=&#34;part5运行虚拟机&#34;&gt;Part5.运行虚拟机
 &lt;/h2&gt;&lt;p&gt;点击运行虚拟机后，VMware开始运行ISO镜像文件。然后就是各个系统经典的初始化界面。我这里以&lt;code&gt;centos 7&lt;/code&gt; 为例。&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/7.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/7.png&#34;
        
        
        
@@ -969,7 +968,7 @@
 &lt;/h2&gt;&lt;p&gt;此时安装好的&lt;code&gt;centos 7&lt;/code&gt;还不能访问inter网、局域网，甚至主机。访问其他网络，需要进行一些配置。我们以&lt;code&gt;桥接模式&lt;/code&gt;为例。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;VMware上进行设置&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/Other/VMware1/8.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Other/VMware1/8.png&#34;
        
        
        
@@ -1023,7 +1022,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# 使用ip addr 检查IP地址
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ip addr
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/VMware/VMware1/9.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/VMware/VMware1/9.png&#34;
        
        
        
@@ -1038,7 +1037,7 @@
 &lt;p&gt;&lt;strong&gt;远程连接&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;使用&lt;code&gt;MobaXterm&lt;/code&gt;远程。&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
-  &lt;img src=&#34;http://localhost:1313/img/VMware/VMware1/10.png&#34;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/VMware/VMware1/10.png&#34;
        
        
        
