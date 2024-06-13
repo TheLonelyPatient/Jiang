@@ -361,14 +361,13 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;web服务器和http请求&#34;&gt;&lt;em&gt;web服务器和HTTP请求&lt;/em&gt;
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;web服务器&lt;/code&gt;中&lt;code&gt;协议&lt;/code&gt;、&lt;code&gt;服务器名称或IP&lt;/code&gt;、&lt;code&gt;端口号&lt;/code&gt;，&lt;code&gt;HTTP请求&lt;/code&gt;中&lt;code&gt;请求方式&lt;/code&gt;、&lt;code&gt;路径&lt;/code&gt;、&lt;code&gt;内容编码&lt;/code&gt;。这个地方没什么好讲的，只需要注意IP/域名、端口、路径、请求方式和协议不要错就好。内容编码有中文内容时最好输入UTF-8，防止接口解析时乱码。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;HTTP请求&lt;/code&gt;中还包含&lt;code&gt;自动重定向&lt;/code&gt;、&lt;code&gt;跟随重定向&lt;/code&gt;、&lt;code&gt;使用KeepAlive&lt;/code&gt;、&lt;code&gt;对POST使用multipart/form-data&lt;/code&gt;、&lt;code&gt;与浏览器兼容的头&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;part1web服务器http请求&#34;&gt;&lt;em&gt;Part1.web服务器&amp;amp;&amp;amp;HTTP请求&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;web服务器&lt;/code&gt;没什么好讲的，只保证&lt;code&gt;IP/域名、端口、路径、请求方式、协议&lt;/code&gt;正确就好。内容编码最好输入UTF-8(兼容大部分语言)，防止接口解析时乱码。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;自动重定向和跟随重定向&#34;&gt;&lt;em&gt;自动重定向和跟随重定向&lt;/em&gt;
+&lt;h3 id=&#34;1自动重定向和跟随重定向&#34;&gt;&lt;em&gt;1.自动重定向和跟随重定向&lt;/em&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;自动重定向&lt;/code&gt;只针对Get和Head请求，自动重定向转向到最终目标页面，但是Jmeter不记录重定向的中间页面过程，只记录最终页面返回结果。在结果树中，只能看到最终页面的服务器返回。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;跟随重定向&lt;/code&gt;是http request 取样器的默认选项，会自动跳转到目标地址。Jmeter会记录重定向过程中的所有请求的响应结果。在结果树中，可以看到所有请求的服务器返回。&lt;/p&gt;
-&lt;p&gt;两者只能选中一个。这次我们访问知乎的网站来进行测试。&lt;/p&gt;
+&lt;p&gt;两者只能选中一个。这次我们访问知乎来进行测试。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;示例Jmeter脚本&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -395,8 +394,8 @@
   &gt;
 &lt;/div&gt;
 &lt;/p&gt;
-&lt;p&gt;可以很清晰的看到，HTTP请求-0的GET https（请求地址）为&lt;code&gt;//www.zhihu.com/&lt;/code&gt;，HTTP请求-1的GET https（请求地址）为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;而HTTP请求-0的响应数据是一个重定向的a链接，链接地址为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;即HTTP请求-1的请求地址，HTTP请求-1的响应才是最终的页面。Jmeter的查看结果树记录了中间页面过程。&lt;/p&gt;
+&lt;p&gt;HTTP请求-0的GET https（请求地址）为&lt;code&gt;//www.zhihu.com/&lt;/code&gt;，HTTP请求-1的GET https（请求地址）为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;HTTP请求-0的响应数据是一个重定向的a链接，链接地址为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;-即HTTP请求-1的请求地址。HTTP请求-1的响应才是最终的页面。Jmeter的查看结果树记录了重定向过程。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;勾选&lt;code&gt;自动重定向&lt;/code&gt;，运行结果&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
   &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/HTTPRequest/2.gif&#34;
@@ -409,16 +408,15 @@
   &gt;
 &lt;/div&gt;
 &lt;/p&gt;
-&lt;p&gt;可以很清晰的看到，结果树中只有一个HTTP请求，请求地址直接为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;，响应最终的页面数据。查看结果树中没有记录中间页面过程。&lt;/p&gt;
+&lt;p&gt;结果树中只有一个HTTP请求，请求地址为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;-即最终的页面数据。查看结果树中没有记录重定向过程。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;使用keepalive&#34;&gt;&lt;em&gt;使用KeepAlive&lt;/em&gt;
-&lt;/h3&gt;&lt;p&gt;当该选项被选中时，JMeter和目标服务器之间使用Keep-Alive方式进行HTTP通信，默认选中。keep-alive属性，用于建立长连接，即我们所说的Keep-Alive模式。Keep-Alive模式更加高效，因为避免连接频繁建立和释放的开销。&lt;/p&gt;
-&lt;p&gt;这一块也没什么好讲的，了解一下就行。有兴趣的可以搜索&lt;code&gt;HTTP的Keep-Alive模式&lt;/code&gt;，详细了解。&lt;/p&gt;
+&lt;h3 id=&#34;2使用keepalive&#34;&gt;&lt;em&gt;2.使用KeepAlive&lt;/em&gt;
+&lt;/h3&gt;&lt;p&gt;选中该选项，JMeter和目标服务器之间使用Keep-Alive方式进行HTTP通信，默认选中。keep-alive属性，用于建立长连接，可以避免连接频繁建立和释放的开销。有兴趣的可以搜索&lt;code&gt;HTTP的Keep-Alive模式&lt;/code&gt;，详细了解。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;与浏览器兼容的头&#34;&gt;&lt;em&gt;与浏览器兼容的头&lt;/em&gt;
-&lt;/h3&gt;&lt;p&gt;网上资料说，当勾选multipart/form-data时，勾选此项会截掉http请求头中的Content-Type和Content-Transfer-Encoding，而只发送Content-Disposition部分。我没有整明白有什么用，有知道的读者可以联系我。&lt;/p&gt;
+&lt;h3 id=&#34;3与浏览器兼容的头&#34;&gt;&lt;em&gt;3.与浏览器兼容的头&lt;/em&gt;
+&lt;/h3&gt;&lt;p&gt;没有发现有什么作用。希望有知道的读者可以通过评论指正我。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-get&#34;&gt;请求参数-GET
+&lt;h2 id=&#34;part2请求参数-get&#34;&gt;&lt;em&gt;Part2.请求参数-GET&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;请求方式为GET时，请求参数一般都直接跟在url后面，不需要参数类型。当然也可以请求参数不跟在url后面，不过比较少见，现在不做演示。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;示例接口&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@HTTPRequest.route&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/api/HTTPRequest2/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;methods&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;  
@@ -785,7 +783,8 @@
 &lt;p&gt;&lt;code&gt;Request Headers&lt;/code&gt;中的&lt;code&gt;Content-Type: application/octet-stream&lt;/code&gt;，表明该请求参数类型为&lt;code&gt;application/octet-stream&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Request Body&lt;/code&gt;中的&lt;code&gt;POST data&lt;/code&gt;就是二进制流：&lt;code&gt;110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;响应数据&lt;code&gt;我是Jiang&lt;/code&gt;正是转换二进制前的文本内容。&lt;/p&gt;
-&lt;hr&gt;
+&lt;h2 id=&#34;part8http请求默认值&#34;&gt;Part8.Http请求默认值
+&lt;/h2&gt;&lt;hr&gt;
 </description>
         </item>
         <item>
