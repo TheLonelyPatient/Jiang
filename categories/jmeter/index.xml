@@ -13,90 +13,305 @@
         <pubDate>Tue, 14 May 2024 00:00:00 +0000</pubDate>
         
         <guid>https://www.jzy-blogs.cn/p/jmeter-csv-data-set-config/</guid>
-        <description>&lt;img src="https://www.jzy-blogs.cn/img/Jmeter/0.png" alt="Featured image of post Jmeter-CSV Data Set Config" /&gt;&lt;h2 id=&#34;part1csv-data-set-config&#34;&gt;Part1.CSV Data Set Config
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;CSV Data Set Config&lt;/code&gt;是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。它可以添加在&lt;code&gt;测试计划、线程组、取样器&lt;/code&gt;下，作用域也是如此。&lt;/p&gt;
-&lt;p&gt;我们在&lt;code&gt;线程组&lt;/code&gt;文章中使用过&lt;code&gt;CSV Data Set Config&lt;/code&gt;，相信大家已经明白它的作用。这里就不再示例演示，只用文字描述一下。&lt;/p&gt;
+        <description>&lt;img src="https://www.jzy-blogs.cn/img/Jmeter/0.png" alt="Featured image of post Jmeter-CSV Data Set Config" /&gt;&lt;h1 id=&#34;csv-data-set-config&#34;&gt;CSV Data Set Config
+&lt;/h1&gt;&lt;p&gt;&lt;code&gt;CSV Data Set Config&lt;/code&gt;是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。可以添加在&lt;code&gt;测试计划&lt;/code&gt;、&lt;code&gt;线程组&lt;/code&gt;、&lt;code&gt;取样器&lt;/code&gt;下，作用域也随之变化。&lt;/p&gt;
+&lt;p&gt;我们在&lt;code&gt;线程组&lt;/code&gt;文章中使用过&lt;code&gt;CSV Data Set Config&lt;/code&gt;，相信大家已经明白它的作用。这里就再详细描述一下。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part1文件名&#34;&gt;Part1.文件名
+&lt;/h2&gt;&lt;p&gt;需输入数据文件的路径，运行时Jmeter会按路径查找数据文件。如果路径错误，Jmeter会报错。&lt;/p&gt;
+&lt;p&gt;如果路径错误。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/1.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;JMeter提示试图读取一个名为test.txt的文件，但是这个文件不存在或者JMeter没有读取它的权限。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part2文件编码&#34;&gt;Part2.文件编码
+&lt;/h2&gt;&lt;p&gt;编码是计算机用于表示字符的数字或二进制值。以下是一些常见的编码系统及其特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;ASCII (American Standard Code for Information Interchange)&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;文件名&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;输入数据文件的路径&lt;/p&gt;
+&lt;li&gt;编码范围：0-127&lt;/li&gt;
+&lt;li&gt;字符集：基本的英文字符、数字、标点符号和控制字符。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;文件编码&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以编辑添加。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Extended ASCII&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：128-255&lt;/li&gt;
+&lt;li&gt;字符集：在ASCII基础上扩展，包含其他语言的字符。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;变量名称&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ISO 8859-1 (Latin-1 Character Set)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：0-255&lt;/li&gt;
+&lt;li&gt;字符集：扩展了ASCII，包括西欧语言的特殊字符。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;UTF-8 (Unicode Transformation Format - 8-bit)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：1-4字节&lt;/li&gt;
+&lt;li&gt;字符集：支持全球几乎所有语言的字符，包括表情符号等。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;UTF-16 (Unicode Transformation Format - 16-bit)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：2字节（BMP）或4字节（辅助平面）&lt;/li&gt;
+&lt;li&gt;字符集：同UTF-8，但使用固定长度的字节对。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;UTF-32 (Unicode Transformation Format - 32-bit)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：固定4字节&lt;/li&gt;
+&lt;li&gt;字符集：同UTF-8和UTF-16，但每个字符固定占用4字节。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;GBK (Chinese Internal Code Specification)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：双字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于简体中文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;GB2312&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：单字节和双字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于简体中文，是GBK的前身。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Big5&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：双字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于繁体中文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Shift_JIS (Shifting Japanese Industrial Standards)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：单字节和双字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于日文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;EUC-JP (Extended Unix Code - Japanese)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：多字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于日文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;KOI8-R (KOI8 Russian)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编码范围：单字节&lt;/li&gt;
+&lt;li&gt;字符集：主要用于俄文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些编码系统各有特点，适用于不同的语言和场景。随着全球化的发展，UTF-8因其兼容性和效率成为了最广泛使用的编码方式。&lt;/p&gt;
+&lt;p&gt;推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以选择或编辑添加其他编码。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part3变量名称&#34;&gt;Part3.变量名称
+&lt;/h2&gt;&lt;p&gt;数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;111,222,333,444,555,666,777
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;aaa,bbb,ccc,ddd,eee,fff,ggg
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;数据文件中有5列，代表有7个变量。变量名称可以输入&lt;code&gt;a1,a2,a3,a4,a5,a6,a7&lt;/code&gt;，&lt;code&gt;a1&lt;/code&gt;获取第1列，&lt;code&gt;a7&lt;/code&gt;获取第7列。&lt;code&gt;a1&lt;/code&gt;第1次获取&lt;code&gt;111&lt;/code&gt;，&lt;code&gt;a1&lt;/code&gt;第2次获取&lt;code&gt;aaa&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;忽略首行&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：&lt;/p&gt;
-  &lt;div&gt;
-  	 &lt;table&gt;
-  	    &lt;tr&gt;
-  	        &lt;td&gt;姓名&lt;/td&gt;
-  	        &lt;td&gt;联系方式&lt;/td&gt;
-  	        &lt;td&gt;居住地址&lt;/td&gt;
-  	        &lt;td&gt;性别&lt;/td&gt;
-  	        &lt;td&gt;国家&lt;/td&gt;
-  	        &lt;td&gt;民族&lt;/td&gt;
-  	        &lt;td&gt;兴趣爱好&lt;/td&gt;
-  		   &lt;/tr&gt;
-  	    &lt;tr&gt;
-  	        &lt;td&gt;姜&lt;/td&gt;
-  	        &lt;td&gt;17620815555&lt;/td&gt;
-  	        &lt;td&gt;河南&lt;/td&gt;
-  	        &lt;td&gt;男&lt;/td&gt;
-  	        &lt;td&gt;中国&lt;/td&gt;
-  	        &lt;td&gt;汉&lt;/td&gt;
-  	        &lt;td&gt;读书&lt;/td&gt;
-  	    &lt;/tr&gt;
-  	    &lt;tr&gt;
-  	        &lt;td&gt;刘备&lt;/td&gt;
-  	        &lt;td&gt;信使传信&lt;/td&gt;
-  	        &lt;td&gt;汉蜀&lt;/td&gt;
-  	        &lt;td&gt;男&lt;/td&gt;
-  	        &lt;td&gt;蜀国&lt;/td&gt;
-  	        &lt;td&gt;汉&lt;/td&gt;
-  	        &lt;td&gt;当皇帝&lt;/td&gt;
-  	    &lt;/tr&gt;
-  	&lt;/table&gt;
-  &lt;/div&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part4忽略首行&#34;&gt;Part4.忽略首行
+&lt;/h2&gt;&lt;p&gt;如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：&lt;/p&gt;
+&lt;div&gt;
+	 &lt;table&gt;
+		&lt;tr&gt;
+			&lt;td&gt;姓名&lt;/td&gt;
+			&lt;td&gt;联系方式&lt;/td&gt;
+			&lt;td&gt;居住地址&lt;/td&gt;
+			&lt;td&gt;性别&lt;/td&gt;
+			&lt;td&gt;国家&lt;/td&gt;
+			&lt;td&gt;民族&lt;/td&gt;
+			&lt;td&gt;兴趣爱好&lt;/td&gt;
+		   &lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;姜&lt;/td&gt;
+			&lt;td&gt;17620815555&lt;/td&gt;
+			&lt;td&gt;河南&lt;/td&gt;
+			&lt;td&gt;男&lt;/td&gt;
+			&lt;td&gt;中国&lt;/td&gt;
+			&lt;td&gt;汉&lt;/td&gt;
+			&lt;td&gt;读书&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;刘备&lt;/td&gt;
+			&lt;td&gt;信使传信&lt;/td&gt;
+			&lt;td&gt;汉蜀&lt;/td&gt;
+			&lt;td&gt;男&lt;/td&gt;
+			&lt;td&gt;蜀国&lt;/td&gt;
+			&lt;td&gt;汉&lt;/td&gt;
+			&lt;td&gt;当皇帝&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/table&gt;
+&lt;/div&gt;
 &lt;p&gt;第1行只是标题，实际上并不需要标题数据。这种情况下可以选择&lt;code&gt;True&lt;/code&gt;，不获取第1行。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;分隔符&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;不建议更改，使用&lt;code&gt;,(英文符)&lt;/code&gt;即可。这代表着TXT文件中列于列之间要用&lt;code&gt;,&lt;/code&gt;分隔。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;是否允许带引号&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;以TXT文件为例：&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part5分隔符&#34;&gt;Part5.分隔符
+&lt;/h2&gt;&lt;p&gt;不建议更改，使用&lt;code&gt;,(英文符)&lt;/code&gt;即可。这代表着TXT文件中列于列之间要用&lt;code&gt;,&lt;/code&gt;分隔。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part6是否允许带引号&#34;&gt;Part6.是否允许带引号
+&lt;/h2&gt;&lt;p&gt;以TXT文件为例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;#34;444&amp;#34;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果选择&lt;code&gt;True&lt;/code&gt;，引用变量时，获取的值会是&lt;code&gt;444&lt;/code&gt;。如果选择&lt;code&gt;False&lt;/code&gt;，引用变量时，获取的值会是&lt;code&gt;&amp;quot;444&amp;quot;&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;遇到文件结束符再次循环&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;当读取到文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;，线程或循环还没结束时。如果选择&lt;code&gt;True&lt;/code&gt;，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。如果选择&lt;code&gt;False&lt;/code&gt;，接下来的线程或循环会获取文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;遇到文件结束符停止线程&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;当读取到文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;，线程或循环还没结束时。如果选择&lt;code&gt;True&lt;/code&gt;，接下来的线程或循环不会再继续。如果选择&lt;code&gt;False&lt;/code&gt;，不会影响到线程或循环的继续。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;其中&lt;code&gt;忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程&lt;/code&gt;的选项中还有&lt;code&gt;编辑&lt;/code&gt;选项。因没有使用过，我并不知它的作用。读者们可以去探究一番。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;part2csv-data-set-config线程共享模式&#34;&gt;Part2.CSV Data Set Config&amp;amp;线程共享模式
-&lt;/h2&gt;&lt;p&gt;&lt;code&gt;线程共享模式&lt;/code&gt;需要示例演示下，遂放到这一Part。&lt;/p&gt;
+&lt;h2 id=&#34;part7遇到文件结束符再次循环&#34;&gt;Part7.遇到文件结束符再次循环
+&lt;/h2&gt;&lt;p&gt;文件结束符（End Of File，简称EOF）是一个用于表示文件内容结束的信号，在txt、csv等文件的未尾以&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;结束。当程序读取文件时，以&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;来确定是否已经到达文件的末尾。&lt;/p&gt;
+&lt;p&gt;当读取到文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;，线程或循环还没结束时。如果选择&lt;code&gt;True&lt;/code&gt;，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。如果选择&lt;code&gt;False&lt;/code&gt;，接下来的线程或循环会一直获取文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part8遇到文件结束符停止线程&#34;&gt;Part8.遇到文件结束符停止线程
+&lt;/h2&gt;&lt;p&gt;当读取到文件的结束符&lt;code&gt;&amp;lt;EOF&amp;gt;&lt;/code&gt;，线程或循环还没结束时。如果选择&lt;code&gt;True&lt;/code&gt;，接下来的线程或循环不会再继续。如果选择&lt;code&gt;False&lt;/code&gt;，不会影响到线程或循环的继续。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part9线程共享模式&#34;&gt;Part9.线程共享模式
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;示例txt文件&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;111,222,333,444
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;aaa,bbb,ccc,ddd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;888,999,1010,2020
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fff,iii,jjj,kkk
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6060,7070,8080,9090
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;000,ppp,qqq,rrr
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;示例Jmeter脚本&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/1.gif&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;此时只有1个线程，线程共享模式配置为&lt;code&gt;所有线程&lt;/code&gt;。&lt;/p&gt;
+&lt;br&gt;
 &lt;h3 id=&#34;所有线程&#34;&gt;所有线程
-&lt;/h3&gt;&lt;p&gt;此选项时，作用域中的所有线程共享CSV Data Set Config，按照线程执行顺序，依次读取文件的每一行数据。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;示例CSV文件&lt;/strong&gt;&lt;/p&gt;
+&lt;/h3&gt;&lt;p&gt;所有线程共享同一个CSV文件。这是默认的共享模式。在这个模式下，所有线程将按照顺序读取CSV文件中的数据，直到文件结束。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例Jmeter脚本运行结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/2.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;请求1、请求2&lt;/code&gt;同属1个线程，从&lt;code&gt;CSV Data Set Config&lt;/code&gt;中所获取的数据也是一样的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;修改示例Jmeter脚本，线程组的线程数为 2 ，运行结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/3.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;线程组1-1&lt;/code&gt;的&lt;code&gt;请求1、请求2&lt;/code&gt;，从&lt;code&gt;CSV Data Set Config&lt;/code&gt;中所获取的数据相同。&lt;code&gt;线程组1-2&lt;/code&gt;的&lt;code&gt;请求1、请求2&lt;/code&gt;，从&lt;code&gt;CSV Data Set Config&lt;/code&gt;中所获取的数据相同。不同线程所获取的数据不同。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;修改示例Jmeter脚本，新增一个线程组&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/2.gif&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/4.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;两个线程组，每个线程组两个线程，共四个线程。这四个线程顺序从&lt;code&gt;CSV Data Set Config&lt;/code&gt;获取数据。&lt;/p&gt;
+&lt;br&gt;
 &lt;h3 id=&#34;当前线程组&#34;&gt;当前线程组
-&lt;/h3&gt;&lt;h3 id=&#34;当前线程&#34;&gt;当前线程
-&lt;/h3&gt;</description>
+&lt;/h3&gt;&lt;p&gt;在这个模式下，只有同一个线程组内的线程会共享CSV文件。比如数据文件有10行数据，并且有10个线程在同一个线程组中，每个线程将分别读取一行数据。不同的线程组分别独立从&lt;code&gt;CSV Data Set Config&lt;/code&gt;获取数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;修改示例Jmeter脚本，新增一个线程组，&lt;code&gt;CSV Data Set Config&lt;/code&gt; 线程共享模式配置为 &lt;code&gt;当前线程组&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/3.gif&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/5.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;同是两个线程组、每个线程组两个线程。但配置&lt;code&gt;当前线程组共享&lt;/code&gt;，两个线程组分别独立从&lt;code&gt;CSV Data Set Config&lt;/code&gt;获取数据。所以&lt;code&gt;线程组1-1&lt;/code&gt;与&lt;code&gt;线程组2-1&lt;/code&gt;获取的数据一致。&lt;/p&gt;
+&lt;br&gt;
+&lt;h3 id=&#34;当前线程&#34;&gt;当前线程
+&lt;/h3&gt;&lt;p&gt;在这个模式下，不同线程不会共享CSV文件，分别独立从&lt;code&gt;CSV Data Set Config&lt;/code&gt;获取数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;当前线程组-Jmeter脚本中，&lt;code&gt;CSV Data Set Config&lt;/code&gt; 线程共享模式配置为 &lt;code&gt;当前线程&lt;/code&gt;，运行结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/CSVDataSetConfig/6.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;每个线程都独立从&lt;code&gt;CSV Data Set Config&lt;/code&gt;获取数据。所以各个线程获取的数据是一致的。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part10循环编辑&#34;&gt;Part10.循环&amp;amp;&amp;amp;编辑
+&lt;/h2&gt;&lt;p&gt;其中&lt;code&gt;忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程、线程共享模式&lt;/code&gt;的选项中还有&lt;code&gt;编辑&lt;/code&gt;选项。因没有使用过，我并不知怎样使用及作用。读者们可以去探究一番。&lt;/p&gt;
+&lt;p&gt;另外在使用&lt;code&gt;CSV Data Set Config&lt;/code&gt;时，要注意线程数及循环次数。&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;所有线程&lt;/code&gt;，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。运行时，第1次循环。2个线程组总4个线程依次获取数据文件的前4行。第2次循环。2个线程组总4个线程依次获取数据文件的5-8行。依次类推从数据文件中获取数据。&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;当前线程组&lt;/code&gt;，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。
+运行时，第1次循环。每个线程组独立从数据文件中获取数据，每个线程组中的2个线程依次获取数据文件的前2行。第2次循环。每个线程组独立从数据文件中获取数据，每个线程组中的2个线程依次获取数据文件的3-4行。依次类推从数据文件中获取数据。&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;当前线程&lt;/code&gt;，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。
+运行时，第1次循环。每个线程独立从数据文件中获取数据，每个线程获取数据文件的第1行。第2次循环。每个线程独立从数据文件中获取数据，每个线程获取数据文件的第2行。依次类推从数据文件中获取数据。&lt;/p&gt;
+&lt;h2 id=&#34;part11最后要说&#34;&gt;Part11.最后要说
+&lt;/h2&gt;&lt;p&gt;衷心希望读者进行评论，指出我的不足或者进行交流。&lt;/p&gt;
+&lt;p&gt;就让笔迹停在这里吧。&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>Jmeter-HTTP请求</title>

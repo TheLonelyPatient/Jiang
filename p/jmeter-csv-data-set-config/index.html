@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
 <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Part1.CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测">
 <meta name="keywords" content="Jmeter"><title>Jmeter-CSV Data Set Config</title>
 
 <link rel='canonical' href='https://www.jzy-blogs.cn/p/jmeter-csv-data-set-config/'>
 
 <link rel="stylesheet" href="/scss/style.min.52f62e800333e0a4808ddfa83d167fd432b8d1ed15f8b65a4683be9218b5f549.css"><meta property='og:title' content="Jmeter-CSV Data Set Config">
-<meta property='og:description' content="Part1.CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测">
+<meta property='og:description' content="CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测">
 <meta property='og:url' content='https://www.jzy-blogs.cn/p/jmeter-csv-data-set-config/'>
 <meta property='og:site_name' content='EtherealBoyJiang'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-05-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-05-14T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-05-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-13T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
 <meta name="twitter:title" content="Jmeter-CSV Data Set Config">
-<meta name="twitter:description" content="Part1.CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="CSV Data Set Config CSV Data Set Config是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
@@ -85,14 +85,23 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#part1csv-data-set-config">Part1.CSV Data Set Config</a></li>
-    <li><a href="#part2csv-data-set-config线程共享模式">Part2.CSV Data Set Config&amp;线程共享模式</a>
+    <li><a href="#part1文件名">Part1.文件名</a></li>
+    <li><a href="#part2文件编码">Part2.文件编码</a></li>
+    <li><a href="#part3变量名称">Part3.变量名称</a></li>
+    <li><a href="#part4忽略首行">Part4.忽略首行</a></li>
+    <li><a href="#part5分隔符">Part5.分隔符</a></li>
+    <li><a href="#part6是否允许带引号">Part6.是否允许带引号</a></li>
+    <li><a href="#part7遇到文件结束符再次循环">Part7.遇到文件结束符再次循环</a></li>
+    <li><a href="#part8遇到文件结束符停止线程">Part8.遇到文件结束符停止线程</a></li>
+    <li><a href="#part9线程共享模式">Part9.线程共享模式</a>
       <ol>
         <li><a href="#所有线程">所有线程</a></li>
         <li><a href="#当前线程组">当前线程组</a></li>
         <li><a href="#当前线程">当前线程</a></li>
       </ol>
     </li>
+    <li><a href="#part10循环编辑">Part10.循环&amp;&amp;编辑</a></li>
+    <li><a href="#part11最后要说">Part11.最后要说</a></li>
   </ol>
 </nav>
         </div>
@@ -166,90 +175,305 @@
     <section class="article-content">
     
     
-    <h2 id="part1csv-data-set-config">Part1.CSV Data Set Config
-</h2><p><code>CSV Data Set Config</code>是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。它可以添加在<code>测试计划、线程组、取样器</code>下，作用域也是如此。</p>
-<p>我们在<code>线程组</code>文章中使用过<code>CSV Data Set Config</code>，相信大家已经明白它的作用。这里就不再示例演示，只用文字描述一下。</p>
+    <h1 id="csv-data-set-config">CSV Data Set Config
+</h1><p><code>CSV Data Set Config</code>是一种元件。它允许你从CSV、TXT文件中读取数据，并在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。可以添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，作用域也随之变化。</p>
+<p>我们在<code>线程组</code>文章中使用过<code>CSV Data Set Config</code>，相信大家已经明白它的作用。这里就再详细描述一下。</p>
+<br>
+<h2 id="part1文件名">Part1.文件名
+</h2><p>需输入数据文件的路径，运行时Jmeter会按路径查找数据文件。如果路径错误，Jmeter会报错。</p>
+<p>如果路径错误。</p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/1.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>JMeter提示试图读取一个名为test.txt的文件，但是这个文件不存在或者JMeter没有读取它的权限。</p>
+<br>
+<h2 id="part2文件编码">Part2.文件编码
+</h2><p>编码是计算机用于表示字符的数字或二进制值。以下是一些常见的编码系统及其特点：</p>
+<ol>
+<li>
+<p><strong>ASCII (American Standard Code for Information Interchange)</strong></p>
 <ul>
-<li>
-<p><strong>文件名</strong></p>
-<p>输入数据文件的路径</p>
+<li>编码范围：0-127</li>
+<li>字符集：基本的英文字符、数字、标点符号和控制字符。</li>
+</ul>
 </li>
 <li>
-<p><strong>文件编码</strong></p>
-<p>推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以编辑添加。</p>
+<p><strong>Extended ASCII</strong></p>
+<ul>
+<li>编码范围：128-255</li>
+<li>字符集：在ASCII基础上扩展，包含其他语言的字符。</li>
+</ul>
 </li>
 <li>
-<p><strong>变量名称</strong></p>
-<p>数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：</p>
+<p><strong>ISO 8859-1 (Latin-1 Character Set)</strong></p>
+<ul>
+<li>编码范围：0-255</li>
+<li>字符集：扩展了ASCII，包括西欧语言的特殊字符。</li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-8 (Unicode Transformation Format - 8-bit)</strong></p>
+<ul>
+<li>编码范围：1-4字节</li>
+<li>字符集：支持全球几乎所有语言的字符，包括表情符号等。</li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-16 (Unicode Transformation Format - 16-bit)</strong></p>
+<ul>
+<li>编码范围：2字节（BMP）或4字节（辅助平面）</li>
+<li>字符集：同UTF-8，但使用固定长度的字节对。</li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-32 (Unicode Transformation Format - 32-bit)</strong></p>
+<ul>
+<li>编码范围：固定4字节</li>
+<li>字符集：同UTF-8和UTF-16，但每个字符固定占用4字节。</li>
+</ul>
+</li>
+<li>
+<p><strong>GBK (Chinese Internal Code Specification)</strong></p>
+<ul>
+<li>编码范围：双字节</li>
+<li>字符集：主要用于简体中文。</li>
+</ul>
+</li>
+<li>
+<p><strong>GB2312</strong></p>
+<ul>
+<li>编码范围：单字节和双字节</li>
+<li>字符集：主要用于简体中文，是GBK的前身。</li>
+</ul>
+</li>
+<li>
+<p><strong>Big5</strong></p>
+<ul>
+<li>编码范围：双字节</li>
+<li>字符集：主要用于繁体中文。</li>
+</ul>
+</li>
+<li>
+<p><strong>Shift_JIS (Shifting Japanese Industrial Standards)</strong></p>
+<ul>
+<li>编码范围：单字节和双字节</li>
+<li>字符集：主要用于日文。</li>
+</ul>
+</li>
+<li>
+<p><strong>EUC-JP (Extended Unix Code - Japanese)</strong></p>
+<ul>
+<li>编码范围：多字节</li>
+<li>字符集：主要用于日文。</li>
+</ul>
+</li>
+<li>
+<p><strong>KOI8-R (KOI8 Russian)</strong></p>
+<ul>
+<li>编码范围：单字节</li>
+<li>字符集：主要用于俄文。</li>
+</ul>
+</li>
+</ol>
+<p>这些编码系统各有特点，适用于不同的语言和场景。随着全球化的发展，UTF-8因其兼容性和效率成为了最广泛使用的编码方式。</p>
+<p>推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以选择或编辑添加其他编码。</p>
+<br>
+<h2 id="part3变量名称">Part3.变量名称
+</h2><p>数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">111,222,333,444,555,666,777
 </span></span><span class="line"><span class="cl">aaa,bbb,ccc,ddd,eee,fff,ggg
 </span></span></code></pre></div><p>数据文件中有5列，代表有7个变量。变量名称可以输入<code>a1,a2,a3,a4,a5,a6,a7</code>，<code>a1</code>获取第1列，<code>a7</code>获取第7列。<code>a1</code>第1次获取<code>111</code>，<code>a1</code>第2次获取<code>aaa</code>。</p>
-</li>
-<li>
-<p><strong>忽略首行</strong></p>
-<p>如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：</p>
-  <div>
-  	 <div class="table-wrapper"><table>
-  	    <tr>
-  	        <td>姓名</td>
-  	        <td>联系方式</td>
-  	        <td>居住地址</td>
-  	        <td>性别</td>
-  	        <td>国家</td>
-  	        <td>民族</td>
-  	        <td>兴趣爱好</td>
-  		   </tr>
-  	    <tr>
-  	        <td>姜</td>
-  	        <td>17620815555</td>
-  	        <td>河南</td>
-  	        <td>男</td>
-  	        <td>中国</td>
-  	        <td>汉</td>
-  	        <td>读书</td>
-  	    </tr>
-  	    <tr>
-  	        <td>刘备</td>
-  	        <td>信使传信</td>
-  	        <td>汉蜀</td>
-  	        <td>男</td>
-  	        <td>蜀国</td>
-  	        <td>汉</td>
-  	        <td>当皇帝</td>
-  	    </tr>
-  	</table></div>
-  </div>
+<br>
+<h2 id="part4忽略首行">Part4.忽略首行
+</h2><p>如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：</p>
+<div>
+	 <div class="table-wrapper"><table>
+		<tr>
+			<td>姓名</td>
+			<td>联系方式</td>
+			<td>居住地址</td>
+			<td>性别</td>
+			<td>国家</td>
+			<td>民族</td>
+			<td>兴趣爱好</td>
+		   </tr>
+		<tr>
+			<td>姜</td>
+			<td>17620815555</td>
+			<td>河南</td>
+			<td>男</td>
+			<td>中国</td>
+			<td>汉</td>
+			<td>读书</td>
+		</tr>
+		<tr>
+			<td>刘备</td>
+			<td>信使传信</td>
+			<td>汉蜀</td>
+			<td>男</td>
+			<td>蜀国</td>
+			<td>汉</td>
+			<td>当皇帝</td>
+		</tr>
+	</table></div>
+</div>
 <p>第1行只是标题，实际上并不需要标题数据。这种情况下可以选择<code>True</code>，不获取第1行。</p>
-</li>
-<li>
-<p><strong>分隔符</strong></p>
-<p>不建议更改，使用<code>,(英文符)</code>即可。这代表着TXT文件中列于列之间要用<code>,</code>分隔。</p>
-</li>
-<li>
-<p><strong>是否允许带引号</strong></p>
-<p>以TXT文件为例：</p>
+<br>
+<h2 id="part5分隔符">Part5.分隔符
+</h2><p>不建议更改，使用<code>,(英文符)</code>即可。这代表着TXT文件中列于列之间要用<code>,</code>分隔。</p>
+<br>
+<h2 id="part6是否允许带引号">Part6.是否允许带引号
+</h2><p>以TXT文件为例：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;444&#34;
 </span></span></code></pre></div><p>如果选择<code>True</code>，引用变量时，获取的值会是<code>444</code>。如果选择<code>False</code>，引用变量时，获取的值会是<code>&quot;444&quot;</code>。</p>
-</li>
-<li>
-<p><strong>遇到文件结束符再次循环</strong></p>
-<p>当读取到文件的结束符<code>&lt;EOF&gt;</code>，线程或循环还没结束时。如果选择<code>True</code>，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。如果选择<code>False</code>，接下来的线程或循环会获取文件的结束符<code>&lt;EOF&gt;</code>。</p>
-</li>
-<li>
-<p><strong>遇到文件结束符停止线程</strong></p>
-<p>当读取到文件的结束符<code>&lt;EOF&gt;</code>，线程或循环还没结束时。如果选择<code>True</code>，接下来的线程或循环不会再继续。如果选择<code>False</code>，不会影响到线程或循环的继续。</p>
-</li>
-</ul>
-<p>其中<code>忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程</code>的选项中还有<code>编辑</code>选项。因没有使用过，我并不知它的作用。读者们可以去探究一番。</p>
 <br>
-<h2 id="part2csv-data-set-config线程共享模式">Part2.CSV Data Set Config&amp;线程共享模式
-</h2><p><code>线程共享模式</code>需要示例演示下，遂放到这一Part。</p>
+<h2 id="part7遇到文件结束符再次循环">Part7.遇到文件结束符再次循环
+</h2><p>文件结束符（End Of File，简称EOF）是一个用于表示文件内容结束的信号，在txt、csv等文件的未尾以<code>&lt;EOF&gt;</code>结束。当程序读取文件时，以<code>&lt;EOF&gt;</code>来确定是否已经到达文件的末尾。</p>
+<p>当读取到文件的结束符<code>&lt;EOF&gt;</code>，线程或循环还没结束时。如果选择<code>True</code>，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。如果选择<code>False</code>，接下来的线程或循环会一直获取文件的结束符<code>&lt;EOF&gt;</code>。</p>
+<br>
+<h2 id="part8遇到文件结束符停止线程">Part8.遇到文件结束符停止线程
+</h2><p>当读取到文件的结束符<code>&lt;EOF&gt;</code>，线程或循环还没结束时。如果选择<code>True</code>，接下来的线程或循环不会再继续。如果选择<code>False</code>，不会影响到线程或循环的继续。</p>
+<br>
+<h2 id="part9线程共享模式">Part9.线程共享模式
+</h2><p><strong>示例txt文件</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">111,222,333,444
+</span></span><span class="line"><span class="cl">aaa,bbb,ccc,ddd
+</span></span><span class="line"><span class="cl">888,999,1010,2020
+</span></span><span class="line"><span class="cl">fff,iii,jjj,kkk
+</span></span><span class="line"><span class="cl">6060,7070,8080,9090
+</span></span><span class="line"><span class="cl">000,ppp,qqq,rrr
+</span></span></code></pre></div><p><strong>示例Jmeter脚本</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/1.gif"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>此时只有1个线程，线程共享模式配置为<code>所有线程</code>。</p>
+<br>
 <h3 id="所有线程">所有线程
-</h3><p>此选项时，作用域中的所有线程共享CSV Data Set Config，按照线程执行顺序，依次读取文件的每一行数据。</p>
-<p><strong>示例CSV文件</strong></p>
+</h3><p>所有线程共享同一个CSV文件。这是默认的共享模式。在这个模式下，所有线程将按照顺序读取CSV文件中的数据，直到文件结束。</p>
+<p><strong>示例Jmeter脚本运行结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/2.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><code>请求1、请求2</code>同属1个线程，从<code>CSV Data Set Config</code>中所获取的数据也是一样的。</p>
+<p><strong>修改示例Jmeter脚本，线程组的线程数为 2 ，运行结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/3.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><code>线程组1-1</code>的<code>请求1、请求2</code>，从<code>CSV Data Set Config</code>中所获取的数据相同。<code>线程组1-2</code>的<code>请求1、请求2</code>，从<code>CSV Data Set Config</code>中所获取的数据相同。不同线程所获取的数据不同。</p>
+<p><strong>修改示例Jmeter脚本，新增一个线程组</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/2.gif"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><strong>运行结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/4.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>两个线程组，每个线程组两个线程，共四个线程。这四个线程顺序从<code>CSV Data Set Config</code>获取数据。</p>
+<br>
 <h3 id="当前线程组">当前线程组
-</h3><h3 id="当前线程">当前线程
-</h3>
+</h3><p>在这个模式下，只有同一个线程组内的线程会共享CSV文件。比如数据文件有10行数据，并且有10个线程在同一个线程组中，每个线程将分别读取一行数据。不同的线程组分别独立从<code>CSV Data Set Config</code>获取数据。</p>
+<p><strong>修改示例Jmeter脚本，新增一个线程组，<code>CSV Data Set Config</code> 线程共享模式配置为 <code>当前线程组</code></strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/3.gif"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><strong>运行结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/5.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>同是两个线程组、每个线程组两个线程。但配置<code>当前线程组共享</code>，两个线程组分别独立从<code>CSV Data Set Config</code>获取数据。所以<code>线程组1-1</code>与<code>线程组2-1</code>获取的数据一致。</p>
+<br>
+<h3 id="当前线程">当前线程
+</h3><p>在这个模式下，不同线程不会共享CSV文件，分别独立从<code>CSV Data Set Config</code>获取数据。</p>
+<p><strong>当前线程组-Jmeter脚本中，<code>CSV Data Set Config</code> 线程共享模式配置为 <code>当前线程</code>，运行结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/CSVDataSetConfig/6.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>每个线程都独立从<code>CSV Data Set Config</code>获取数据。所以各个线程获取的数据是一致的。</p>
+<br>
+<h2 id="part10循环编辑">Part10.循环&amp;&amp;编辑
+</h2><p>其中<code>忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程、线程共享模式</code>的选项中还有<code>编辑</code>选项。因没有使用过，我并不知怎样使用及作用。读者们可以去探究一番。</p>
+<p>另外在使用<code>CSV Data Set Config</code>时，要注意线程数及循环次数。</p>
+<p>配置<code>所有线程</code>，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。运行时，第1次循环。2个线程组总4个线程依次获取数据文件的前4行。第2次循环。2个线程组总4个线程依次获取数据文件的5-8行。依次类推从数据文件中获取数据。</p>
+<p>配置<code>当前线程组</code>，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。
+运行时，第1次循环。每个线程组独立从数据文件中获取数据，每个线程组中的2个线程依次获取数据文件的前2行。第2次循环。每个线程组独立从数据文件中获取数据，每个线程组中的2个线程依次获取数据文件的3-4行。依次类推从数据文件中获取数据。</p>
+<p>配置<code>当前线程</code>，如果有2个线程组、每个线程组2个线程及多次循环，数据文件有100行。
+运行时，第1次循环。每个线程独立从数据文件中获取数据，每个线程获取数据文件的第1行。第2次循环。每个线程独立从数据文件中获取数据，每个线程获取数据文件的第2行。依次类推从数据文件中获取数据。</p>
+<h2 id="part11最后要说">Part11.最后要说
+</h2><p>衷心希望读者进行评论，指出我的不足或者进行交流。</p>
+<p>就让笔迹停在这里吧。</p>
+
 </section>
 
 
@@ -275,7 +499,19 @@
         <span>转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans"  target="_blank" rel="noopener"
     >CC BY-NC-ND 4.0</a></span>
     </section>
-    </footer>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 2024/06/13
+        </span>
+    </section></footer>
 
 
     
@@ -422,9 +658,9 @@
 		data-page-title="Jmeter-CSV Data Set Config"
 		data-page-url="https://www.jzy-blogs.cn/p/jmeter-csv-data-set-config/">		
 	</div>
-
-	<script async src="https://cusdis.com/js/cusdis.es.js"></script>
 	<script defer src="https://cusdis.com/js/widget/lang/zh-cn.js"></script> 
+	<script async src="https://cusdis.com/js/cusdis.es.js"></script>
+
 
     <footer class="site-footer">
     <section class="copyright">
@@ -463,7 +699,7 @@
 			
 		
 		 &emsp;·💡 9篇文章&emsp; ·
-		⌨ 30.71k字
+		⌨ 32.60k字
 	</section>
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;
