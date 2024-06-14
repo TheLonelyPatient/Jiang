@@ -247,8 +247,10 @@
   >
 </div>
 </p>
-<p>HTTP请求-0的GET https（请求地址）为<code>//www.zhihu.com/</code>，HTTP请求-1的GET https（请求地址）为<code>//www.zhihu.com/signin?next=%2F</code>。</p>
-<p>HTTP请求-0的响应数据是一个重定向的a链接，链接地址为<code>//www.zhihu.com/signin?next=%2F</code>-即HTTP请求-1的请求地址。HTTP请求-1的响应才是最终的页面。Jmeter的查看结果树记录了重定向过程。</p>
+<p>HTTP请求-0的GET https（请求地址）为<code>//www.zhihu.com/</code>。</p>
+<p>HTTP请求-1的GET https（请求地址）为<code>//www.zhihu.com/signin?next=%2F</code>。</p>
+<p>HTTP请求-0的响应数据是一个重定向的a链接，链接地址为<code>//www.zhihu.com/signin?next=%2F</code>-即HTTP请求-1的请求地址。</p>
+<p>HTTP请求-1的响应才是最终的页面。Jmeter的查看结果树记录了重定向过程。</p>
 <p><em><strong>勾选<code>自动重定向</code>，运行结果</strong></em></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/HTTPRequest/2.gif"
@@ -305,7 +307,7 @@
   >
 </div>
 </p>
-<p>仔细看请求数据中的第一行，它的值为：<code>GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜</code>。</p>
+<p>请求数据中的第一行：<code>GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜</code>。</p>
 <p>其中<code>?name=姜</code>就是脚本中添加的参数。</p>
 <p><em><strong>必须使用参数吗？我们可以尝试一下不使用参数的方法（修改示例脚本）</strong></em></p>
 <ul>
@@ -329,11 +331,12 @@
 </div>
 </p>
 <p>仔细看图会发现，与使用参数方法的结果是一样的。</p>
-<p><code>请求</code>中<code>GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜 </code>一样。</p>
+<p>都是<code>GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜 </code>。</p>
 <br>
 <h2 id="part3请求参数-postapplicationx-www-from-urlencoded"><em>Part3.请求参数-POST&amp;application/x-www-from-urlencoded</em>
-</h2><p>请求参数为<code>POST</code>时，常用的的请求参数类型(Content-Type)有<code>application/x-www-from-urlencoded</code>、<code>multipart/form-data</code>、<code>raw</code>、<code>binary</code>。</p>
-<p><code>application/x-www-from-urlencoded</code>会将表单内的数据转换为键值对，比如<code>name=python&amp;age = 22</code>，这种方式只能以键值对形式发送参数，一般如果不指定<code>content-type</code>，默认便是<code>application/x-www-form-urlencoded</code>。</p>
+</h2><p>请求方式<code>POST</code>，常用的的请求参数类型(Content-Type)有<code>application/x-www-from-urlencoded</code>、<code>multipart/form-data</code>、<code>raw</code>、<code>binary</code>。</p>
+<p><code>application/x-www-from-urlencoded</code>会将表单内的数据转换为键值对，比如<code>name=python&amp;age = 22</code>。</p>
+<p>这种方式只能以键值对形式发送参数，如果不指定<code>content-type</code>，默认<code>application/x-www-form-urlencoded</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@HTTPRequest.route</span><span class="p">(</span><span class="s1">&#39;/api/HTTPRequest2/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>  
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">parameters</span><span class="p">():</span>  
@@ -368,8 +371,8 @@
   >
 </div>
 </p>
-<p><code>Request Headers</code>中的<code>Content-Type: application/x-www-form-urlencoded; charset=UTF-8</code>，表明该请求参数类型为<code>application/x-www-form-urlencoded</code>。</p>
-<p><code>Request Body</code>中的<code>POST data</code>也是键值对形式：
+<p><code>Request Headers</code>中显示 Content-Type 为 <code>application/x-www-form-urlencoded; charset=UTF-8</code>。</p>
+<p><code>Request Body</code>中的 POST data 也是键值对形式：
 <code>aaaa=EtherealBoyJIang&amp;bbb=EtherealBoyJIang&amp;ccc=EtherealBoyJIang</code></p>
 <br>
 <h2 id="part4请求参数-postmultipartform-data"><em>Part4.请求参数-POST&amp;multipart/form-data</em>
@@ -406,8 +409,8 @@
 </span></span><span class="line"><span class="cl"><span class="c1"># 并且 part 的头部还附加了文件名相关的元数据 filename=&#34;my_avatar.jpeg。</span>
 </span></span><span class="line"><span class="cl"><span class="o">--</span><span class="n">example</span><span class="o">-</span><span class="n">part</span><span class="o">-</span><span class="n">boundary</span><span class="o">--</span>
 </span></span><span class="line"><span class="cl"><span class="c1"># 最后面的 --example-part-boundary-- 表示整个 multipart 消息的结束。</span>
-</span></span></code></pre></div><p>由于这种方式可以将数据分为很多部分，它既可以上传键值对，也可以上传文件，甚至多个文件。当上传的字段是文件时，会有Content-Type来说明文件类型：<code>Content-disposition</code>，用来说明字段的一些信息。
-每部分都是以<code>-boundary</code>开始，紧接着是内容描述信息，然后是回车，最后是字段具体内容(字段、文本或二进制等)。如果传输的是文件，还要包含文件名和文件类型信息。消息主体最后以-boundary-标示结束。</p>
+</span></span></code></pre></div><p>由于这种方式可以将数据分为很多部分，它既可以上传键值对，也可以上传文件，甚至多个文件。当上传的字段是文件时，会有Content-Type来说明文件类型：<code>Content-disposition</code>，用来说明字段的一些信息。</p>
+<p>每部分都是以<code>-boundary</code>开始，紧接着是内容描述信息，然后是回车，最后是字段具体内容(字段、文本或二进制等)。如果传输的是文件，还要包含文件名和文件类型信息。消息主体最后以-boundary-标示结束。</p>
 <p>当使用<code>POST</code>方式进行请求&amp;请求参数包含一般参数&amp;文件时，会自动指定参数类型为<code>multipart/form-data</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@HTTPRequest.route</span><span class="p">(</span><span class="s1">&#39;/api/HTTPRequest1/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
@@ -478,14 +481,15 @@
   >
 </div>
 </p>
-<p>可以清晰的看到请求数据的格式是<code>multipart/form-data</code>的格式，响应也是正确的。另外可以去save_path查看上传的图片或文件。</p>
-<p>示例使用的<code>参数</code>中添加请求参数做的演示。当然使用<code>消息体</code>添加请求参数也是一样，并且你可以在<code>消息体</code>中添加<code>Text、JavaScript、JSON、HTML、XML</code>等格式&amp;上传文件。读者可以自己尝试一下。</p>
-<p>使用<code>POST</code>方式进行请求&amp;请求参数包含一般参数&amp;不包含文件时，会自动指定参数类型为<code>application/x-www-form-urlencoded</code>。有没有什么方法指定参数类型为<code>content-type</code>为<code>multipart/form-data</code>呢？你可以勾选<code>对POST使用multipart/ form-data</code>。读者可以自己尝试一下。</p>
+<p>请求参数类型是<code>multipart/form-data</code>，响应也是正确的。另外可以去save_path查看上传的图片或文件。</p>
+<p>当然也可使用<code>消息体</code>添加请求参数(可以添加 Text、JavaScript、JSON、HTML、XML 等格式文件)&amp;&amp;上传文件。读者可以自己尝试一下。</p>
+<p>请求方式为<code>POST</code>&amp;&amp;请求参数包含一般参数&amp;&amp;不上传文件，请求参数类型默认<code>application/x-www-form-urlencoded</code>。</p>
+<p>这种场景下，如果想要指定请求参数类型为<code>multipart/ form-data</code>，可以勾选<code>对POST使用multipart/ form-data</code>。读者可以自己尝试一下。</p>
 <br>
 <h2 id="part5请求参数-posttextplain"><em>Part5.请求参数-POST&amp;text/plain</em>
 </h2><p><code>raw</code>是指可以上传任意格式的文本，如text、json、xml、html等。这里演示一下如何上传文本内容。</p>
-<p><code>text/plain</code>用于发送纯文本内容，空格转换为 &ldquo;+&rdquo; 加号，不对特殊字符进行编码，一般用于email之类的；</p>
-<p>在Jmeter中发送<code>纯文本内容，需要在消息体中输入相应内容&amp;不在消息头管理器</code>指定对应的<code>content-type</code>。会自动匹配<code>content-type</code>为<code>text/plain</code></p>
+<p><code>text/plain</code>用于发送纯文本内容，空格符为<code>+</code>，不对特殊字符进行编码。</p>
+<p>Jmeter中，消息体中输入相应内容，请求参数类型默认为<code>text/plain</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@HTTPRequest.route</span><span class="p">(</span><span class="s1">&#39;/api/HTTPRequest2/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>  
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">parameters</span><span class="p">():</span>  
@@ -519,12 +523,12 @@
   >
 </div>
 </p>
-<p><code>Request Headers</code>中的<code>Content-Type: text/plain; charset=UTF-8</code>，表明该请求参数类型为<code>text/plain</code>。</p>
-<p><code>Request Body</code>中的<code>POST data</code>就是纯文本：<code>随意写就行</code>。</p>
+<p><code>Content-Type: text/plain; charset=UTF-8</code>，表明该请求参数类型为<code>text/plain</code>。
+请求参数就是纯文本：<code>随意写就行</code>。</p>
 <br>
 <h2 id="part6请求参数-postapplicationjson"><em>Part6.请求参数-POST&amp;application/json</em>
 </h2><p><code>application/json</code>用于发送JSON字符串，也是比较常用的一种方式。</p>
-<p>在Jmeter中发送JSON字符串，需要在消息体中输入JSON格式内容&amp;在消息头管理器指定对应的<code>content-type</code>为<code>content-type</code>为<code>application/json</code>。</p>
+<p>Jmeter中发送JSON字符串，需要在消息体中输入JSON格式内容&amp;&amp;在消息头管理器添加<code>content-type：application/json</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@HTTPRequest.route</span><span class="p">(</span><span class="s1">&#39;/api/HTTPRequest3/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>  
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">httprequest3</span><span class="p">():</span>  
@@ -566,14 +570,17 @@
   >
 </div>
 </p>
-<p><code>Request Headers</code>中的<code>Content-Type: application/json</code>，表明该请求参数类型为<code>application/json</code>。</p>
-<p><code>Request Body</code>中的<code>POST data</code>就是JSON字符串：<code>{&quot;name&quot;:&quot;EtherealBoyJiang&quot;}</code>。</p>
-<p><code>raw</code>还包括<code>HTML、XML、CSS、JS</code>，上传方法与<code>JSON</code>一样，都是在消息体中输入响应格式的内容，然后再信息头管理器中指定对应的<code>Content-Type</code>。</p>
-<p><code>HTMl</code>的<code>Content-Type</code>是<code>text/html</code>;<code>XML</code>的<code>Content-Type</code>是<code>text/XML</code>;<code>CSS</code>的<code>Content-Type</code>是<code>text/CSS</code>;JS的<code>Content-Type</code>是<code>text/JS</code>。读者可以自己尝试一下。</p>
+<p>请求参数类型为<code>application/json</code>。请求参数就是JSON字符串：<code>{&quot;name&quot;:&quot;EtherealBoyJiang&quot;}</code>。</p>
+<p>还可以请求<code>HTML、XML、CSS、JS</code>等内容，上传方法与<code>JSON</code>类似。消息体中输入相应格式内容&amp;&amp;信息头管理器中添加对应的<code>Content-Type</code>。</p>
+<p><code>HTMl</code>的请求参数类型是<code>text/html</code>。</p>
+<p><code>XML</code>的请求参数类型是<code>text/XML</code>。</p>
+<p><code>CSS</code>的请求参数类型是<code>text/CSS</code>。</p>
+<p><code>JS</code>的请求参数类型是<code>text/JS</code>。</p>
+<p>读者可以尝试一下。</p>
 <br>
 <h2 id="part7请求参数-postbinary"><em>Part7.请求参数-POST&amp;binary</em>
-</h2><p><strong>binary</strong>对应着http请求中的<strong>Content-Type:application/octet-stream</strong>，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，<strong>一次只能上传二进制文件</strong>。</p>
-<p>在Jmeter中发送<strong>二进制文件</strong>，需要在消息体中输入<strong>二进制数据&amp;在消息头管理器指定对应的content-type为application/octet-stream</strong>。</p>
+</h2><p><code>binary</code>即<code>application/octet-stream</code>，二进制数据。通常用来上传二进制文件，没有键值。</p>
+<p>Jmeter中，消息体中输入<code>二进制数据</code>&amp;&amp;消息头管理器添加<code>content-type:application/octet-stream</code>。</p>
 <p><a class="link" href="https://uutool.cn/txt2bin/"  target="_blank" rel="noopener"
     >文本转二进制工具</a></p>
 <p><em><strong>示例接口</strong></em></p>
@@ -633,11 +640,12 @@
   >
 </div>
 </p>
-<p><code>Request Headers</code>中的<code>Content-Type: application/octet-stream</code>，表明该请求参数类型为<code>application/octet-stream</code>。</p>
-<p><code>Request Body</code>中的<code>POST data</code>就是二进制流：<code>110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111</code>。</p>
-<p>响应数据<code>我是Jiang</code>正是转换二进制前的文本内容。</p>
+<p><code>Content-Type: application/octet-stream</code>，表明该请求参数类型为<code>application/octet-stream</code>。</p>
+<p>请求参数就是二进制流：<code>110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111</code>。</p>
+<p>响应数据<code>我是Jiang</code>正是二进制文件处理后的文本内容。</p>
 <h2 id="part8http请求默认值">Part8.Http请求默认值
-</h2><p>翻跟斗广泛的</p>
+</h2><p>Jmeter中提供一种配置元件<code>HTTP请求默认值</code>，它提供默认能力。比如<code>HTTP默认值</code>中指定了<code>IP、端口</code>，其作用域下任何没有指定IP、端口的<code>HTTP取样器</code>都会使用<code>HTTP默认值</code>中<code>IP、端口</code>。其他参数的逻辑一致。</p>
+<p><code>HTTP请求默认值</code>中不能进行文件上传。</p>
 <hr>
 
 </section>
@@ -864,7 +872,7 @@
 			
 		
 		 &emsp;·💡 9篇文章&emsp; ·
-		⌨ 32.37k字
+		⌨ 32.10k字
 	</section>
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;
