@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可">
+<meta name="keywords" content="定时器,Jmeter,EtherealBoyJiang"><title>Jmeter-定时器</title>
+
+<link rel='canonical' href='http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.52f62e800333e0a4808ddfa83d167fd432b8d1ed15f8b65a4683be9218b5f549.css"><meta property='og:title' content="Jmeter-定时器">
+<meta property='og:description' content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可">
+<meta property='og:url' content='http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
+<meta property='og:site_name' content='EtherealBoyJiang'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/img/Jmeter/0.png' />
+<meta name="twitter:title" content="Jmeter-定时器">
+<meta name="twitter:description" content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/img/Jmeter/0.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+
+
+</head>
+<body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended">
+
+
+        <div id="article-toolbar" style="position: sticky;top: 5px;z-index: 1000;">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#part1固定定时器"><em>Part1.固定定时器</em></a></li>
+    <li><a href="#part2统一随机定时器"><em>Part2.统一随机定时器</em></a></li>
+    <li><a href="#part3同步定时器synchronizing-timer"><em>Part3.同步定时器(Synchronizing Timer)</em></a></li>
+    <li><a href="#part3准确的吞吐量定时器timer-throughputprecise"><em>Part3.准确的吞吐量定时器(Timer ThroughputPrecise)</em></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" alt="Featured image of post Jmeter-定时器" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/jmeter/" >
+                Jmeter
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/">Jmeter-定时器</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024/06/14</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="定时器timer"><em>定时器(Timer)</em>
+</h1><p>JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可以模拟用户在操作过程中的自然停顿，以及控制请求的发送频率。以下是JMeter中几种常用的定时器类型：</p>
+<ul>
+<li>
+<p><strong>固定定时器</strong></p>
+</li>
+<li>
+<p><strong>统一随机定时器</strong></p>
+</li>
+<li>
+<p><strong>高斯随机延迟定时器</strong></p>
+</li>
+<li>
+<p><strong>梯度延迟定时器</strong></p>
+</li>
+<li>
+<p><strong>通过率控制定时器</strong></p>
+</li>
+<li>
+<p><strong>预处理器定时器</strong></p>
+</li>
+<li>
+<p><strong>后处理器定时器</strong></p>
+</li>
+<li>
+<p><strong>模块间同步定时器</strong></p>
+</li>
+</ul>
+<br>
+<h2 id="part1固定定时器"><em>Part1.固定定时器</em>
+</h2><p>它的作用是添加固定的时间间隔。可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使其延迟执行。时间单位为毫秒。</p>
+<p><strong>测试计划下添加固定定时器，设置延迟为<code>3000</code>。它会造成测试计划下所有的请求以延迟<code>3秒</code>的时间执行。</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/1.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>上图中，在测试计划勾选了<code>独立运行每个线程组</code>，所以6个请求顺序执行。在每个请求执行前都会延迟<code>3秒</code>，所以所用总时间应是<code>18秒</code>。至于右上角显示<code>17秒</code>，大概率是Jmeter显示问题。</p>
+<p>如果不勾选<code>独立运行每个线程组</code>，所用总时间应是<code>9秒</code>。因为两个线程组是并发执行的。</p>
+<br>
+<p><strong>线程组下添加固定定时器，设置延迟为<code>3000</code>。它会造成该线程组下所有的请求以延迟<code>3秒</code>的时间执行。</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/2.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>3个请求顺序执行。在每个请求执行前都会延迟<code>3秒</code>，所以所用总时间<code>9秒</code>，显示<code>8秒</code>。</p>
+<br>
+<p><strong>取样器下添加固定定时器，设置延迟为<code>3000</code>。它会造成该取样器延迟<code>3秒</code>执行。</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/3.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><code>请求-1</code>与<code>请求-2</code>之间相差<code>3秒</code>。</p>
+<br>
+<h2 id="part2统一随机定时器"><em>Part2.统一随机定时器</em>
+</h2><p>它的作用是添加一个随机的时间间隔+一个固定的时间间隔。随机的时间间隔在用户<code>0-值</code>之间随机获取，固定的时间间隔可以看作最小时间，时间单位为毫秒。总的延时 = 固定延迟时间 + 随机生成的延时。</p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/4.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>延迟为<code>4秒</code>，是固定延迟<code>3秒</code>与随机延迟<code>1秒</code>的和。</p>
+<p>也可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使其延迟执行。</p>
+<br>
+<h2 id="part3同步定时器synchronizing-timer"><em>Part3.同步定时器(Synchronizing Timer)</em>
+</h2><p>它的作用是保证取样器在同一时刻向服务器发起负载测试。可以设置<code>模拟用户组的数量、超出时间</code>，对并发量及等待时间进行控制。</p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/5.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>请求量达到<code>模拟用户组数量</code>，立即同时发出请求。未达到目标数量，等待<code>超出时间</code>后，同时发出现有请求。</p>
+<p>可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使用时注意作用域。</p>
+<h2 id="part3准确的吞吐量定时器timer-throughputprecise"><em>Part3.准确的吞吐量定时器(Timer ThroughputPrecise)</em>
+</h2>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/jmeter/">Jmeter</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans"  target="_blank" rel="noopener"
+    >CC BY-NC-ND 4.0</a></span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-监听器</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-csv-data-set-config/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-CSV Data Set Config</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-http%E8%AF%B7%E6%B1%82/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-HTTP请求</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%BA%BF%E7%A8%8B%E7%BB%84%E4%B8%8B%E7%AF%87/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-线程组下篇</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%BA%BF%E7%A8%8B%E7%BB%84%E4%B8%8A%E7%AF%87/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-线程组上篇</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+	
+	<div id="cusdis_thread"
+		data-host="https://cusdis.com"
+		data-app-id="694dadd3-d3cf-44cd-91d0-616af4cfa5d6"
+		data-page-id="http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/"
+		data-page-title="Jmeter-定时器"
+		data-page-url="http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/">		
+	</div>
+	<script async src="https://www.jzy-blogs.cn/myjs/cusdis.es.js"></script>
+
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 EtherealBoyJiang
+    </section>
+    
+	<section class="running-time">
+	本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+		 &emsp;·💡 11篇文章&emsp; ·
+		⌨ 33.78k字
+	</section>
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.25.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+        </main>
+    </div>
+    <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var tocLinks = document.querySelectorAll("#TableOfContents a");
+    var sections = Array.from(tocLinks).map(link => document.querySelector(link.getAttribute("href")));
+
+    function onScroll() {
+        var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (var i = sections.length - 1; i >= 0; i--) {
+            if (scrollPosition >= sections[i].offsetTop - 10) {
+                tocLinks.forEach(link => link.parentElement.classList.remove("active"));
+                tocLinks[i].parentElement.classList.add("active");
+                break;
+            }
+        }
+    }
+
+    document.addEventListener("scroll", onScroll);
+    
+    onScroll();
+});
+</script>   
+
+
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js" async></script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button class="close" id="close">X</button>
+        </div>
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+</body>
+</html>

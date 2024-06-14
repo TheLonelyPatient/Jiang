@@ -10,7 +10,7 @@
 <meta property='og:description' content="HTTP请求 JMeter提供多种取样器，HTTP取样器（HTTP Sampler）无疑是最核心的一个。HTTP取样器是用来模拟客户端和服务器之">
 <meta property='og:url' content='https://www.jzy-blogs.cn/p/jmeter-http%E8%AF%B7%E6%B1%82/'>
 <meta property='og:site_name' content='EtherealBoyJiang'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-04-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-04-30T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-04-03T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
 <meta name="twitter:title" content="Jmeter-HTTP请求">
 <meta name="twitter:description" content="HTTP请求 JMeter提供多种取样器，HTTP取样器（HTTP Sampler）无疑是最核心的一个。HTTP取样器是用来模拟客户端和服务器之"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
@@ -99,6 +99,7 @@
     <li><a href="#part6请求参数-postapplicationjson"><em>Part6.请求参数-POST&amp;application/json</em></a></li>
     <li><a href="#part7请求参数-postbinary"><em>Part7.请求参数-POST&amp;binary</em></a></li>
     <li><a href="#part8http请求默认值">Part8.Http请求默认值</a></li>
+    <li><a href="#part9最后要说"><em>Part9.最后要说</em></a></li>
   </ol>
 </nav>
         </div>
@@ -644,8 +645,12 @@
 <p>请求参数就是二进制流：<code>110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111</code>。</p>
 <p>响应数据<code>我是Jiang</code>正是二进制文件处理后的文本内容。</p>
 <h2 id="part8http请求默认值">Part8.Http请求默认值
-</h2><p>Jmeter中提供一种配置元件<code>HTTP请求默认值</code>，它提供默认能力。比如<code>HTTP默认值</code>中指定了<code>IP、端口</code>，其作用域下任何没有指定IP、端口的<code>HTTP取样器</code>都会使用<code>HTTP默认值</code>中<code>IP、端口</code>。其他参数的逻辑一致。</p>
+</h2><p>Jmeter中提供配置元件<code>HTTP请求默认值</code>，它提供默认能力。比如<code>HTTP默认值</code>中指定了<code>IP、端口</code>，其作用域下任何没有指定IP、端口的<code>HTTP取样器</code>都会使用<code>HTTP默认值</code>中<code>IP、端口</code>。其他参数的逻辑一致。</p>
 <p><code>HTTP请求默认值</code>中不能进行文件上传。</p>
+<h2 id="part9最后要说"><em>Part9.最后要说</em>
+</h2><p>现在的应用基本都使用HTTP协议进行传输，希望本篇能帮助读者了解及使用Jmeter发送HTTP协议的请求。</p>
+<p>衷心希望读者进行评论及指正。</p>
+<p>那就在这里结束啦。</p>
 <hr>
 
 </section>
@@ -683,7 +688,7 @@
 
 
         <span>
-            最后更新于 2024/04/30
+            最后更新于 2024/06/14
         </span>
     </section></footer>
 
@@ -723,6 +728,25 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-监听器</h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="has-image">
@@ -800,25 +824,6 @@
 </article>
 
             
-                
-<article class="has-image">
-    <a href="/p/jmeter-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Jmeter-环境配置</h2>
-        </div>
-    </a>
-</article>
-
-            
         </div>
     </div>
 </aside>
@@ -871,8 +876,10 @@
 		
 			
 		
-		 &emsp;·💡 9篇文章&emsp; ·
-		⌨ 32.10k字
+			
+		
+		 &emsp;·💡 10篇文章&emsp; ·
+		⌨ 33.95k字
 	</section>
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;

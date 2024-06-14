@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="监听器 在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的">
+<meta name="keywords" content="监听器,Jmeter,EtherealBoyJiang"><title>Jmeter-监听器</title>
+
+<link rel='canonical' href='https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.52f62e800333e0a4808ddfa83d167fd432b8d1ed15f8b65a4683be9218b5f549.css"><meta property='og:title' content="Jmeter-监听器">
+<meta property='og:description' content="监听器 在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的">
+<meta property='og:url' content='https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/'>
+<meta property='og:site_name' content='EtherealBoyJiang'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
+<meta name="twitter:title" content="Jmeter-监听器">
+<meta name="twitter:description" content="监听器 在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+  
+
+
+
+</head>
+<body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended">
+
+
+        <div id="article-toolbar" style="position: sticky;top: 5px;z-index: 1000;">
+            <a href="/" class="back-home">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+                <span>返回</span>
+            </a>
+        </div>
+    
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#part1查看结果树"><em>Part1.查看结果树</em></a></li>
+    <li><a href="#part1汇总报告"><em>Part1.汇总报告</em></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+        <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" alt="Featured image of post Jmeter-监听器" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/jmeter/" >
+                Jmeter
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/">Jmeter-监听器</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024/06/14</time>
+            </div>
+        
+
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="监听器"><em>监听器</em>
+</h1><p>在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的响应时间、吞吐量、错误率等信息。JMeter监听器包括：</p>
+<ul>
+<li>
+<p><strong>查看结果树(View Results Tree)</strong></p>
+</li>
+<li>
+<p><strong>汇总报告(Summary Report)</strong></p>
+</li>
+<li>
+<p><strong>聚合报告(Aggregate Report)</strong></p>
+</li>
+<li>
+<p><strong>后端监听器(Backend Listener)</strong></p>
+</li>
+<li>
+<p><strong>JSR223 监听器(JSR223 Listener)</strong></p>
+</li>
+<li>
+<p><strong>保存响应到文件(Save Responses to a file)</strong></p>
+</li>
+<li>
+<p><strong>响应时间图(Response Time Graph)</strong></p>
+</li>
+<li>
+<p><strong>图形结果(Graph Results）</strong></p>
+</li>
+<li>
+<p><strong>断言结果(Assertion Results)</strong></p>
+</li>
+<li>
+<p><strong>比较断言可视化器(Comparison Assertion Visualizer)</strong></p>
+</li>
+<li>
+<p><strong>汇总图(Aggregate Graph)</strong></p>
+</li>
+<li>
+<p><strong>生成概要结果(Generate Summary Results)</strong></p>
+</li>
+<li>
+<p><strong>用表格查看结果(View Results in Table)</strong></p>
+</li>
+<li>
+<p><strong>简单数据写入器(Simple Data Writer)</strong></p>
+</li>
+<li>
+<p><strong>邮件观察仪(Mailer Visualizer)</strong></p>
+</li>
+<li>
+<p><strong>BeanShell 监听器(BeanShell Listener)</strong></p>
+</li>
+</ul>
+<br>
+<h2 id="part1查看结果树"><em>Part1.查看结果树</em>
+</h2><p>查看结果树显示请求的<code>取样器结果、请求信息、响应信息</code>。我们可以通过查看结果树中的内容，检查脚本是否有问题。比如IP、端口或者请求数据。还可以检查，响应数据是否正常。常用于接口测试及验证脚本。</p>
+<p>在进行性能测试时，它在过程中会消耗大量资源，尽量不要使用查看结果树。</p>
+<p><strong>结果列表</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Listener/1.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>绿色代表请求成功，红色代表请求失败(断言未通过也算失败)。</p>
+<br>
+<p><strong>取样器结果</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Listener/2.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<ul>
+<li>
+<p><strong>Thread Name</strong>: 执行请求的线程名称，这里是&quot;线程组 1-1&quot;，表示这是属于线程组1的第1个线程。</p>
+</li>
+<li>
+<p><strong>Sample Start</strong>: 请求开始的时间，格式为年-月-日 时:分:秒，这里是&quot;2024-06-14 16:17:12 CST&quot;。</p>
+</li>
+<li>
+<p><strong>Load time</strong>: 请求的加载时间，包括建立连接、发送请求、接收响应的总时间，这里是2毫秒。</p>
+</li>
+<li>
+<p><strong>Connect Time</strong>: 建立到服务器的连接所需的时间，这里是1毫秒。</p>
+</li>
+<li>
+<p><strong>Latency</strong>: 服务器延迟时间，即从发送请求到接收到第一个字节响应的时间，这里是2毫秒。注意这里的延迟时间与连接时间相等，可能是因为这个值已经包含了连接时间。</p>
+</li>
+<li>
+<p><strong>Size in bytes</strong>: 响应的总字节数，这里是192字节。</p>
+</li>
+<li>
+<p><strong>Sent bytes</strong>: 发送到服务器的请求的字节数，这里是265字节。</p>
+</li>
+<li>
+<p><strong>Headers size in bytes</strong>: 响应头的大小，这里是173字节。</p>
+</li>
+<li>
+<p><strong>Body size in bytes</strong>: 响应体的大小，这里是19字节。</p>
+</li>
+<li>
+<p><strong>Sample Count</strong>: 在这个监听器中捕获的样本数量，这里是1。</p>
+</li>
+<li>
+<p><strong>Error Count</strong>: 遇到的错误数量，这里是0，表示请求成功。</p>
+</li>
+<li>
+<p><strong>Data type</strong>: 响应数据的类型，这里标记为&quot;text&quot;，表示响应是文本类型。</p>
+</li>
+<li>
+<p><strong>Response code</strong>: HTTP响应状态码，200表示请求成功。</p>
+</li>
+<li>
+<p><strong>Response message</strong>: HTTP响应消息，&ldquo;OK&quot;表示请求被成功处理。</p>
+</li>
+<li>
+<p><strong>HTTPSampleResult fields</strong>:</p>
+<ul>
+<li><strong>ContentType</strong>: 响应的MIME类型和字符编码，这里是&quot;text/html; charset=utf-8&rdquo;，表示响应是HTML文本，使用UTF-8编码。</li>
+<li><strong>DataEncoding</strong>: 响应数据的编码，这里也是&quot;utf-8&quot;。</li>
+</ul>
+</li>
+</ul>
+<br>
+<p><strong>请求数据</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Listener/3.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<ul>
+<li>
+<p><strong>Connection</strong>:  表示客户端希与服务器的连接方式，这里是长连接。</p>
+</li>
+<li>
+<p><strong>Content-Length</strong>: 表示请求体的长度是15个字节。</p>
+</li>
+<li>
+<p><strong>Content-Type</strong>:  表示请求体的类型是application/x-www-form-urlencoded，并且使用UTF-8字符编码。</p>
+</li>
+<li>
+<p><strong>Host</strong>:  指定了请求的目标服务器地址和端口号，这里是本地主机的5000端口。</p>
+</li>
+<li>
+<p><strong>User-Agent</strong>:  表示发送请求的客户端软件和版本，这里是Apache HttpClient库，运行在Java环境中。</p>
+</li>
+<li>
+<p><strong>POST http://127.0.0.1:5000/api/QuickUse/</strong>: 表示请求方式、URL(包括协议、主机、端口和请求的路径)。</p>
+</li>
+<li>
+<p><strong>POST data</strong>:显示请求体中的数据。</p>
+</li>
+<li>
+<p><strong>[no cookies]</strong>: 这表示请求中没有携带任何Cookie。</p>
+</li>
+</ul>
+<br>
+<p><strong>响应数据</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Listener/4.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<ul>
+<li>
+<p><strong>HTTP/1.1 200 OK</strong>: 这表示使用的是HTTP协议版本1.1，并且请求成功，状态码200表示服务器成功处理了请求并返回了所请求的资源。</p>
+</li>
+<li>
+<p><strong>Server</strong>: 这里表明服务器使用的是Werkzeug服务器软件，版本为3.0.1，运行在Python环境下，Python的版本为3.12.3。</p>
+</li>
+<li>
+<p><strong>Date</strong>: 表示响应的日期和时间，使用GMT（格林尼治标准时间）。</p>
+</li>
+<li>
+<p><strong>Content-Type</strong>: 这里表示响应的内容类型是HTML，字符编码是UTF-8。</p>
+</li>
+<li>
+<p><strong>Content-Length</strong>:  表示响应体的字节长度是19字节。</p>
+</li>
+<li>
+<p><strong>Connection</strong>: close 表示服务器在发送完响应后将关闭连接。这与 Connection: keep-alive 相反，后者表示连接可以保持开启状态以用于发送多个请求。</p>
+</li>
+<li>
+<p><strong>请求方式非 GET</strong>: 这就是响应体数据。</p>
+</li>
+</ul>
+<br>
+<p><strong>所有数据写入一个文件</strong></p>
+<p>建议不要保存文件到C盘，除非以管理员身份运行Jmeter。另外还可以配置日志内容，就请读者自己探究吧。</p>
+<p><strong>查找&amp;&amp;结果显示方式</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Listener/5.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>可以通过查找快速定位请求，支持正则表达式。查找的结果用红色框包裹。</p>
+<p>我自己标记的绿色框，可以选择结果显示方式。还是请读者自己去探究吧。</p>
+<br>
+<h2 id="part1汇总报告"><em>Part1.汇总报告</em>
+</h2>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/jmeter/">Jmeter</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans"  target="_blank" rel="noopener"
+    >CC BY-NC-ND 4.0</a></span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.body, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-csv-data-set-config/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-CSV Data Set Config</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-http%E8%AF%B7%E6%B1%82/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-HTTP请求</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%BA%BF%E7%A8%8B%E7%BB%84%E4%B8%8B%E7%AF%87/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-线程组下篇</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E7%BA%BF%E7%A8%8B%E7%BB%84%E4%B8%8A%E7%AF%87/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-线程组上篇</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/jmeter-%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/Jmeter/0.png" loading="lazy" data-key="" data-hash="/img/Jmeter/0.png"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Jmeter-测试计划</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+	
+	<div id="cusdis_thread"
+		data-host="https://cusdis.com"
+		data-app-id="694dadd3-d3cf-44cd-91d0-616af4cfa5d6"
+		data-page-id="https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/"
+		data-page-title="Jmeter-监听器"
+		data-page-url="https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/">		
+	</div>
+	<script async src="https://www.jzy-blogs.cn/myjs/cusdis.es.js"></script>
+
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2024 EtherealBoyJiang
+    </section>
+    
+	<section class="running-time">
+	本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+		 &emsp;·💡 10篇文章&emsp; ·
+		⌨ 33.95k字
+	</section>
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.25.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+        </main>
+    </div>
+    <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var tocLinks = document.querySelectorAll("#TableOfContents a");
+    var sections = Array.from(tocLinks).map(link => document.querySelector(link.getAttribute("href")));
+
+    function onScroll() {
+        var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (var i = sections.length - 1; i >= 0; i--) {
+            if (scrollPosition >= sections[i].offsetTop - 10) {
+                tocLinks.forEach(link => link.parentElement.classList.remove("active"));
+                tocLinks[i].parentElement.classList.add("active");
+                break;
+            }
+        }
+    }
+
+    document.addEventListener("scroll", onScroll);
+    
+    onScroll();
+});
+</script>   
+
+
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js" async></script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button class="close" id="close">X</button>
+        </div>
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+</body>
+</html>
