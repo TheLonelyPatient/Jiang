@@ -87,17 +87,17 @@
   <ol>
     <li><a href="#part1web服务器http请求"><em>Part1.web服务器&amp;&amp;HTTP请求</em></a>
       <ol>
-        <li><a href="#1自动重定向和跟随重定向"><em>1.自动重定向和跟随重定向</em></a></li>
-        <li><a href="#2使用keepalive"><em>2.使用KeepAlive</em></a></li>
-        <li><a href="#3与浏览器兼容的头"><em>3.与浏览器兼容的头</em></a></li>
+        <li><a href="#自动重定向和跟随重定向"><em>自动重定向和跟随重定向</em></a></li>
+        <li><a href="#使用keepalive"><em>使用KeepAlive</em></a></li>
+        <li><a href="#与浏览器兼容的头"><em>与浏览器兼容的头</em></a></li>
       </ol>
     </li>
     <li><a href="#part2请求参数-get"><em>Part2.请求参数-GET</em></a></li>
-    <li><a href="#请求参数-postapplicationx-www-from-urlencoded">请求参数-POST&amp;application/x-www-from-urlencoded</a></li>
-    <li><a href="#请求参数-postmultipartform-data">请求参数-POST&amp;multipart/form-data</a></li>
-    <li><a href="#请求参数-posttextplain">请求参数-POST&amp;text/plain</a></li>
-    <li><a href="#请求参数-postapplicationjson">请求参数-POST&amp;application/json</a></li>
-    <li><a href="#请求参数-postbinary">请求参数-POST&amp;binary</a></li>
+    <li><a href="#part3请求参数-postapplicationx-www-from-urlencoded"><em>Part3.请求参数-POST&amp;application/x-www-from-urlencoded</em></a></li>
+    <li><a href="#part4请求参数-postmultipartform-data"><em>Part4.请求参数-POST&amp;multipart/form-data</em></a></li>
+    <li><a href="#part5请求参数-posttextplain"><em>Part5.请求参数-POST&amp;text/plain</em></a></li>
+    <li><a href="#part6请求参数-postapplicationjson"><em>Part6.请求参数-POST&amp;application/json</em></a></li>
+    <li><a href="#part7请求参数-postbinary"><em>Part7.请求参数-POST&amp;binary</em></a></li>
     <li><a href="#part8http请求默认值">Part8.Http请求默认值</a></li>
   </ol>
 </nav>
@@ -217,7 +217,7 @@
 <h2 id="part1web服务器http请求"><em>Part1.web服务器&amp;&amp;HTTP请求</em>
 </h2><p><code>web服务器</code>没什么好讲的，只保证<code>IP/域名、端口、路径、请求方式、协议</code>正确就好。内容编码最好输入UTF-8(兼容大部分语言)，防止接口解析时乱码。</p>
 <br>
-<h3 id="1自动重定向和跟随重定向"><em>1.自动重定向和跟随重定向</em>
+<h3 id="自动重定向和跟随重定向"><em>自动重定向和跟随重定向</em>
 </h3><p><code>自动重定向</code>只针对Get和Head请求，自动重定向转向到最终目标页面，但是Jmeter不记录重定向的中间页面过程，只记录最终页面返回结果。在结果树中，只能看到最终页面的服务器返回。</p>
 <p><code>跟随重定向</code>是http request 取样器的默认选项，会自动跳转到目标地址。Jmeter会记录重定向过程中的所有请求的响应结果。在结果树中，可以看到所有请求的服务器返回。</p>
 <p>两者只能选中一个。这次我们访问知乎来进行测试。</p>
@@ -263,14 +263,14 @@
 </p>
 <p>结果树中只有一个HTTP请求，请求地址为<code>//www.zhihu.com/signin?next=%2F</code>-即最终的页面数据。查看结果树中没有记录重定向过程。</p>
 <br>
-<h3 id="2使用keepalive"><em>2.使用KeepAlive</em>
+<h3 id="使用keepalive"><em>使用KeepAlive</em>
 </h3><p>选中该选项，JMeter和目标服务器之间使用Keep-Alive方式进行HTTP通信，默认选中。keep-alive属性，用于建立长连接，可以避免连接频繁建立和释放的开销。有兴趣的可以搜索<code>HTTP的Keep-Alive模式</code>，详细了解。</p>
 <br>
-<h3 id="3与浏览器兼容的头"><em>3.与浏览器兼容的头</em>
+<h3 id="与浏览器兼容的头"><em>与浏览器兼容的头</em>
 </h3><p>没有发现有什么作用。希望有知道的读者可以通过评论指正我。</p>
 <br>
 <h2 id="part2请求参数-get"><em>Part2.请求参数-GET</em>
-</h2><p>请求方式为GET时，请求参数一般都直接跟在url后面，不需要参数类型。当然也可以请求参数不跟在url后面，不过比较少见，现在不做演示。</p>
+</h2><p>请求方式为GET时，请求参数一般都直接跟在url后面，不需要参数类型。当然也可以请求参数不跟在url后面，不过比较少见。</p>
 <p><em><strong>示例接口</strong></em></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@HTTPRequest.route</span><span class="p">(</span><span class="s1">&#39;/api/HTTPRequest2/&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">])</span>  
 </span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">parameters</span><span class="p">():</span>  
@@ -331,7 +331,7 @@
 <p>仔细看图会发现，与使用参数方法的结果是一样的。</p>
 <p><code>请求</code>中<code>GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜 </code>一样。</p>
 <br>
-<h2 id="请求参数-postapplicationx-www-from-urlencoded">请求参数-POST&amp;application/x-www-from-urlencoded
+<h2 id="part3请求参数-postapplicationx-www-from-urlencoded"><em>Part3.请求参数-POST&amp;application/x-www-from-urlencoded</em>
 </h2><p>请求参数为<code>POST</code>时，常用的的请求参数类型(Content-Type)有<code>application/x-www-from-urlencoded</code>、<code>multipart/form-data</code>、<code>raw</code>、<code>binary</code>。</p>
 <p><code>application/x-www-from-urlencoded</code>会将表单内的数据转换为键值对，比如<code>name=python&amp;age = 22</code>，这种方式只能以键值对形式发送参数，一般如果不指定<code>content-type</code>，默认便是<code>application/x-www-form-urlencoded</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
@@ -372,7 +372,7 @@
 <p><code>Request Body</code>中的<code>POST data</code>也是键值对形式：
 <code>aaaa=EtherealBoyJIang&amp;bbb=EtherealBoyJIang&amp;ccc=EtherealBoyJIang</code></p>
 <br>
-<h2 id="请求参数-postmultipartform-data">请求参数-POST&amp;multipart/form-data
+<h2 id="part4请求参数-postmultipartform-data"><em>Part4.请求参数-POST&amp;multipart/form-data</em>
 </h2><p><code>multipart/form-data</code>会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。就像这样：</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">POST</span> <span class="o">/</span><span class="n">profile</span> <span class="n">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
 </span></span><span class="line"><span class="cl"><span class="n">HOST</span><span class="p">:</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
@@ -482,7 +482,7 @@
 <p>示例使用的<code>参数</code>中添加请求参数做的演示。当然使用<code>消息体</code>添加请求参数也是一样，并且你可以在<code>消息体</code>中添加<code>Text、JavaScript、JSON、HTML、XML</code>等格式&amp;上传文件。读者可以自己尝试一下。</p>
 <p>使用<code>POST</code>方式进行请求&amp;请求参数包含一般参数&amp;不包含文件时，会自动指定参数类型为<code>application/x-www-form-urlencoded</code>。有没有什么方法指定参数类型为<code>content-type</code>为<code>multipart/form-data</code>呢？你可以勾选<code>对POST使用multipart/ form-data</code>。读者可以自己尝试一下。</p>
 <br>
-<h2 id="请求参数-posttextplain">请求参数-POST&amp;text/plain
+<h2 id="part5请求参数-posttextplain"><em>Part5.请求参数-POST&amp;text/plain</em>
 </h2><p><code>raw</code>是指可以上传任意格式的文本，如text、json、xml、html等。这里演示一下如何上传文本内容。</p>
 <p><code>text/plain</code>用于发送纯文本内容，空格转换为 &ldquo;+&rdquo; 加号，不对特殊字符进行编码，一般用于email之类的；</p>
 <p>在Jmeter中发送<code>纯文本内容，需要在消息体中输入相应内容&amp;不在消息头管理器</code>指定对应的<code>content-type</code>。会自动匹配<code>content-type</code>为<code>text/plain</code></p>
@@ -522,7 +522,7 @@
 <p><code>Request Headers</code>中的<code>Content-Type: text/plain; charset=UTF-8</code>，表明该请求参数类型为<code>text/plain</code>。</p>
 <p><code>Request Body</code>中的<code>POST data</code>就是纯文本：<code>随意写就行</code>。</p>
 <br>
-<h2 id="请求参数-postapplicationjson">请求参数-POST&amp;application/json
+<h2 id="part6请求参数-postapplicationjson"><em>Part6.请求参数-POST&amp;application/json</em>
 </h2><p><code>application/json</code>用于发送JSON字符串，也是比较常用的一种方式。</p>
 <p>在Jmeter中发送JSON字符串，需要在消息体中输入JSON格式内容&amp;在消息头管理器指定对应的<code>content-type</code>为<code>content-type</code>为<code>application/json</code>。</p>
 <p><em><strong>示例接口</strong></em></p>
@@ -571,7 +571,7 @@
 <p><code>raw</code>还包括<code>HTML、XML、CSS、JS</code>，上传方法与<code>JSON</code>一样，都是在消息体中输入响应格式的内容，然后再信息头管理器中指定对应的<code>Content-Type</code>。</p>
 <p><code>HTMl</code>的<code>Content-Type</code>是<code>text/html</code>;<code>XML</code>的<code>Content-Type</code>是<code>text/XML</code>;<code>CSS</code>的<code>Content-Type</code>是<code>text/CSS</code>;JS的<code>Content-Type</code>是<code>text/JS</code>。读者可以自己尝试一下。</p>
 <br>
-<h2 id="请求参数-postbinary">请求参数-POST&amp;binary
+<h2 id="part7请求参数-postbinary"><em>Part7.请求参数-POST&amp;binary</em>
 </h2><p><strong>binary</strong>对应着http请求中的<strong>Content-Type:application/octet-stream</strong>，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，<strong>一次只能上传二进制文件</strong>。</p>
 <p>在Jmeter中发送<strong>二进制文件</strong>，需要在消息体中输入<strong>二进制数据&amp;在消息头管理器指定对应的content-type为application/octet-stream</strong>。</p>
 <p><a class="link" href="https://uutool.cn/txt2bin/"  target="_blank" rel="noopener"
@@ -637,7 +637,8 @@
 <p><code>Request Body</code>中的<code>POST data</code>就是二进制流：<code>110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111</code>。</p>
 <p>响应数据<code>我是Jiang</code>正是转换二进制前的文本内容。</p>
 <h2 id="part8http请求默认值">Part8.Http请求默认值
-</h2><hr>
+</h2><p>翻跟斗广泛的</p>
+<hr>
 
 </section>
 
@@ -864,7 +865,7 @@
 			
 		
 		 &emsp;·💡 9篇文章&emsp; ·
-		⌨ 32.34k字
+		⌨ 32.37k字
 	</section>
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;

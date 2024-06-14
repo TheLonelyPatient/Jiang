@@ -364,7 +364,7 @@
 &lt;h2 id=&#34;part1web服务器http请求&#34;&gt;&lt;em&gt;Part1.web服务器&amp;amp;&amp;amp;HTTP请求&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;web服务器&lt;/code&gt;没什么好讲的，只保证&lt;code&gt;IP/域名、端口、路径、请求方式、协议&lt;/code&gt;正确就好。内容编码最好输入UTF-8(兼容大部分语言)，防止接口解析时乱码。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;1自动重定向和跟随重定向&#34;&gt;&lt;em&gt;1.自动重定向和跟随重定向&lt;/em&gt;
+&lt;h3 id=&#34;自动重定向和跟随重定向&#34;&gt;&lt;em&gt;自动重定向和跟随重定向&lt;/em&gt;
 &lt;/h3&gt;&lt;p&gt;&lt;code&gt;自动重定向&lt;/code&gt;只针对Get和Head请求，自动重定向转向到最终目标页面，但是Jmeter不记录重定向的中间页面过程，只记录最终页面返回结果。在结果树中，只能看到最终页面的服务器返回。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;跟随重定向&lt;/code&gt;是http request 取样器的默认选项，会自动跳转到目标地址。Jmeter会记录重定向过程中的所有请求的响应结果。在结果树中，可以看到所有请求的服务器返回。&lt;/p&gt;
 &lt;p&gt;两者只能选中一个。这次我们访问知乎来进行测试。&lt;/p&gt;
@@ -410,14 +410,14 @@
 &lt;/p&gt;
 &lt;p&gt;结果树中只有一个HTTP请求，请求地址为&lt;code&gt;//www.zhihu.com/signin?next=%2F&lt;/code&gt;-即最终的页面数据。查看结果树中没有记录重定向过程。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;2使用keepalive&#34;&gt;&lt;em&gt;2.使用KeepAlive&lt;/em&gt;
+&lt;h3 id=&#34;使用keepalive&#34;&gt;&lt;em&gt;使用KeepAlive&lt;/em&gt;
 &lt;/h3&gt;&lt;p&gt;选中该选项，JMeter和目标服务器之间使用Keep-Alive方式进行HTTP通信，默认选中。keep-alive属性，用于建立长连接，可以避免连接频繁建立和释放的开销。有兴趣的可以搜索&lt;code&gt;HTTP的Keep-Alive模式&lt;/code&gt;，详细了解。&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;3与浏览器兼容的头&#34;&gt;&lt;em&gt;3.与浏览器兼容的头&lt;/em&gt;
+&lt;h3 id=&#34;与浏览器兼容的头&#34;&gt;&lt;em&gt;与浏览器兼容的头&lt;/em&gt;
 &lt;/h3&gt;&lt;p&gt;没有发现有什么作用。希望有知道的读者可以通过评论指正我。&lt;/p&gt;
 &lt;br&gt;
 &lt;h2 id=&#34;part2请求参数-get&#34;&gt;&lt;em&gt;Part2.请求参数-GET&lt;/em&gt;
-&lt;/h2&gt;&lt;p&gt;请求方式为GET时，请求参数一般都直接跟在url后面，不需要参数类型。当然也可以请求参数不跟在url后面，不过比较少见，现在不做演示。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;请求方式为GET时，请求参数一般都直接跟在url后面，不需要参数类型。当然也可以请求参数不跟在url后面，不过比较少见。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;示例接口&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@HTTPRequest.route&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/api/HTTPRequest2/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;methods&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;POST&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;  
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;parameters&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;  
@@ -478,7 +478,7 @@
 &lt;p&gt;仔细看图会发现，与使用参数方法的结果是一样的。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;请求&lt;/code&gt;中&lt;code&gt;GET http://127.0.0.1:5000/api/HTTPRequest2/?name=姜 &lt;/code&gt;一样。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-postapplicationx-www-from-urlencoded&#34;&gt;请求参数-POST&amp;amp;application/x-www-from-urlencoded
+&lt;h2 id=&#34;part3请求参数-postapplicationx-www-from-urlencoded&#34;&gt;&lt;em&gt;Part3.请求参数-POST&amp;amp;application/x-www-from-urlencoded&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;请求参数为&lt;code&gt;POST&lt;/code&gt;时，常用的的请求参数类型(Content-Type)有&lt;code&gt;application/x-www-from-urlencoded&lt;/code&gt;、&lt;code&gt;multipart/form-data&lt;/code&gt;、&lt;code&gt;raw&lt;/code&gt;、&lt;code&gt;binary&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;application/x-www-from-urlencoded&lt;/code&gt;会将表单内的数据转换为键值对，比如&lt;code&gt;name=python&amp;amp;age = 22&lt;/code&gt;，这种方式只能以键值对形式发送参数，一般如果不指定&lt;code&gt;content-type&lt;/code&gt;，默认便是&lt;code&gt;application/x-www-form-urlencoded&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;示例接口&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
@@ -519,7 +519,7 @@
 &lt;p&gt;&lt;code&gt;Request Body&lt;/code&gt;中的&lt;code&gt;POST data&lt;/code&gt;也是键值对形式：
 &lt;code&gt;aaaa=EtherealBoyJIang&amp;amp;bbb=EtherealBoyJIang&amp;amp;ccc=EtherealBoyJIang&lt;/code&gt;&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-postmultipartform-data&#34;&gt;请求参数-POST&amp;amp;multipart/form-data
+&lt;h2 id=&#34;part4请求参数-postmultipartform-data&#34;&gt;&lt;em&gt;Part4.请求参数-POST&amp;amp;multipart/form-data&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;multipart/form-data&lt;/code&gt;会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。就像这样：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;POST&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;profile&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HTTP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;mf&#34;&gt;1.1&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;HOST&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;example&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;com&lt;/span&gt;
@@ -629,7 +629,7 @@
 &lt;p&gt;示例使用的&lt;code&gt;参数&lt;/code&gt;中添加请求参数做的演示。当然使用&lt;code&gt;消息体&lt;/code&gt;添加请求参数也是一样，并且你可以在&lt;code&gt;消息体&lt;/code&gt;中添加&lt;code&gt;Text、JavaScript、JSON、HTML、XML&lt;/code&gt;等格式&amp;amp;上传文件。读者可以自己尝试一下。&lt;/p&gt;
 &lt;p&gt;使用&lt;code&gt;POST&lt;/code&gt;方式进行请求&amp;amp;请求参数包含一般参数&amp;amp;不包含文件时，会自动指定参数类型为&lt;code&gt;application/x-www-form-urlencoded&lt;/code&gt;。有没有什么方法指定参数类型为&lt;code&gt;content-type&lt;/code&gt;为&lt;code&gt;multipart/form-data&lt;/code&gt;呢？你可以勾选&lt;code&gt;对POST使用multipart/ form-data&lt;/code&gt;。读者可以自己尝试一下。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-posttextplain&#34;&gt;请求参数-POST&amp;amp;text/plain
+&lt;h2 id=&#34;part5请求参数-posttextplain&#34;&gt;&lt;em&gt;Part5.请求参数-POST&amp;amp;text/plain&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;raw&lt;/code&gt;是指可以上传任意格式的文本，如text、json、xml、html等。这里演示一下如何上传文本内容。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;text/plain&lt;/code&gt;用于发送纯文本内容，空格转换为 &amp;ldquo;+&amp;rdquo; 加号，不对特殊字符进行编码，一般用于email之类的；&lt;/p&gt;
 &lt;p&gt;在Jmeter中发送&lt;code&gt;纯文本内容，需要在消息体中输入相应内容&amp;amp;不在消息头管理器&lt;/code&gt;指定对应的&lt;code&gt;content-type&lt;/code&gt;。会自动匹配&lt;code&gt;content-type&lt;/code&gt;为&lt;code&gt;text/plain&lt;/code&gt;&lt;/p&gt;
@@ -669,7 +669,7 @@
 &lt;p&gt;&lt;code&gt;Request Headers&lt;/code&gt;中的&lt;code&gt;Content-Type: text/plain; charset=UTF-8&lt;/code&gt;，表明该请求参数类型为&lt;code&gt;text/plain&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Request Body&lt;/code&gt;中的&lt;code&gt;POST data&lt;/code&gt;就是纯文本：&lt;code&gt;随意写就行&lt;/code&gt;。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-postapplicationjson&#34;&gt;请求参数-POST&amp;amp;application/json
+&lt;h2 id=&#34;part6请求参数-postapplicationjson&#34;&gt;&lt;em&gt;Part6.请求参数-POST&amp;amp;application/json&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;application/json&lt;/code&gt;用于发送JSON字符串，也是比较常用的一种方式。&lt;/p&gt;
 &lt;p&gt;在Jmeter中发送JSON字符串，需要在消息体中输入JSON格式内容&amp;amp;在消息头管理器指定对应的&lt;code&gt;content-type&lt;/code&gt;为&lt;code&gt;content-type&lt;/code&gt;为&lt;code&gt;application/json&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;示例接口&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
@@ -718,7 +718,7 @@
 &lt;p&gt;&lt;code&gt;raw&lt;/code&gt;还包括&lt;code&gt;HTML、XML、CSS、JS&lt;/code&gt;，上传方法与&lt;code&gt;JSON&lt;/code&gt;一样，都是在消息体中输入响应格式的内容，然后再信息头管理器中指定对应的&lt;code&gt;Content-Type&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;HTMl&lt;/code&gt;的&lt;code&gt;Content-Type&lt;/code&gt;是&lt;code&gt;text/html&lt;/code&gt;;&lt;code&gt;XML&lt;/code&gt;的&lt;code&gt;Content-Type&lt;/code&gt;是&lt;code&gt;text/XML&lt;/code&gt;;&lt;code&gt;CSS&lt;/code&gt;的&lt;code&gt;Content-Type&lt;/code&gt;是&lt;code&gt;text/CSS&lt;/code&gt;;JS的&lt;code&gt;Content-Type&lt;/code&gt;是&lt;code&gt;text/JS&lt;/code&gt;。读者可以自己尝试一下。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;请求参数-postbinary&#34;&gt;请求参数-POST&amp;amp;binary
+&lt;h2 id=&#34;part7请求参数-postbinary&#34;&gt;&lt;em&gt;Part7.请求参数-POST&amp;amp;binary&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;strong&gt;binary&lt;/strong&gt;对应着http请求中的&lt;strong&gt;Content-Type:application/octet-stream&lt;/strong&gt;，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，&lt;strong&gt;一次只能上传二进制文件&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;在Jmeter中发送&lt;strong&gt;二进制文件&lt;/strong&gt;，需要在消息体中输入&lt;strong&gt;二进制数据&amp;amp;在消息头管理器指定对应的content-type为application/octet-stream&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://uutool.cn/txt2bin/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -784,7 +784,8 @@
 &lt;p&gt;&lt;code&gt;Request Body&lt;/code&gt;中的&lt;code&gt;POST data&lt;/code&gt;就是二进制流：&lt;code&gt;110001000010001 110011000101111 1001010 1101001 1100001 1101110 1100111&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;响应数据&lt;code&gt;我是Jiang&lt;/code&gt;正是转换二进制前的文本内容。&lt;/p&gt;
 &lt;h2 id=&#34;part8http请求默认值&#34;&gt;Part8.Http请求默认值
-&lt;/h2&gt;&lt;hr&gt;
+&lt;/h2&gt;&lt;p&gt;翻跟斗广泛的&lt;/p&gt;
+&lt;hr&gt;
 </description>
         </item>
         <item>
