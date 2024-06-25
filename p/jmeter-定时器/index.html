@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可">
-<meta name="keywords" content="定时器,Jmeter,EtherealBoyJiang"><title>Jmeter-定时器</title>
+<meta name="keywords" content="定时器,Jmeter,姜振园"><title>Jmeter-定时器</title>
 
-<link rel='canonical' href='http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
+<link rel='canonical' href='https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
 
-<link rel="stylesheet" href="/scss/style.min.52f62e800333e0a4808ddfa83d167fd432b8d1ed15f8b65a4683be9218b5f549.css"><meta property='og:title' content="Jmeter-定时器">
+<link rel="stylesheet" href="/scss/style.min.99cbd383f1e303a4e39c2ca0a743e6b037440ac2b6ad95abb26b07aa0802105d.css"><meta property='og:title' content="Jmeter-定时器">
 <meta property='og:description' content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可">
-<meta property='og:url' content='http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
-<meta property='og:site_name' content='EtherealBoyJiang'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-14T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/img/Jmeter/0.png' />
+<meta property='og:url' content='https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/'>
+<meta property='og:site_name' content='姜振园的博客'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Jmeter' /><meta property='article:published_time' content='2024-06-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-06-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
 <meta name="twitter:title" content="Jmeter-定时器">
 <meta name="twitter:description" content="定时器(Timer) JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='http://localhost:1313/img/Jmeter/0.png' />
+    <meta name="twitter:image" content='https://www.jzy-blogs.cn/img/Jmeter/0.png' />
     <link rel="shortcut icon" href="/favicon.ico" />
 
   
@@ -87,8 +87,8 @@
   <ol>
     <li><a href="#part1固定定时器"><em>Part1.固定定时器</em></a></li>
     <li><a href="#part2统一随机定时器"><em>Part2.统一随机定时器</em></a></li>
-    <li><a href="#part3同步定时器synchronizing-timer"><em>Part3.同步定时器(Synchronizing Timer)</em></a></li>
-    <li><a href="#part3准确的吞吐量定时器timer-throughputprecise"><em>Part3.准确的吞吐量定时器(Timer ThroughputPrecise)</em></a></li>
+    <li><a href="#part3同步定时器"><em>Part3.同步定时器</em></a></li>
+    <li><a href="#part3常数吞吐量定时器"><em>Part3.常数吞吐量定时器</em></a></li>
   </ol>
 </nav>
         </div>
@@ -146,7 +146,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2024/06/14</time>
+                <time class="article-time--published">2024/06/15</time>
             </div>
         
 
@@ -163,36 +163,43 @@
     
     
     <h1 id="定时器timer"><em>定时器(Timer)</em>
-</h1><p>JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可以模拟用户在操作过程中的自然停顿，以及控制请求的发送频率。以下是JMeter中几种常用的定时器类型：</p>
+</h1><blockquote>
+    <p><p>JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可以模拟用户在操作过程中的自然停顿，以及控制请求的发送频率。以下是JMeter中几种常用的定时器类型：</p>
 <ul>
 <li>
-<p><strong>固定定时器</strong></p>
+<p><strong>固定定时器(Constant Timer)</strong></p>
 </li>
 <li>
-<p><strong>统一随机定时器</strong></p>
+<p><strong>统一随机定时器(Uniform Random Timer)</strong></p>
 </li>
 <li>
-<p><strong>高斯随机延迟定时器</strong></p>
+<p><strong>常数吞吐量定时器(Constant Throughput Timer)</strong></p>
 </li>
 <li>
-<p><strong>梯度延迟定时器</strong></p>
+<p><strong>准确的吞吐量定时器(Precise Throughput Timer)</strong></p>
+<p>暂不讲</p>
 </li>
 <li>
-<p><strong>通过率控制定时器</strong></p>
+<p><strong>JSR223定时器(JSR223 Timer)</strong></p>
 </li>
 <li>
-<p><strong>预处理器定时器</strong></p>
+<p><strong>同步定时器(Synchronizing Timer)</strong></p>
 </li>
 <li>
-<p><strong>后处理器定时器</strong></p>
+<p><strong>泊松随机定时器(Poisson Random Timer)</strong></p>
 </li>
 <li>
-<p><strong>模块间同步定时器</strong></p>
+<p><strong>高斯随机定时器(Gaussian Random Timer)</strong></p>
+</li>
+<li>
+<p><strong>BeanShall定时器(BeanShell Timer)</strong></p>
 </li>
 </ul>
+</p></blockquote>
 <br>
 <h2 id="part1固定定时器"><em>Part1.固定定时器</em>
-</h2><p>它的作用是添加固定的时间间隔。可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使其延迟执行。时间单位为毫秒。</p>
+</h2><blockquote>
+    <p>它的作用是添加固定的时间间隔。可添加在<code>测试计划、线程组、取样器</code>下，使其延迟执行。时间单位为毫秒。</p></blockquote>
 <p><strong>测试计划下添加固定定时器，设置延迟为<code>3000</code>。它会造成测试计划下所有的请求以延迟<code>3秒</code>的时间执行。</strong></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/Timer/1.png"
@@ -205,9 +212,7 @@
   >
 </div>
 </p>
-<p>上图中，在测试计划勾选了<code>独立运行每个线程组</code>，所以6个请求顺序执行。在每个请求执行前都会延迟<code>3秒</code>，所以所用总时间应是<code>18秒</code>。至于右上角显示<code>17秒</code>，大概率是Jmeter显示问题。</p>
-<p>如果不勾选<code>独立运行每个线程组</code>，所用总时间应是<code>9秒</code>。因为两个线程组是并发执行的。</p>
-<br>
+<p>图中，测试计划中勾选了<code>独立运行每个线程组</code>，所以6个请求顺序执行。固定定时器的作用域是整个测试计划。可以看出每个请求执行前都会延迟<code>3秒</code>。</p>
 <p><strong>线程组下添加固定定时器，设置延迟为<code>3000</code>。它会造成该线程组下所有的请求以延迟<code>3秒</code>的时间执行。</strong></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/Timer/2.png"
@@ -220,8 +225,7 @@
   >
 </div>
 </p>
-<p>3个请求顺序执行。在每个请求执行前都会延迟<code>3秒</code>，所以所用总时间<code>9秒</code>，显示<code>8秒</code>。</p>
-<br>
+<p>3个请求顺序执行。固定定时器的作用域是整个线程组。可以看出每个请求执行前都会延迟<code>3秒</code>。</p>
 <p><strong>取样器下添加固定定时器，设置延迟为<code>3000</code>。它会造成该取样器延迟<code>3秒</code>执行。</strong></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/Timer/3.png"
@@ -234,10 +238,12 @@
   >
 </div>
 </p>
-<p><code>请求-1</code>与<code>请求-2</code>之间相差<code>3秒</code>。</p>
+<p>3个请求顺序执行。固定定时器的作用域是<code>HTTP请求-1-3</code>。可以看出只有<code>HTTP请求-1-3</code>执行前延迟<code>3秒</code>。</p>
 <br>
 <h2 id="part2统一随机定时器"><em>Part2.统一随机定时器</em>
-</h2><p>它的作用是添加一个随机的时间间隔+一个固定的时间间隔。随机的时间间隔在用户<code>0-值</code>之间随机获取，固定的时间间隔可以看作最小时间，时间单位为毫秒。总的延时 = 固定延迟时间 + 随机生成的延时。</p>
+</h2><blockquote>
+    <p>它的作用是添加一个<code>随机的时间间隔+一个固定的时间间隔</code>。随机的时间间隔在用户<code>0-值</code>之间随机获取，固定的时间间隔可以看作最小时间，时间单位为毫秒。<code>总的延时 = 固定延迟时间 + 随机生成的延时</code>。</p></blockquote>
+<p><strong>统一随机定时器中配置<code>Random Delay Maximum(随机延迟):3000</code>&amp;&amp;<code>Constant Delay Offset(固定延迟):3000</code></strong></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/Timer/4.png"
        
@@ -249,11 +255,14 @@
   >
 </div>
 </p>
-<p>延迟为<code>4秒</code>，是固定延迟<code>3秒</code>与随机延迟<code>1秒</code>的和。</p>
-<p>也可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使其延迟执行。</p>
+<p>3个请求顺序执行，执行了2次。<code>HTTP请求-1-2</code>两次执行前延迟不一致，第一次是<code>3秒</code>，第二次是<code>4秒</code>。</p>
 <br>
-<h2 id="part3同步定时器synchronizing-timer"><em>Part3.同步定时器(Synchronizing Timer)</em>
-</h2><p>它的作用是保证取样器在同一时刻向服务器发起负载测试。可以设置<code>模拟用户组的数量、超出时间</code>，对并发量及等待时间进行控制。</p>
+<h2 id="part3同步定时器"><em>Part3.同步定时器</em>
+</h2><blockquote>
+    <p><p>它的作用是保证取样器在同一时刻向服务器发起负载测试。可以设置<code>模拟用户组的数量、超出时间</code>，对并发量及等待时间进行控制。</p>
+<p>同步定时器一般在线程达到<code>模拟用户组的数量</code>时，同步释放。如果线程未达到<code>模拟用户组的数量</code>，它就会一致等待，此时就可以配置<code>超出时间</code>，等待一段时间后，将线程同步释放。</p>
+</p></blockquote>
+<p><strong>线程组的线程数配置为<code>100</code>,未配置同步定时器</strong></p>
 <p><div class="bigImg">
   <img src="/img/Jmeter/Timer/5.png"
        
@@ -265,10 +274,222 @@
   >
 </div>
 </p>
-<p>请求量达到<code>模拟用户组数量</code>，立即同时发出请求。未达到目标数量，等待<code>超出时间</code>后，同时发出现有请求。</p>
-<p>可添加在<code>测试计划</code>、<code>线程组</code>、<code>取样器</code>下，使用时注意作用域。</p>
-<h2 id="part3准确的吞吐量定时器timer-throughputprecise"><em>Part3.准确的吞吐量定时器(Timer ThroughputPrecise)</em>
-</h2>
+<p>可以看出第1个线程请求与第100个线程请求的执行时间相差<code>1秒</code>左右。</p>
+<p><strong>线程组的线程数配置为<code>100</code>,配置同步定时器</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/6.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>可以看出第1个线程请求与第100个线程请求的执行时间只相差<code>几毫秒</code>左右。</p>
+<p><strong>超出时间。配置线程组的线程数配置为<code>10</code>，同步定时器的模拟用户组数量为<code>9</code>、超出时间为<code>3000</code></strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/7.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>10个线程，同步定时器在线程数达到<code>9(模拟用户组数量)</code>时，释放这<code>9个请求</code>。剩下的1个，由于达不到<code>9个线程(模拟用户组数量)</code>的要求，只能延迟<code>3秒(超出时间)</code>释放。</p>
+<br>
+<h2 id="part3常数吞吐量定时器"><em>Part3.常数吞吐量定时器</em>
+</h2><blockquote>
+    <p><p>此计时器引入了可变暂停，经过计算以使总吞吐量（以每分钟样本数计算）尽可能接近给定数字。当然，如果服务器无法处理，或者其他计时器或耗时的测试元素阻止了吞吐量，则吞吐量会更低。</p>
+<p><strong><code>常数吞吐量定时器</code>参数说明</strong></p>
+<ul>
+<li>
+<p>姓名：描述性名称</p>
+</li>
+<li>
+<p>目标吞吐量（每分钟的样本量）：单位分钟。比如样本量3000，则吞吐量为500/sec。</p>
+</li>
+<li>
+<p>基于计算吞吐量：</p>
+<ol>
+<li>
+<p>只有此线程：</p>
+<ul>
+<li>
+<p>目标吞吐量：3000样本/分钟</p>
+</li>
+<li>
+<p>线程数：5</p>
+</li>
+<li>
+<p>结果：每个线程将独立尝试保持3000样本/分钟，总吞吐量 = 3000 * 5 = 15000样本/分钟。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>所有活动线程：</p>
+<ul>
+<li>
+<p>目标吞吐量：3000样本/分钟</p>
+</li>
+<li>
+<p>线程组数：3，每组10个线程</p>
+</li>
+<li>
+<p>结果：所有30个线程将共同实现3000样本/分钟的吞吐量，每个线程的吞吐量将基于它上次运行的时间，根据需要延迟调整。</p>
+</li>
+<li>
+<p>注意：每个线程组都需要一个具有相同设置的常数吞吐量定时器。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>所有活动线程（共享）：</p>
+<ul>
+<li>
+<p>目标吞吐量：3000样本/分钟</p>
+</li>
+<li>
+<p>线程组数：3，每组10个线程</p>
+</li>
+<li>
+<p>结果：所有30个线程将共同实现3000样本/分钟的吞吐量，每个线程的吞吐量将根据任何线程上次运行的时间而延迟。</p>
+</li>
+<li>
+<p>注意：每个线程组都需要一个具有相同设置的常数吞吐量定时器。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>当前线程组中的所有活动线程：</p>
+<ul>
+<li>
+<p>目标吞吐量：3000样本/分钟</p>
+</li>
+<li>
+<p>当前线程组：10个线程</p>
+</li>
+<li>
+<p>结果：这10个线程将共同实现3000样本/分钟的吞吐量，分配吞吐量并根据每个线程上次运行的时间进行延迟调整。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>当前线程组中的所有活动线程（共享）：</p>
+<ul>
+<li>
+<p>目标吞吐量：3000样本/分钟</p>
+</li>
+<li>
+<p>当前线程组：10个线程</p>
+</li>
+<li>
+<p>结果：这10个线程将共同实现3000样本/分钟的吞吐量，分配吞吐量并根据当前线程组中任何线程上次运行的时间进行延迟调整。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</p></blockquote>
+<p><strong>配置示例Jmeter脚本</strong></p>
+<ul>
+<li>
+<p><strong>测试计划下添加聚合报告、常数吞吐定时器、线程组</strong></p>
+</li>
+<li>
+<p><strong>线程组下添加20个相同的HTTP请求取样器</strong></p>
+</li>
+<li>
+<p><strong>线程组的线程数配置为：<code>1000</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器配置请求地址为：<code>HTTP://127.0.0.1:5000/api/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器配置请求方式为：<code>GET</code></strong></p>
+</li>
+</ul>
+<br>
+<p><strong>常数吞吐定时器的基于计算吞吐量配置为：<code>此线程</code>、目标吞吐量配置为：<code>60</code>(1/sec)，线程组的线程数修改配置为：<code>100</code></strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/8.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>配置<code>只有此线程</code>，总的吞吐量=基于吞吐量×线程数。则此次测试的总吞吐量为1×100=100/sec。与图中几乎一致。</p>
+<br>
+<p><strong>常数吞吐定时器的基于计算吞吐量配置为：<code>当前线程组中的所有活动线程</code>、目标吞吐量配置为：<code>600</code>(10/sec)</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/9.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>配置<code>当前线程组中的所有活动线程</code>，总的吞吐量=基于吞吐量。则此次测试的总吞吐量为1×100=100/sec。图中为10.5/sec，好像与图中几乎一致。</p>
+<p>但是请注意，其中是有问题的。</p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/10.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><code>用表格查看结果</code>表示。好家伙！在48分28秒时，竟然偷偷完成了72个请求的吞吐。在48分29秒时，偷偷完成了43个请求的吞吐。</p>
+<p>后续的吞吐量貌似正常了，其实有很多时间每秒只有<code>7/sec、8/sec或9/sec</code>的吞吐量来补偿前面的<code>72/sec、43/sec</code>。可恶啊！可恶。</p>
+<p><code>用表格查看结果</code>温馨提示，请谨慎使用<code>当前线程组中的所有活动线程</code>。</p>
+<br>
+<p><strong>常数吞吐定时器的基于计算吞吐量配置为：<code>当前线程组中的所有活动线程（共享）</code>、目标吞吐量配置为：<code>600</code>(10/sec)</strong></p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/11.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p>嗯！很完美的<code>10/sec</code>。</p>
+<p>但有上面的问题吗？</p>
+<p><div class="bigImg">
+  <img src="/img/Jmeter/Timer/12.png"
+       
+       
+       
+       loading="lazy"
+       
+       
+  >
+</div>
+</p>
+<p><code>用表格查看结果</code>表示。呵！一丘之貉。只不过有比<code>当前线程组中的所有活动线程</code>更快、更激烈的补偿，使之不符合目标吞吐量的时间较之大大缩短。</p>
+<br>
+<p><strong>常数吞吐定时器的基于计算吞吐量配置为：<code>所有活动线程</code>与<code>所有活动线程（共享）用于多线程组</code>。也有着<code>当前线程组中的所有活动线程</code>的问题，就不贴上来了。</strong></p>
+<br>
+<p><strong>未完待续</strong></p>
+<hr>
+
 </section>
 
 
@@ -437,9 +658,9 @@
 	<div id="cusdis_thread"
 		data-host="https://cusdis.com"
 		data-app-id="694dadd3-d3cf-44cd-91d0-616af4cfa5d6"
-		data-page-id="http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/"
+		data-page-id="https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/"
 		data-page-title="Jmeter-定时器"
-		data-page-url="http://localhost:1313/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/">		
+		data-page-url="https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/">		
 	</div>
 	<script async src="https://www.jzy-blogs.cn/myjs/cusdis.es.js"></script>
 
@@ -448,7 +669,7 @@
     <section class="copyright">
         &copy; 
         
-        2024 EtherealBoyJiang
+        2024 姜振园
     </section>
     
 	<section class="running-time">
@@ -485,7 +706,7 @@
 			
 		
 		 &emsp;·💡 11篇文章&emsp; ·
-		⌨ 33.78k字
+		⌨ 41.68k字
 	</section>
     <section class="powerby">
         使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 &emsp;

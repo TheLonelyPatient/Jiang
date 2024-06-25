@@ -1,13 +1,348 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>EtherealBoyJiang</title>
+        <title>姜振园的博客</title>
         <link>https://www.jzy-blogs.cn/</link>
-        <description>Recent content on EtherealBoyJiang</description>
+        <description>Recent content on 姜振园的博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>EtherealBoyJiang</copyright>
+        <copyright>姜振园</copyright>
         <lastBuildDate>Sat, 15 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.jzy-blogs.cn/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Jmeter-定时器</title>
+        <link>https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/</link>
+        <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/</guid>
+        <description>&lt;img src="https://www.jzy-blogs.cn/img/Jmeter/0.png" alt="Featured image of post Jmeter-定时器" /&gt;&lt;h1 id=&#34;定时器timer&#34;&gt;&lt;em&gt;定时器(Timer)&lt;/em&gt;
+&lt;/h1&gt;&lt;blockquote&gt;
+    &lt;p&gt;&lt;p&gt;JMeter中的定时器（Timer）是一种配置元件，它在测试计划中的各个请求（Sampler）之间添加延迟或等待时间。可以模拟用户在操作过程中的自然停顿，以及控制请求的发送频率。以下是JMeter中几种常用的定时器类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;固定定时器(Constant Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;统一随机定时器(Uniform Random Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;常数吞吐量定时器(Constant Throughput Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;准确的吞吐量定时器(Precise Throughput Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;暂不讲&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;JSR223定时器(JSR223 Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;同步定时器(Synchronizing Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;泊松随机定时器(Poisson Random Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;高斯随机定时器(Gaussian Random Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;BeanShall定时器(BeanShell Timer)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;/blockquote&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part1固定定时器&#34;&gt;&lt;em&gt;Part1.固定定时器&lt;/em&gt;
+&lt;/h2&gt;&lt;blockquote&gt;
+    &lt;p&gt;它的作用是添加固定的时间间隔。可添加在&lt;code&gt;测试计划、线程组、取样器&lt;/code&gt;下，使其延迟执行。时间单位为毫秒。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;测试计划下添加固定定时器，设置延迟为&lt;code&gt;3000&lt;/code&gt;。它会造成测试计划下所有的请求以延迟&lt;code&gt;3秒&lt;/code&gt;的时间执行。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/1.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;图中，测试计划中勾选了&lt;code&gt;独立运行每个线程组&lt;/code&gt;，所以6个请求顺序执行。固定定时器的作用域是整个测试计划。可以看出每个请求执行前都会延迟&lt;code&gt;3秒&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;线程组下添加固定定时器，设置延迟为&lt;code&gt;3000&lt;/code&gt;。它会造成该线程组下所有的请求以延迟&lt;code&gt;3秒&lt;/code&gt;的时间执行。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/2.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;3个请求顺序执行。固定定时器的作用域是整个线程组。可以看出每个请求执行前都会延迟&lt;code&gt;3秒&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;取样器下添加固定定时器，设置延迟为&lt;code&gt;3000&lt;/code&gt;。它会造成该取样器延迟&lt;code&gt;3秒&lt;/code&gt;执行。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/3.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;3个请求顺序执行。固定定时器的作用域是&lt;code&gt;HTTP请求-1-3&lt;/code&gt;。可以看出只有&lt;code&gt;HTTP请求-1-3&lt;/code&gt;执行前延迟&lt;code&gt;3秒&lt;/code&gt;。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part2统一随机定时器&#34;&gt;&lt;em&gt;Part2.统一随机定时器&lt;/em&gt;
+&lt;/h2&gt;&lt;blockquote&gt;
+    &lt;p&gt;它的作用是添加一个&lt;code&gt;随机的时间间隔+一个固定的时间间隔&lt;/code&gt;。随机的时间间隔在用户&lt;code&gt;0-值&lt;/code&gt;之间随机获取，固定的时间间隔可以看作最小时间，时间单位为毫秒。&lt;code&gt;总的延时 = 固定延迟时间 + 随机生成的延时&lt;/code&gt;。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;统一随机定时器中配置&lt;code&gt;Random Delay Maximum(随机延迟):3000&lt;/code&gt;&amp;amp;&amp;amp;&lt;code&gt;Constant Delay Offset(固定延迟):3000&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/4.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;3个请求顺序执行，执行了2次。&lt;code&gt;HTTP请求-1-2&lt;/code&gt;两次执行前延迟不一致，第一次是&lt;code&gt;3秒&lt;/code&gt;，第二次是&lt;code&gt;4秒&lt;/code&gt;。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part3同步定时器&#34;&gt;&lt;em&gt;Part3.同步定时器&lt;/em&gt;
+&lt;/h2&gt;&lt;blockquote&gt;
+    &lt;p&gt;&lt;p&gt;它的作用是保证取样器在同一时刻向服务器发起负载测试。可以设置&lt;code&gt;模拟用户组的数量、超出时间&lt;/code&gt;，对并发量及等待时间进行控制。&lt;/p&gt;
+&lt;p&gt;同步定时器一般在线程达到&lt;code&gt;模拟用户组的数量&lt;/code&gt;时，同步释放。如果线程未达到&lt;code&gt;模拟用户组的数量&lt;/code&gt;，它就会一致等待，此时就可以配置&lt;code&gt;超出时间&lt;/code&gt;，等待一段时间后，将线程同步释放。&lt;/p&gt;
+&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;线程组的线程数配置为&lt;code&gt;100&lt;/code&gt;,未配置同步定时器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/5.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;可以看出第1个线程请求与第100个线程请求的执行时间相差&lt;code&gt;1秒&lt;/code&gt;左右。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;线程组的线程数配置为&lt;code&gt;100&lt;/code&gt;,配置同步定时器&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/6.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;可以看出第1个线程请求与第100个线程请求的执行时间只相差&lt;code&gt;几毫秒&lt;/code&gt;左右。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;超出时间。配置线程组的线程数配置为&lt;code&gt;10&lt;/code&gt;，同步定时器的模拟用户组数量为&lt;code&gt;9&lt;/code&gt;、超出时间为&lt;code&gt;3000&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/7.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;10个线程，同步定时器在线程数达到&lt;code&gt;9(模拟用户组数量)&lt;/code&gt;时，释放这&lt;code&gt;9个请求&lt;/code&gt;。剩下的1个，由于达不到&lt;code&gt;9个线程(模拟用户组数量)&lt;/code&gt;的要求，只能延迟&lt;code&gt;3秒(超出时间)&lt;/code&gt;释放。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part3常数吞吐量定时器&#34;&gt;&lt;em&gt;Part3.常数吞吐量定时器&lt;/em&gt;
+&lt;/h2&gt;&lt;blockquote&gt;
+    &lt;p&gt;&lt;p&gt;此计时器引入了可变暂停，经过计算以使总吞吐量（以每分钟样本数计算）尽可能接近给定数字。当然，如果服务器无法处理，或者其他计时器或耗时的测试元素阻止了吞吐量，则吞吐量会更低。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;常数吞吐量定时器&lt;/code&gt;参数说明&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;姓名：描述性名称&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量（每分钟的样本量）：单位分钟。比如样本量3000，则吞吐量为500/sec。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;基于计算吞吐量：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;只有此线程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量：3000样本/分钟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程数：5&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;结果：每个线程将独立尝试保持3000样本/分钟，总吞吐量 = 3000 * 5 = 15000样本/分钟。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所有活动线程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量：3000样本/分钟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程组数：3，每组10个线程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;结果：所有30个线程将共同实现3000样本/分钟的吞吐量，每个线程的吞吐量将基于它上次运行的时间，根据需要延迟调整。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;注意：每个线程组都需要一个具有相同设置的常数吞吐量定时器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所有活动线程（共享）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量：3000样本/分钟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程组数：3，每组10个线程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;结果：所有30个线程将共同实现3000样本/分钟的吞吐量，每个线程的吞吐量将根据任何线程上次运行的时间而延迟。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;注意：每个线程组都需要一个具有相同设置的常数吞吐量定时器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当前线程组中的所有活动线程：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量：3000样本/分钟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当前线程组：10个线程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;结果：这10个线程将共同实现3000样本/分钟的吞吐量，分配吞吐量并根据每个线程上次运行的时间进行延迟调整。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当前线程组中的所有活动线程（共享）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;目标吞吐量：3000样本/分钟&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当前线程组：10个线程&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;结果：这10个线程将共同实现3000样本/分钟的吞吐量，分配吞吐量并根据当前线程组中任何线程上次运行的时间进行延迟调整。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;配置示例Jmeter脚本&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;测试计划下添加聚合报告、常数吞吐定时器、线程组&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;线程组下添加20个相同的HTTP请求取样器&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;线程组的线程数配置为：&lt;code&gt;1000&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;HTTP请求取样器配置请求地址为：&lt;code&gt;HTTP://127.0.0.1:5000/api/GetList/&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;HTTP请求取样器配置请求方式为：&lt;code&gt;GET&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;常数吞吐定时器的基于计算吞吐量配置为：&lt;code&gt;此线程&lt;/code&gt;、目标吞吐量配置为：&lt;code&gt;60&lt;/code&gt;(1/sec)，线程组的线程数修改配置为：&lt;code&gt;100&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/8.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;只有此线程&lt;/code&gt;，总的吞吐量=基于吞吐量×线程数。则此次测试的总吞吐量为1×100=100/sec。与图中几乎一致。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;常数吞吐定时器的基于计算吞吐量配置为：&lt;code&gt;当前线程组中的所有活动线程&lt;/code&gt;、目标吞吐量配置为：&lt;code&gt;600&lt;/code&gt;(10/sec)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/9.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;配置&lt;code&gt;当前线程组中的所有活动线程&lt;/code&gt;，总的吞吐量=基于吞吐量。则此次测试的总吞吐量为1×100=100/sec。图中为10.5/sec，好像与图中几乎一致。&lt;/p&gt;
+&lt;p&gt;但是请注意，其中是有问题的。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/10.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;用表格查看结果&lt;/code&gt;表示。好家伙！在48分28秒时，竟然偷偷完成了72个请求的吞吐。在48分29秒时，偷偷完成了43个请求的吞吐。&lt;/p&gt;
+&lt;p&gt;后续的吞吐量貌似正常了，其实有很多时间每秒只有&lt;code&gt;7/sec、8/sec或9/sec&lt;/code&gt;的吞吐量来补偿前面的&lt;code&gt;72/sec、43/sec&lt;/code&gt;。可恶啊！可恶。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;用表格查看结果&lt;/code&gt;温馨提示，请谨慎使用&lt;code&gt;当前线程组中的所有活动线程&lt;/code&gt;。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;常数吞吐定时器的基于计算吞吐量配置为：&lt;code&gt;当前线程组中的所有活动线程（共享）&lt;/code&gt;、目标吞吐量配置为：&lt;code&gt;600&lt;/code&gt;(10/sec)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/11.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;嗯！很完美的&lt;code&gt;10/sec&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;但有上面的问题吗？&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Timer/12.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;用表格查看结果&lt;/code&gt;表示。呵！一丘之貉。只不过有比&lt;code&gt;当前线程组中的所有活动线程&lt;/code&gt;更快、更激烈的补偿，使之不符合目标吞吐量的时间较之大大缩短。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;常数吞吐定时器的基于计算吞吐量配置为：&lt;code&gt;所有活动线程&lt;/code&gt;与&lt;code&gt;所有活动线程（共享）用于多线程组&lt;/code&gt;。也有着&lt;code&gt;当前线程组中的所有活动线程&lt;/code&gt;的问题，就不贴上来了。&lt;/strong&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;未完待续&lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+</description>
+        </item>
+        <item>
         <title>Jmeter-监听器</title>
         <link>https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/</link>
         <pubDate>Fri, 14 Jun 2024 00:00:00 +0000</pubDate>
@@ -39,6 +374,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;图形结果(Graph Results）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个可以不用了解，消耗资源多且生成的图表质量不高。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;断言结果(Assertion Results)&lt;/strong&gt;&lt;/p&gt;
@@ -224,6 +560,17 @@
 &lt;br&gt;
 &lt;p&gt;&lt;strong&gt;所有数据写入一个文件&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;建议不要保存文件到C盘，除非以管理员身份运行Jmeter。另外还可以配置日志内容，就请读者自己探究吧。&lt;/p&gt;
+&lt;p&gt;这个功能有连个作用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;配置运行结果保存到那个文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过浏览-打开文件，可以读取文件的数据，在对应的监听器中显示数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;监听器的 所有数据写入一个文件，都是同种作用。&lt;/p&gt;
+&lt;br&gt;
 &lt;p&gt;&lt;strong&gt;查找&amp;amp;&amp;amp;结果显示方式&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
   &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/5.png&#34;
@@ -239,8 +586,634 @@
 &lt;p&gt;可以通过查找快速定位请求，支持正则表达式。查找的结果用红色框包裹。&lt;/p&gt;
 &lt;p&gt;我自己标记的绿色框，可以选择结果显示方式。还是请读者自己去探究吧。&lt;/p&gt;
 &lt;br&gt;
-&lt;h2 id=&#34;part1汇总报告&#34;&gt;&lt;em&gt;Part1.汇总报告&lt;/em&gt;
-&lt;/h2&gt;</description>
+&lt;h2 id=&#34;part2汇总报告&#34;&gt;&lt;em&gt;Part2.汇总报告&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;可以查看事务或者取样器在某个时间范围内执行的汇总结果，一个取样器或事务占一行。数据包括样本(请求量)、平均值、最小值、最大值、标准偏差、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec、平均字节数。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/6.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Lable：f&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;样本（Samples）：取样器请求的数量&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;平均值（Average）：请求（事务）的平均响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最小值（Min）：请求的最小响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最大值（Max）：请求的最大响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;标准偏差（Std.Dev）： 响应时间的标准方差&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;接收 KB/sec（Received KB/sec）：每秒接收的千字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;发送 KB/sec（Sent KB/sec）：每秒发送的千字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;平均字节数（Avg.Bytes）：取样结果返回的平均大小&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;还可以保存数据到文件及保存表格数据。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part3聚合报告&#34;&gt;&lt;em&gt;Part3.聚合报告&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;聚合报告与汇总报告类似，较于汇总报告更占用主机资源。数据包括样本(请求量)、平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/7.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Label：Label：每个请求的名称。每个 JMeter 的 element(例如 HTTP Request)都有一个 Name 属性，这里显示的就是 Name 属性的值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;样本（Samples）：各请求发出的数量。表示你这次测试中一共发出了多少个请求，如果模拟10个用户，每个用户迭代10次，那么这里显示100&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;平均值（Average：平均响应时间（单位：毫秒）。默认是单个Request的平均响应时间，当使用了Transaction Controller时，也可以以Transaction为单位显示平均响应时间。值 = 总运行时间 / 发送到服务器的总请求数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;中位数（Median）：50%用户的响应时间在小于该值，注意它与average平均响应时间的区别&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;90%百分位：90%用户的响应时间小于该值，90%line是性能测试中比较重要的一个衡量指标。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;95%百分位：95%用户的响应时间小于该值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;99%百分位：99%用户的响应时间小于该值&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最小值（Min）：请求的最小响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最大值（Max）：请求的最大响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;接收 KB/sec（Received KB/sec）：每秒接收的千字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;发送 KB/sec（Sent KB/sec）：每秒发送的千字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;还可以保存数据到文件及保存表格数据。另外可以访问&lt;a class=&#34;link&#34; href=&#34;https://wiki.mbalib.com/wiki/%E7%99%BE%E5%88%86%E4%BD%8D%E6%95%B0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;百分位数&lt;/a&gt;了解概念。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part4后端监听器&#34;&gt;&lt;em&gt;Part4.后端监听器&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;在Apache JMeter中，后端监听器（Backend Listener）是用于将测试结果实时发送到外部数据存储或监控系统的一种组件。它常用于将性能测试结果发送到外部系统，如Grafana、InfluxDB、ElasticSearch等数据库，以便实时监控和分析性能测试的结果。&lt;/p&gt;
+&lt;p&gt;在“后端监听器”组件中，选择“Backend Listener Implementation”（后端监听器实现）类型。常见的实现有：
+org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient：发送数据到InfluxDB。
+org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient：发送数据到Graphite。&lt;/p&gt;
+&lt;p&gt;根据选择的实现类型，填写相应的配置信息，如数据库URL、用户名、密码等。&lt;/p&gt;
+&lt;p&gt;比如配置InfluxDB后端监听器：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;选择InfluxdbBackendListenerClient作为实现类。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;influxdbMetricsSender: 默认值就行。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;influxdbUrl: InfluxDB的URL，例如http://localhost:8086/write?db=jmeter。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;application: 应用名称，用于区分不同的应用或测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;measurement: 数据表名。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;summaryOnly: 是否只发送汇总数据，默认false。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;samplersRegex: 正则表达式，用于匹配要发送的采样器名称，默认是“.*”表示所有采样器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;percentiles: 需要记录的百分位数，默认是90,95,99。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;启动InfluxDB和Grafana（如果使用这些工具）：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;确保InfluxDB和Grafana已启动并配置正确。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在InfluxDB中创建一个数据库，用于存储JMeter发送的数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在Grafana中配置一个数据源，指向InfluxDB数据库，并创建仪表盘用于展示数据。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;运行JMeter测试：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;启动JMeter测试计划。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在Grafana或其他监控工具中查看实时性能测试结果，分析系统的性能表现。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/8.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以访问&lt;a class=&#34;link&#34; href=&#34;https://github.com/rahulsinghai/jmeter-backend-listener-kafka&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;github开源JMeter后端监听器&lt;/a&gt;了解并使用更多方便、强大的后端监听器方案。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part5jsr223-监听器&#34;&gt;&lt;em&gt;Part5.JSR223 监听器&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;它允许用户通过自定义脚本来处理采样器的结果数据，使用的主要目的是数据存储、实时监控和报警。JSR223监听器支持多种脚本语言，如Groovy、JavaScript、BeanShell等，提供了很大的灵活性来执行复杂的数据处理和结果分析任务。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;选择脚本语言&lt;code&gt;Groovy&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在“脚本”区域中，编写脚本代码。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Groovy&#34; data-lang=&#34;Groovy&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;org.apache.jmeter.samplers.SampleResult&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.nio.file.Files&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.nio.file.Paths&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;java.nio.file.StandardOpenOption&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取当前采样器的结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;SampleResult&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sampleResult&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;prev&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取采样器名称
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;samplerName&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sampleResult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getSampleLabel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取响应时间
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;long&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;responseTime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sampleResult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getTime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取响应数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;responseData&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sampleResult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getResponseDataAsString&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取响应状态
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;boolean&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;success&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sampleResult&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;isSuccessful&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 构造日志信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logMessage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}\n&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 定义日志文件路径
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logFilePath&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;D:\logfile.log&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 将日志信息写入文件
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Files&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;write&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Paths&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;logFilePath&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logMessage&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;getBytes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;StandardOpenOption&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;CREATE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;StandardOpenOption&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;na&#34;&gt;APPEND&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;输出的logfile.log文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/9.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;当然你也可以在脚本中将结果数据传递到数据库或其他服务系统进行处理，或者直接进行处理。不过这会消耗主机资源，需要做好取舍。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;自定义参数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;你可以通过&lt;code&gt;参数&lt;/code&gt;，其他元件（比如用户定义的变量、Jmeter-CSV Data Set Config、函数等）传递数据给脚本。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;参数&lt;/code&gt;中输入&lt;code&gt;jiang 1&lt;/code&gt;（空格分割，值可以是列表、元组等）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;添加用户定义的变量&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/10.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改上述脚本&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-Groovy&#34; data-lang=&#34;Groovy&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 新增获取自定义参数，自定义参数会保存到args变量(列表)，
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;args&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 构造日志信息,新增name，number, class, random。random是随机函数。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;String&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;logMessage&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}, name: ${name}, number: ${number}, class: ${class}, random: ${__Random(111111,222222,)}\n&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;输出的logfile.log文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/11.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;name，number, class, random&lt;/code&gt;的值都被输出到logfile.log文件中了。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;脚本文件（覆盖脚本）&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;符合字面意思，引用脚本文件会覆盖脚本内容。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;把示例脚本内容添加到空白的test.groovy文件中&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;引用test.groovy`&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;删除logfile.log文件&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;输出的logfile.log文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/12.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;name，number, class, random&lt;/code&gt;的值不再输出，因为执行的是test.groovy脚本。&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;你也可以通过脚本实现阈值功能，比如错误率达到一定值时，自动停止测试。不过在这里我就不再过多阐述，读者可以自己探究。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part6保存响应到文件&#34;&gt;&lt;em&gt;Part6.保存响应到文件&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;当结果太大，使用结果树监听器影响图形模式时，我们可以采用响应保存监听器来处理，可以将结果树数据保存到文件。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Save Successful Responses only：仅保存成功响应&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Save Failed Responses only：仅保存失败响应&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Don’t save Transaction Controller SampleResult：不保存事务控制器样本结果&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;文件前缀：文件路径 + 文件前缀&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Don’t add number to prefix：不添加数字到文件前缀&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Don’t add content type suffix：不添加文件的后缀类型&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add timestamp：添加时间戳到文件前缀&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Minimum Length of sequence number：设置文件名称最小的序列号；例如4，文件序号为0001…&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;示例Jmeter&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;文件前缀：&lt;code&gt;D:\Results\Results1&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;线程组线程数：&lt;code&gt;200&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;请求地址：&lt;code&gt;HTTP://127.0.0.1:5000//api/GetList/&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;请求方式：&lt;code&gt;GET&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;运行后结果&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/13.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;一个请求结果独立一个文件。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part7响应时间图&#34;&gt;&lt;em&gt;Part7.响应时间图&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;响应时间图是一个直方图，其中 X 轴表示时间，Y 轴表示响应时间。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/14.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;响应时间：就是一个请求从发送到接收到响应的总时间。在图中，每个数据点的Y坐标表示请求响应时间。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;时间：测试计划运行的持续时间。在图中，每个数据点的X坐标表示请求开始的时间。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分布：数据点在图中的分布，可以分析出响应时间的变化。如果数据点在一条线附近，那么响应时间可能比较稳定。如果数据点在图中的分布比较广，那么响应时间可能有比较大的波动。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;趋势：我们也可以通过响应时间图来观察响应时间的趋势。例如，如果数据点从左至右逐渐上升，那么可能表明随着时间的推移，响应时间在增加。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;其余参数&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;时间间隔&lt;/code&gt;关系X轴的显示。其它参数都是改变显示方式，如字体。读者可自行探究。&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part8断言结果&#34;&gt;&lt;em&gt;Part8.断言结果&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;文本显示所有请求名称，如果断言失败，名称下方显示失败原因，成功则不显示。消耗资源较多，且我认为意义不大。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/15.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part9比较断言可视化器&#34;&gt;&lt;em&gt;Part9.比较断言可视化器&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;显示请求断言情况，若断言失败，标红。但无法给出断言信息。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/16.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part10汇总图&#34;&gt;&lt;em&gt;Part10.汇总图&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;较于汇总报告，多了柱形图功能。列可显示&lt;code&gt;平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/17.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part11生成概要结果&#34;&gt;&lt;em&gt;Part11.生成概要结果&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;生成概要结果&lt;/code&gt;没有配置参数。生成结果需要在Jmeter日志或者Jmeter-cmd窗口查看。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/18.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/19.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;in：TPS，每秒取样器执行的数量&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Avg：平均值。平均响应时间，所有请求的平均响应时间，单位是毫秒&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Min：最小值。请求的最小响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Max：最大值。请求的最大响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Err：异常百分比。（错误请求的数量/请求的总数)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part12用表格查看结果&#34;&gt;&lt;em&gt;Part12.用表格查看结果&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;与&lt;code&gt;查看结果树&lt;/code&gt;不同，此元件将结果写进表格中，可查看数据也不同。不过都能查看各个请求结果状态。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/20.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Sample#：请求序号&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Start Time：请求开始时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Thread Name：线程名称&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Label：请求的名称（实际请求中可使用参数化对每个请求做区分）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sample Time(ms)：请求的响应时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Status：请求状态，为勾则表示成功，为叉表示失败&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bytes：响应的字节数及请求的字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sent Bytes：发送的字节数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Latency：延迟时间（单位：毫秒）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Connect Time(ms)：连接服务器的时间。（单位：毫秒）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;样本数目：所有的请求个数&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;平均：所有请求的平均响应时间。（单位：毫秒）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;最新样本：最新样本响应时间，表示服务器响应最后一个请求的时间。（单位：毫秒）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;偏离：不知道怎么算的，不发表意见。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part13简单数据写入器&#34;&gt;&lt;em&gt;Part13.简单数据写入器&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;使用该元件，需要在&lt;code&gt;所有数据写入一个文件&lt;/code&gt;配置文件路径(建议保存到D盘)。运行后，数据就会保存到文件中。然后可以使用&lt;code&gt;查看结果树、聚合报告、图形结果等&lt;/code&gt;查看数据。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/21.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part14邮件观察仪&#34;&gt;&lt;em&gt;Part14.邮件观察仪&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;主要是做提示用。可以自定义请求成功或失败的次数阈值，触发后就会自动发送邮件。&lt;/p&gt;
+&lt;p&gt;需要配置发送人、收件人以及SMTP server。&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/22.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;From：发件人邮箱&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Addressee(s)：收件人邮箱&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Success Subject：成功的请求数达到阈值后，要发送的信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Failure Subject：失败的请求数达到阈值后，要发送的信息&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Success Limit：成功的请求数阈值。如果不想发送，可以将值设未极大，如10000000&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Failure Limit：失败的请求数阈值。如果不想发送，可以将值设未极大，如10000000&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Host：SMTP服务器的域名或IP&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Port：SMTP服务器的端口号&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Login：发件人邮箱账号，一般为发件人邮箱&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Password：发件人的授权密码&lt;/p&gt;
+&lt;p&gt;163邮箱为例，在设置中获取：&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/23.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Commection security：连接协议。一般都是SSl，以SMTP服务器指定协议为准。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;收件人收到的邮件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;bigImg&#34;&gt;
+  &lt;img src=&#34;https://www.jzy-blogs.cn/img/Jmeter/Listener/24.png&#34;
+       
+       
+       
+       loading=&#34;lazy&#34;
+       
+       
+  &gt;
+&lt;/div&gt;
+&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;part15beanshell-监听器&#34;&gt;&lt;em&gt;Part15.BeanShell 监听器&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;&lt;code&gt;BeanShell 监听器&lt;/code&gt;类似&lt;code&gt;JSR223 监听器&lt;/code&gt;。只不过&lt;code&gt;BeanShell 监听器&lt;/code&gt;只可以使用BeanShell语言。&lt;/p&gt;
+&lt;p&gt;如果会使用&lt;code&gt;JSR223 监听器&lt;/code&gt;，那么&lt;code&gt;BeanShell 监听器&lt;/code&gt;也没问题。本质上都是编写脚本。&lt;/p&gt;
+&lt;h2 id=&#34;part15最后要说的话&#34;&gt;&lt;em&gt;Part15.最后要说的话&lt;/em&gt;
+&lt;/h2&gt;&lt;p&gt;其实最常用的监听器就是&lt;code&gt;查看结果树、聚合报告、JSR223 监听器&lt;/code&gt;，其他监听器特定情况也会用就是了。&lt;/p&gt;
+&lt;p&gt;本篇总结了Jmeter中所有的监听器，希望能够供读者们借鉴。也期待大家踊跃发言。&lt;/p&gt;
+&lt;p&gt;笔就横在这里吧。&lt;/p&gt;
+&lt;hr&gt;
+</description>
         </item>
         <item>
         <title>记一次性能测试</title>
@@ -1805,7 +2778,7 @@
 &lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Request Headers&lt;/code&gt;中显示 Content-Type 为 &lt;code&gt;application/x-www-form-urlencoded; charset=UTF-8&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Request Body&lt;/code&gt;中的 POST data 也是键值对形式：
-&lt;code&gt;aaaa=EtherealBoyJIang&amp;amp;bbb=EtherealBoyJIang&amp;amp;ccc=EtherealBoyJIang&lt;/code&gt;&lt;/p&gt;
+&lt;code&gt;aaaa=姜振园&amp;amp;bbb=姜振园&amp;amp;ccc=姜振园&lt;/code&gt;&lt;/p&gt;
 &lt;br&gt;
 &lt;h2 id=&#34;part4请求参数-postmultipartform-data&#34;&gt;&lt;em&gt;Part4.请求参数-POST&amp;amp;multipart/form-data&lt;/em&gt;
 &lt;/h2&gt;&lt;p&gt;&lt;code&gt;multipart/form-data&lt;/code&gt;会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。就像这样：&lt;/p&gt;
@@ -1891,7 +2864,7 @@
 &lt;p&gt;请求地址：&lt;code&gt;HTTP://127.0.0.1:5000/api/HTTPRequest1/&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;请求方式：&lt;code&gt;POST&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;参数1名称：&lt;code&gt;username&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;参数1值:&lt;code&gt;EtherealBoyJIang&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;参数1值:&lt;code&gt;姜振园&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;参数2名称：&lt;code&gt;address&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;参数2值:&lt;code&gt;{&amp;quot;country&amp;quot;: &amp;quot;中国&amp;quot;,&amp;quot;city&amp;quot;: &amp;quot;杭州&amp;quot; }&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;文件上传名称：&lt;code&gt;正确的文件路径（可以上传图片）&lt;/code&gt;&lt;/p&gt;
@@ -1979,7 +2952,7 @@
 &lt;p&gt;&lt;u style=&#34;text-decoration-color: #f4970b;&#34;&gt;线程组&lt;/u&gt;中添加&lt;u style=&#34;text-decoration-color: #f4970b;&#34;&gt;HTTP 请求&lt;/u&gt;&lt;/p&gt;
 &lt;p&gt;请求地址：&lt;code&gt;HTTP://127.0.0.1:5000/api/HTTPRequest3/&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;请求方式：&lt;code&gt;POST&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;消息体数据：&lt;code&gt;{&amp;quot;name&amp;quot;:&amp;quot;EtherealBoyJiang&amp;quot;}&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;消息体数据：&lt;code&gt;{&amp;quot;name&amp;quot;:&amp;quot;姜振园&amp;quot;}&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;u style=&#34;text-decoration-color: #f4970b;&#34;&gt;HTTP 请求&lt;/u&gt;中添加&lt;u style=&#34;text-decoration-color: #f4970b;&#34;&gt;HTTP信息请求头管理器&lt;/u&gt;（右键-添加-配置元件）&lt;/p&gt;
@@ -2002,7 +2975,7 @@
   &gt;
 &lt;/div&gt;
 &lt;/p&gt;
-&lt;p&gt;请求参数类型为&lt;code&gt;application/json&lt;/code&gt;。请求参数就是JSON字符串：&lt;code&gt;{&amp;quot;name&amp;quot;:&amp;quot;EtherealBoyJiang&amp;quot;}&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;请求参数类型为&lt;code&gt;application/json&lt;/code&gt;。请求参数就是JSON字符串：&lt;code&gt;{&amp;quot;name&amp;quot;:&amp;quot;姜振园&amp;quot;}&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;还可以请求&lt;code&gt;HTML、XML、CSS、JS&lt;/code&gt;等内容，上传方法与&lt;code&gt;JSON&lt;/code&gt;类似。消息体中输入相应格式内容&amp;amp;&amp;amp;信息头管理器中添加对应的&lt;code&gt;Content-Type&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;HTMl&lt;/code&gt;的请求参数类型是&lt;code&gt;text/html&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;XML&lt;/code&gt;的请求参数类型是&lt;code&gt;text/XML&lt;/code&gt;。&lt;/p&gt;
@@ -4162,7 +5135,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;分享知识&lt;/p&gt;
-&lt;p&gt;我深信知识具有强大力量，而这种力量应该共享，我愿意将我的所学分享给志同道合的朋友——也就是你们。它不仅能够为他人提供帮助，EtherealBoyJiang还能够在这个过程中体验到一种内在的满足感。&lt;/p&gt;
+&lt;p&gt;我深信知识具有强大力量，而这种力量应该共享，我愿意将我的所学分享给志同道合的朋友——也就是你们。它不仅能够为他人提供帮助，姜振园还能够在这个过程中体验到一种内在的满足感。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;结识朋友&lt;/p&gt;
@@ -4690,9 +5663,9 @@
 &lt;/div&gt;
 &lt;br&gt;
 &lt;h2 id=&#34;说明&#34;&gt;&lt;em&gt;说明&lt;/em&gt;
-&lt;/h2&gt;&lt;p&gt;对于测试人员来说，JMeter是一款非常强大的接口测试工具，尤其在性能测试方面表现出色。希望读者们通过EtherealBoyJiang编写的系列教程，能够熟练掌握JMeter的使用。&lt;/p&gt;
-&lt;p&gt;本文基于JDK21、Jmeter-5.6.3测试编写，可能不适用于历史版本及未来版本。如果Jmeter在后续的新版本中有所变化，或者文中有错漏的地方，请联系EtherealBoyJiang，EtherealBoyJiang感激不尽。&lt;/p&gt;
-&lt;p&gt;对EtherealBoyJiang来说，能够帮助到读者是一件莫大的荣幸，期待更多读者通过本系列教程获得成长。&lt;/p&gt;
+&lt;/h2&gt;&lt;p&gt;对于测试人员来说，JMeter是一款非常强大的接口测试工具，尤其在性能测试方面表现出色。希望读者们通过姜振园编写的系列教程，能够熟练掌握JMeter的使用。&lt;/p&gt;
+&lt;p&gt;本文基于JDK21、Jmeter-5.6.3测试编写，可能不适用于历史版本及未来版本。如果Jmeter在后续的新版本中有所变化，或者文中有错漏的地方，请联系姜振园，姜振园感激不尽。&lt;/p&gt;
+&lt;p&gt;对姜振园来说，能够帮助到读者是一件莫大的荣幸，期待更多读者通过本系列教程获得成长。&lt;/p&gt;
 &lt;div&gt;&lt;br&gt;&lt;hr&gt;&lt;/div&gt;</description>
         </item>
         <item>

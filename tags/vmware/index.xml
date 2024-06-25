@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Vmware on EtherealBoyJiang</title>
+        <title>Vmware on 姜振园的博客</title>
         <link>https://www.jzy-blogs.cn/tags/vmware/</link>
-        <description>Recent content in Vmware on EtherealBoyJiang</description>
+        <description>Recent content in Vmware on 姜振园的博客</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <copyright>EtherealBoyJiang</copyright>
+        <copyright>姜振园</copyright>
         <lastBuildDate>Fri, 10 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.jzy-blogs.cn/tags/vmware/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>使用VMware搭建测试环境</title>
         <link>https://www.jzy-blogs.cn/p/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/</link>
