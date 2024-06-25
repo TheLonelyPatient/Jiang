@@ -3,25 +3,25 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.jzy-blogs.cn/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/categories/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/tags/jmeter/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/categories/jmeter/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/p/jmeter-%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
     <lastmod>2024-06-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/post/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/tags/</loc>
-    <lastmod>2024-06-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/p/jmeter-%E7%9B%91%E5%90%AC%E5%99%A8/</loc>
     <lastmod>2024-06-18T00:00:00+00:00</lastmod>
@@ -34,6 +34,9 @@
   </url><url>
     <loc>https://www.jzy-blogs.cn/categories/other/</loc>
     <lastmod>2024-05-31T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://www.jzy-blogs.cn/p/pytest/</loc>
+    <lastmod>2024-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.jzy-blogs.cn/p/jmeter-csv-data-set-config/</loc>
     <lastmod>2024-06-13T00:00:00+00:00</lastmod>
