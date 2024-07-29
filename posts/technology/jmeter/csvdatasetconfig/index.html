@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Jmeter-CSV Data Set Config | 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+<meta name="keywords" content="CSV, Data, Set, Config,参数化,Jmeter,JZY">
+<meta name="description" content="CSV Data Set Config的作用及使用方法">
+<meta name="author" content="JZY">
+<link rel="canonical" href="http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://192.168.9.98/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://192.168.9.98/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="http://192.168.9.98/favicon.ico">
+<link rel="apple-touch-icon" href="http://192.168.9.98/favicon.ico">
+<link rel="mask-icon" href="http://192.168.9.98/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+
+<meta property="og:title" content="Jmeter-CSV Data Set Config" />
+<meta property="og:description" content="CSV Data Set Config的作用及使用方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/" />
+<meta property="og:image" content="http://192.168.9.98/img/Jmeter.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-05-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-07-25T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://192.168.9.98/img/Jmeter.png" />
+<meta name="twitter:title" content="Jmeter-CSV Data Set Config"/>
+<meta name="twitter:description" content="CSV Data Set Config的作用及使用方法"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+
+        {
+          "@type": "ListItem",
+          "position":  1 ,
+          "name": "文章",
+          "item": "http://192.168.9.98/posts/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  2 ,
+          "name": "技术",
+          "item": "http://192.168.9.98/posts/technology/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  3 ,
+          "name": "Jmeter系列",
+          "item": "http://192.168.9.98/posts/technology/jmeter/"
+        }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Jmeter-CSV Data Set Config",
+      "item": "http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jmeter-CSV Data Set Config",
+  "name": "Jmeter-CSV Data Set Config",
+  "description": "CSV Data Set Config的作用及使用方法",
+  "keywords": [
+    "CSV", "Data", "Set", "Config,参数化,Jmeter,JZY"
+  ],
+  "articleBody": "关于CSV Data Set Config 它允许你从CSV、TXT文件中读取数据，在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。\n通过右键-添加-配置元件-CSV Data Set Config添加，可以添加在测试计划、线程组、取样器下，作用域也随之变化。\n参数包括：\n文件名\n文件编码\n变量名称\n忽略首行\n分隔符\n是否允许带引号？\n遇到文件结束符再次循环\n遇到文件结束符停止线程\n线程共享模式\n使用示例脚本，需下载示例接口源码并运行。 文件名 需输入数据文件的路径，运行时Jmeter会按路径查找数据文件。如果路径错误，Jmeter会报错。\nJMeter提示试图读取一个名为test.txt的文件，但是这个文件不存在或者JMeter没有读取它的权限。\n文件编码 编码是计算机用于表示字符的数字或二进制值。以下是一些常见的编码系统及其特点：\nASCII (American Standard Code for Information Interchange)\n编码范围：0-127 字符集：基本的英文字符、数字、标点符号和控制字符 Extended ASCII\n编码范围：128-255 字符集：在ASCII基础上扩展，包含其他语言的字符 ISO 8859-1 (Latin-1 Character Set)\n编码范围：0-255 字符集：扩展了ASCII，包括西欧语言的特殊字符 UTF-8 (Unicode Transformation Format - 8-bit)\n编码范围：1-4字节 字符集：支持全球几乎所有语言的字符，包括表情符号等 UTF-16 (Unicode Transformation Format - 16-bit)\n编码范围：2字节（BMP）或4字节（辅助平面） 字符集：同UTF-8，但使用固定长度的字节对 UTF-32 (Unicode Transformation Format - 32-bit)\n编码范围：固定4字节 字符集：同UTF-8和UTF-16，但每个字符固定占用4字节 GBK (Chinese Internal Code Specification)\n编码范围：双字节 字符集：主要用于简体中文 GB2312\n编码范围：单字节和双字节 字符集：主要用于简体中文，是GBK的前身 Big5\n编码范围：双字节 字符集：主要用于繁体中文 Shift_JIS (Shifting Japanese Industrial Standards)\n编码范围：单字节和双字节 字符集：主要用于日文 EUC-JP (Extended Unix Code - Japanese)\n编码范围：多字节 字符集：主要用于日文 KOI8-R (KOI8 Russian)\n编码范围：单字节 字符集：主要用于俄文 这些编码系统各有特点，适用于不同的语言和场景。随着全球化的发展，UTF-8因其兼容性和效率成为了最广泛使用的编码方式。\n推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以选择或编辑添加其他编码。\n变量名称 数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：\n111,222,333,444,555,666,777 aaa,bbb,ccc,ddd,eee,fff,ggg 数据文件中有5列，代表有7个变量。\n变量名称可以输入a1,a2,a3,a4,a5,a6,a7，a1获取第1列数据，a7获取第7列数据。a1第1次获取111，a1第2次获取aaa。\n忽略首行 如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：\n第1行只是标题，实际上并不需要标题数据。这种情况下可以选择True，不获取第1行。\n分隔符 不建议更改，使用,(英文符)即可。\nTXT文件中列于列之间要用,分隔。\n是否允许带引号 以TXT文件为例：\n\"444\" 选择True，引用变量时，获取的值会是444。\n选择False，引用变量时，获取的值会是\"444\"。\n遇到文件结束符再次循环 文件结束符（End Of File，简称EOF）是一个用于表示文件内容结束的信号，在txt、csv等文件的未尾以结束。当程序读取文件时，以来确定是否已经到达文件的末尾。\n当读取到文件的结束符，线程或循环还没结束时。选择True，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。选择False，接下来的线程或循环会一直获取文件的结束符。\n遇到文件结束符停止线程 当读取到文件的结束符，线程或循环还没结束时。选择True，接下来的线程或循环不会再继续。选择False，不会影响到线程或循环的继续。\n线程共享模式 其提供了多种模式来指定如何使用数据文件，模式共有：\n所有线程\n当前线程组\n当前线程\n我们可以使用txt文件作为数据文件，文件内容如下：\n111,222,333,444 aaa,bbb,ccc,ddd 888,999,1010,2020 fff,iii,jjj,kkk 6060,7070,8080,9090 000,ppp,qqq,rrr 所有线程 默认的共享模式，所有线程共享同一个CSV文件，所有线程将按照执行顺序依次读取CSV文件中每一行的数据(一个线程一行数据)，直到文件结束。\n示例Jmeter脚本\n测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2\nCSV 数据文件设置中配置参数\n文件名：txt文件的路径\n文件编码：UTF-8\n变量名称：a,b,c,d\n线程共享模式：所有线程\n线程组1下添加HTTP请求-1、HTTP请求-2\n线程组2下添加HTTP请求-3、HTTP请求-4\n所有取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\n所有取样器的请求方式：GET\nHTTP请求-1中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\nHTTP请求-2中添加参数。名称1：c值1：${c}；名称2：d，值2：${d}\nHTTP请求-3中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\nHTTP请求-4中添加参数。名称1：c值1：${c}；名称2：d，值2：${d}\n线程组下的请求同属一个线程(比如请求1、请求2同属一个线程)，从CSV Data Set Config中所获取的数据是一样的。\n运行结果\n线程：线程组1 1-1的执行时间比线程：线程组2 2-1早，所以线程：线程组1 1-1会获取txt文件第一行的数据，即HTTP请求-1获取111、222；HTTP请求-2获取333、444。\n则HTTP请求-3获取aaa、bbb；HTTP请求-4获取ccc、ddd，获取第二行数据。\n若这两个线程组分别有多个线程，而且文件中的数据足够多，所有的线程按照执行顺序依次获取每行数据。\n当前线程组 该模式下，只有同一个线程组内的线程会共享CSV文件。比如数据文件有10行数据，并且有10个线程在同一个线程组中，每个线程将分别读取一行数据。不同的线程组分别独立从CSV Data Set Config获取数据。\n示例Jmeter脚本\n测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2\nCSV 数据文件设置中配置参数\n文件名：txt文件的路径\n文件编码：UTF-8\n变量名称：a,b,c,d\n线程共享模式：所有线程\n线程组1、线程组2的线程数配置为：2\n线程组1下添加HTTP请求-1、HTTP请求-2\n线程组2下添加HTTP请求-3、HTTP请求-4\n所有取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\n所有取样器的请求方式：GET\nHTTP请求-1中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\nHTTP请求-2中添加参数。名称1：c值1：${c}；名称2：d，值2：${d}\nHTTP请求-3中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\nHTTP请求-4中添加参数。名称1：c值1：${c}；名称2：d，值2：${d}\n运行结果\n同线程组的两个线程，分别获取文件中第一行、第二行的数据。线程：线程组1 1-1获取第一行数据，线程：线程组1 1-2获取第二行数据。\n不同线程组之间互相独立。线程：线程组1 1-1获取第一行数据，线程：线程组2 2-1都获取第一行数据。\n当前线程 该模式下，各个线程相互独立，分别独立从CSV Data Set Config获取数据。\n示例Jmeter脚本\n测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2\nCSV 数据文件设置中配置参数\n文件名：txt文件的路径\n文件编码：UTF-8\n变量名称：a,b,c,d\n线程共享模式：当前线程\n线程组1、线程组2的线程数配置为：2\n线程组1下添加HTTP请求-1\n线程组2下添加HTTP请求-2\n所有取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\n所有取样器的请求方式：GET\nHTTP请求-1中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\nHTTP请求-2中添加参数。名称1：a值1：${a}；名称2：b，值2：${b}\n运行结果\n所有线程都获取第一行数据了。\n循环 另外在使用CSV Data Set Config时，还需注意循环次数。\n配置所有线程，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环\n执行时，首先两个线程组共四个线程获取文件的前四行数据，然后线程组(A)第二次循环获取第五、六行数据，线程组(A)第三次循环获取第七、八行数据后结束。\n配置当前线程组，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环\n执行时，首先线程组相互独立，两个线程组的两个线程都从数据文件中获取前两行数据，然后线程组(A)第二次循环获取第三、四行数据，线程组(A)第三次循环获取第五、六行数据后结束。\n配置当前线程，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环\n执行时，首先各个线程相互独立，两个线程组共四个线程都从数据文件中获取第一行数据，然后线程组(A)第二次循环的两个线程都获取第二行数据，线程组(A)第三次循环的两个线程都获取第三行数据。\n编辑 其中忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程、线程共享模式的选项中还有编辑选项，因未使用过，我并不知怎样使用，读者们可以去探究一番。\n",
+  "wordCount" : "3745",
+  "inLanguage": "zh",
+  "image":"http://192.168.9.98/img/Jmeter.png","datePublished": "2024-05-14T00:00:00Z",
+  "dateModified": "2024-07-25T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "JZY"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://192.168.9.98/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    (function () {
+        let  arr,reg = new RegExp("(^| )"+"change-themes"+"=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+        } else {
+            if (new Date().getHours() >= 19 || new Date().getHours() < 6) {
+                document.body.classList.add('dark');
+                localStorage.setItem("pref-theme", 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem("pref-theme", 'light');
+            }
+        }
+    })()
+
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://192.168.9.98/" accesskey="h" title="𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨 (Alt + H)">
+            <img src="http://192.168.9.98/img/favicon.png" alt="logo" aria-label="logo"
+                 height="35">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://192.168.9.98/" title="主页">
+                <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/posts" title="文章">
+                <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/archives/" title="时间轴">
+                <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/tags" title="标签">
+                <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/about" title="关于">
+                <span>关于</span>
+                </a>
+            </li>
+			<li>
+                <a href="https://www.jzy-blogs.cn/music.html" target="_blank" title="音乐">
+                <span>音乐</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+</style>
+
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="http://192.168.9.98/">主页</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/">文章</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/">技术</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/jmeter/">Jmeter系列</a></div>
+            <h1 class="post-title">
+                Jmeter-CSV Data Set Config
+            </h1>
+            <div class="post-description">
+                CSV Data Set Config的作用及使用方法
+            </div>
+            <div class="post-meta">
+
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2024-05-14
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_2">
+        <span class="fa fa-calendar-plus-o"></span>
+        <span>2024-07-25
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>3745字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>8分钟
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>JZY
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+            <span class="post-tags-meta">
+                <a href="http://192.168.9.98/tags/jmeter/" style="color: var(--secondary)!important;">Jmeter</a>
+            </span>
+        </span>
+    </span>
+</span>
+&nbsp;&nbsp;
+                    <span id="post_meta_style_8">
+                        <span class="fa fa-commenting-o"></span>
+                        <span>
+                            <script src="https://cdn.staticfile.org/twikoo/1.5.8/twikoo.all.min.js"></script>
+                            <script>
+                                let url = document.documentURI
+                                
+                                let dnsUrl = "http://192.168.9.98/"
+                                let urlSplit = url.split(dnsUrl)
+                                let finalUrl = urlSplit[1]
+                                if (finalUrl[0] !== '/') {
+                                    finalUrl = '/'+finalUrl
+                                }
+                                twikoo.getCommentsCount({
+                                    envId:  null , 
+                                region:  null , 
+                                urls: [ 
+                                    
+                                    finalUrl,
+                                ],
+                                    includeReply: false 
+                                }).then(function (res) {
+                                    let count = res[0].count
+                                    const obj = document.getElementById("comment_count");
+                                    obj.innerText = count
+                                    
+                                    
+                                    
+                                }).catch(function (err) {
+                                    
+                                    console.error(err);
+                                });
+                            </script>
+                            <span id="comment_count"></span>
+                        </span>
+                    </span>
+                </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img style="zoom:;" loading="lazy" src="http://192.168.9.98/img/Jmeter.png" alt="">
+    <p><text></p>
+</figure><aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%85%b3%e4%ba%8ecsv-data-set-config" aria-label="关于CSV Data Set Config">关于CSV Data Set Config</a></li>
+                <li>
+                    <a href="#%e6%96%87%e4%bb%b6%e5%90%8d" aria-label="文件名">文件名</a></li>
+                <li>
+                    <a href="#%e6%96%87%e4%bb%b6%e7%bc%96%e7%a0%81" aria-label="文件编码">文件编码</a></li>
+                <li>
+                    <a href="#%e5%8f%98%e9%87%8f%e5%90%8d%e7%a7%b0" aria-label="变量名称">变量名称</a></li>
+                <li>
+                    <a href="#%e5%bf%bd%e7%95%a5%e9%a6%96%e8%a1%8c" aria-label="忽略首行">忽略首行</a></li>
+                <li>
+                    <a href="#%e5%88%86%e9%9a%94%e7%ac%a6" aria-label="分隔符">分隔符</a></li>
+                <li>
+                    <a href="#%e6%98%af%e5%90%a6%e5%85%81%e8%ae%b8%e5%b8%a6%e5%bc%95%e5%8f%b7" aria-label="是否允许带引号">是否允许带引号</a></li>
+                <li>
+                    <a href="#%e9%81%87%e5%88%b0%e6%96%87%e4%bb%b6%e7%bb%93%e6%9d%9f%e7%ac%a6%e5%86%8d%e6%ac%a1%e5%be%aa%e7%8e%af" aria-label="遇到文件结束符再次循环">遇到文件结束符再次循环</a></li>
+                <li>
+                    <a href="#%e9%81%87%e5%88%b0%e6%96%87%e4%bb%b6%e7%bb%93%e6%9d%9f%e7%ac%a6%e5%81%9c%e6%ad%a2%e7%ba%bf%e7%a8%8b" aria-label="遇到文件结束符停止线程">遇到文件结束符停止线程</a></li>
+                <li>
+                    <a href="#%e7%ba%bf%e7%a8%8b%e5%85%b1%e4%ba%ab%e6%a8%a1%e5%bc%8f" aria-label="线程共享模式">线程共享模式</a><ul>
+                        
+                <li>
+                    <a href="#%e6%89%80%e6%9c%89%e7%ba%bf%e7%a8%8b" aria-label="所有线程">所有线程</a></li>
+                <li>
+                    <a href="#%e5%bd%93%e5%89%8d%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="当前线程组">当前线程组</a></li>
+                <li>
+                    <a href="#%e5%bd%93%e5%89%8d%e7%ba%bf%e7%a8%8b" aria-label="当前线程">当前线程</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%be%aa%e7%8e%af" aria-label="循环">循环</a></li>
+                <li>
+                    <a href="#%e7%bc%96%e8%be%91" aria-label="编辑">编辑</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        if (elements) {
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                    (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                    return element;
+                }
+            }) || activeElement
+
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                if (element === activeElement){
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+                } else {
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+                }
+            })
+        }
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        <div class="post-content"><h2 id="关于csv-data-set-config">关于CSV Data Set Config<a hidden class="anchor" aria-hidden="true" href="#关于csv-data-set-config">#</a></h2>
+<p>它允许你从CSV、TXT文件中读取数据，在测试计划的运行过程中将这些数据作为变量使用。这在进行性能测试时非常有用，尤其是当你需要模拟大量用户使用不同的输入数据时。</p>
+<p>通过<code>右键-添加-配置元件-CSV Data Set Config</code>添加，可以添加在<code>测试计划、线程组、取样器</code>下，作用域也随之变化。</p>
+<p><strong>参数包括：</strong></p>
+<ul>
+<li>
+<p><code>文件名</code></p>
+</li>
+<li>
+<p><code>文件编码</code></p>
+</li>
+<li>
+<p><code>变量名称</code></p>
+</li>
+<li>
+<p><code>忽略首行</code></p>
+</li>
+<li>
+<p><code>分隔符</code></p>
+</li>
+<li>
+<p><code>是否允许带引号？</code></p>
+</li>
+<li>
+<p><code>遇到文件结束符再次循环</code></p>
+</li>
+<li>
+<p><code>遇到文件结束符停止线程</code></p>
+</li>
+<li>
+<p><code>线程共享模式</code></p>
+</li>
+</ul>
+
+
+
+
+<div style="display: inline-grid; grid-template-columns: 7% 93%; padding: 15px; background-color: rgb(255, 255, 255); border: 1px solid #ebe6e6; border-radius: 13px; margin-bottom: 0; width: 99%;">
+    <div style="display: flex; align-items: center; justify-content: center;">
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-tabler icon-tabler-alert-square-rounded" width="44" height="44" viewBox="0 0 44 44" fill="none">
+			<path d="M22 5.5C35.2 5.5 38.5 8.8 38.5 22C38.5 35.2 35.2 38.5 22 38.5C8.8 38.5 5.5 35.2 5.5 22C5.5 8.8 8.8 5.5 22 5.5Z" stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round" >
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round"  d="M22 13L22 20.3333">
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75"  stroke-linecap="round"  d="M22 26L22 28">
+			</path>
+		</svg>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: flex-start; margin-left: 15px; font-size: 1rem; width: 100%; height: 100%;">
+使用示例脚本，需下载示例接口源码并运行。
+</div>
+</div>
+
+
+<br>
+<h2 id="文件名">文件名<a hidden class="anchor" aria-hidden="true" href="#文件名">#</a></h2>
+<p>需输入数据文件的路径，运行时Jmeter会按路径查找数据文件。如果路径错误，Jmeter会报错。</p>
+<p><div class="bigImg"><img loading="lazy" src="1.png" alt=""  /></div>
+</p>
+<p>JMeter提示试图读取一个名为test.txt的文件，但是这个文件不存在或者JMeter没有读取它的权限。</p>
+<br>
+<h2 id="文件编码">文件编码<a hidden class="anchor" aria-hidden="true" href="#文件编码">#</a></h2>
+<p>编码是计算机用于表示字符的数字或二进制值。以下是一些常见的编码系统及其特点：</p>
+<ol>
+<li>
+<p><strong>ASCII (American Standard Code for Information Interchange)</strong></p>
+<ul>
+<li><code>编码范围：0-127</code></li>
+<li><code>字符集：基本的英文字符、数字、标点符号和控制字符</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Extended ASCII</strong></p>
+<ul>
+<li><code>编码范围：128-255</code></li>
+<li><code>字符集：在ASCII基础上扩展，包含其他语言的字符</code></li>
+</ul>
+</li>
+<li>
+<p><strong>ISO 8859-1 (Latin-1 Character Set)</strong></p>
+<ul>
+<li><code>编码范围：0-255</code></li>
+<li><code>字符集：扩展了ASCII，包括西欧语言的特殊字符</code></li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-8 (Unicode Transformation Format - 8-bit)</strong></p>
+<ul>
+<li><code>编码范围：1-4字节</code></li>
+<li><code>字符集：支持全球几乎所有语言的字符，包括表情符号等</code></li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-16 (Unicode Transformation Format - 16-bit)</strong></p>
+<ul>
+<li><code>编码范围：2字节（BMP）或4字节（辅助平面）</code></li>
+<li><code>字符集：同UTF-8，但使用固定长度的字节对</code></li>
+</ul>
+</li>
+<li>
+<p><strong>UTF-32 (Unicode Transformation Format - 32-bit)</strong></p>
+<ul>
+<li><code>编码范围：固定4字节</code></li>
+<li><code>字符集：同UTF-8和UTF-16，但每个字符固定占用4字节</code></li>
+</ul>
+</li>
+<li>
+<p><strong>GBK (Chinese Internal Code Specification)</strong></p>
+<ul>
+<li><code>编码范围：双字节</code></li>
+<li><code>字符集：主要用于简体中文</code></li>
+</ul>
+</li>
+<li>
+<p><strong>GB2312</strong></p>
+<ul>
+<li><code>编码范围：单字节和双字节</code></li>
+<li><code>字符集：主要用于简体中文，是GBK的前身</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Big5</strong></p>
+<ul>
+<li><code>编码范围：双字节</code></li>
+<li><code>字符集：主要用于繁体中文</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Shift_JIS (Shifting Japanese Industrial Standards)</strong></p>
+<ul>
+<li><code>编码范围：单字节和双字节</code></li>
+<li><code>字符集：主要用于日文</code></li>
+</ul>
+</li>
+<li>
+<p><strong>EUC-JP (Extended Unix Code - Japanese)</strong></p>
+<ul>
+<li><code>编码范围：多字节</code></li>
+<li><code>字符集：主要用于日文</code></li>
+</ul>
+</li>
+<li>
+<p><strong>KOI8-R (KOI8 Russian)</strong></p>
+<ul>
+<li><code>编码范围：单字节</code></li>
+<li><code>字符集：主要用于俄文</code></li>
+</ul>
+</li>
+</ol>
+<p>这些编码系统各有特点，适用于不同的语言和场景。随着全球化的发展，UTF-8因其兼容性和效率成为了最广泛使用的编码方式。</p>
+<p>推荐使用UTF-8编码，因为它可以表示任何语言的字符，并且是Web标准。几乎所有的现代文本编辑器、浏览器和编程语言都支持UTF-8。如遇到一些UTF-8无法兼容的语言，可以选择或编辑添加其他编码。</p>
+<br>
+<h2 id="变量名称">变量名称<a hidden class="anchor" aria-hidden="true" href="#变量名称">#</a></h2>
+<p>数据文件中，1列对应1个变量，从左依次对应。变量名称不应多于列数。每次读取1行。以TXT文件为例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>111,222,333,444,555,666,777
+</span></span><span style="display:flex;"><span>aaa,bbb,ccc,ddd,eee,fff,ggg
+</span></span></code></pre></div><p>数据文件中有5列，代表有7个变量。</p>
+<p>变量名称可以输入<code>a1,a2,a3,a4,a5,a6,a7</code>，<code>a1</code>获取第1列数据，<code>a7</code>获取第7列数据。<code>a1</code>第1次获取<code>111</code>，<code>a1</code>第2次获取<code>aaa</code>。</p>
+<br>
+<h2 id="忽略首行">忽略首行<a hidden class="anchor" aria-hidden="true" href="#忽略首行">#</a></h2>
+<p>如果数据文件的第一行包含列标题，可以使用此选项跳过第一行，只读取数据。以csv文件为例：</p>
+<p><div class="bigImg"><img loading="lazy" src="2.png" alt=""  /></div>
+</p>
+<p>第1行只是标题，实际上并不需要标题数据。这种情况下可以选择<code>True</code>，不获取第1行。</p>
+<br>
+<h2 id="分隔符">分隔符<a hidden class="anchor" aria-hidden="true" href="#分隔符">#</a></h2>
+<p>不建议更改，使用<code>,(英文符)</code>即可。</p>
+<p>TXT文件中列于列之间要用<code>,</code>分隔。</p>
+<br>
+<h2 id="是否允许带引号">是否允许带引号<a hidden class="anchor" aria-hidden="true" href="#是否允许带引号">#</a></h2>
+<p>以TXT文件为例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&#34;444&#34;
+</span></span></code></pre></div><p>选择<code>True</code>，引用变量时，获取的值会是<code>444</code>。</p>
+<p>选择<code>False</code>，引用变量时，获取的值会是<code>&quot;444&quot;</code>。</p>
+<br>
+<h2 id="遇到文件结束符再次循环">遇到文件结束符再次循环<a hidden class="anchor" aria-hidden="true" href="#遇到文件结束符再次循环">#</a></h2>
+<p>文件结束符（End Of File，简称EOF）是一个用于表示文件内容结束的信号，在txt、csv等文件的未尾以<code>&lt;EOF&gt;</code>结束。当程序读取文件时，以<code>&lt;EOF&gt;</code>来确定是否已经到达文件的末尾。</p>
+<p>当读取到文件的结束符，线程或循环还没结束时。选择<code>True</code>，接下来的线程或循环会继续从文件的首行开始（可能忽略首行）。选择<code>False</code>，接下来的线程或循环会一直获取文件的结束符<code>&lt;EOF&gt;</code>。</p>
+<br>
+<h2 id="遇到文件结束符停止线程">遇到文件结束符停止线程<a hidden class="anchor" aria-hidden="true" href="#遇到文件结束符停止线程">#</a></h2>
+<p>当读取到文件的结束符，线程或循环还没结束时。选择<code>True</code>，接下来的线程或循环不会再继续。选择<code>False</code>，不会影响到线程或循环的继续。</p>
+<br>
+<h2 id="线程共享模式">线程共享模式<a hidden class="anchor" aria-hidden="true" href="#线程共享模式">#</a></h2>
+<p><strong>其提供了多种模式来指定如何使用数据文件，模式共有：</strong></p>
+<ul>
+<li>
+<p><code>所有线程</code></p>
+</li>
+<li>
+<p><code>当前线程组</code></p>
+</li>
+<li>
+<p><code>当前线程</code></p>
+</li>
+</ul>
+<p><strong>我们可以使用txt文件作为数据文件，文件内容如下：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>111,222,333,444
+</span></span><span style="display:flex;"><span>aaa,bbb,ccc,ddd
+</span></span><span style="display:flex;"><span>888,999,1010,2020
+</span></span><span style="display:flex;"><span>fff,iii,jjj,kkk
+</span></span><span style="display:flex;"><span>6060,7070,8080,9090
+</span></span><span style="display:flex;"><span>000,ppp,qqq,rrr
+</span></span></code></pre></div><h3 id="所有线程">所有线程<a hidden class="anchor" aria-hidden="true" href="#所有线程">#</a></h3>
+<p>默认的共享模式，所有线程共享同一个CSV文件，所有线程将按照执行顺序依次读取CSV文件中每一行的数据(一个线程一行数据)，直到文件结束。</p>
+<p><strong>示例Jmeter脚本</strong></p>
+<ul>
+<li>
+<p><strong>测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2</strong></p>
+</li>
+<li>
+<p><strong>CSV 数据文件设置中配置参数<br>文件名：<code>txt文件的路径</code><br>文件编码：<code>UTF-8</code><br>变量名称：<code>a,b,c,d</code><br>线程共享模式：<code>所有线程</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加HTTP请求-1、HTTP请求-2</strong></p>
+</li>
+<li>
+<p><strong>线程组2下添加HTTP请求-3、HTTP请求-4</strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求方式：<code>GET</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-1中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-2中添加参数。名称1：<code>c</code>值1：<code>${c}</code>；名称2：<code>d</code>，值2：<code>${d}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-3中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-4中添加参数。名称1：<code>c</code>值1：<code>${c}</code>；名称2：<code>d</code>，值2：<code>${d}</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="3.png" alt=""  /></div>
+</p>
+<p><div class="bigImg"><img loading="lazy" src="4.png" alt=""  /></div>
+</p>
+<p>线程组下的请求同属一个线程(比如请求1、请求2同属一个线程)，从<code>CSV Data Set Config</code>中所获取的数据是一样的。</p>
+<p><strong>运行结果</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="5.png" alt=""  /></div>
+</p>
+<p>线程：<code>线程组1 1-1</code>的执行时间比线程：<code>线程组2 2-1</code>早，所以线程：<code>线程组1 1-1</code>会获取txt文件第一行的数据，即<code>HTTP请求-1获取111、222；HTTP请求-2获取333、444</code>。</p>
+<p>则<code>HTTP请求-3获取aaa、bbb；HTTP请求-4获取ccc、ddd</code>，获取第二行数据。</p>
+<p>若这两个线程组分别有多个线程，而且文件中的数据足够多，所有的线程按照执行顺序依次获取每行数据。</p>
+<h3 id="当前线程组">当前线程组<a hidden class="anchor" aria-hidden="true" href="#当前线程组">#</a></h3>
+<p>该模式下，只有同一个线程组内的线程会共享CSV文件。比如数据文件有10行数据，并且有10个线程在同一个线程组中，每个线程将分别读取一行数据。不同的线程组分别独立从<code>CSV Data Set Config</code>获取数据。</p>
+<p><strong>示例Jmeter脚本</strong></p>
+<ul>
+<li>
+<p><strong>测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2</strong></p>
+</li>
+<li>
+<p><strong>CSV 数据文件设置中配置参数<br>文件名：<code>txt文件的路径</code><br>文件编码：<code>UTF-8</code><br>变量名称：<code>a,b,c,d</code><br>线程共享模式：<code>所有线程</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1、线程组2的线程数配置为：<code>2</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加HTTP请求-1、HTTP请求-2</strong></p>
+</li>
+<li>
+<p><strong>线程组2下添加HTTP请求-3、HTTP请求-4</strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求方式：<code>GET</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-1中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-2中添加参数。名称1：<code>c</code>值1：<code>${c}</code>；名称2：<code>d</code>，值2：<code>${d}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-3中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-4中添加参数。名称1：<code>c</code>值1：<code>${c}</code>；名称2：<code>d</code>，值2：<code>${d}</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="6.png" alt=""  /></div>
+</p>
+<p><div class="bigImg"><img loading="lazy" src="4.png" alt=""  /></div>
+</p>
+<p><strong>运行结果</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="7.png" alt=""  /></div>
+</p>
+<p>同线程组的两个线程，分别获取文件中第一行、第二行的数据。线程：<code>线程组1 1-1</code>获取第一行数据，线程：<code>线程组1 1-2</code>获取第二行数据。</p>
+<p>不同线程组之间互相独立。线程：<code>线程组1 1-1</code>获取第一行数据，线程：<code>线程组2 2-1</code>都获取第一行数据。</p>
+<h3 id="当前线程">当前线程<a hidden class="anchor" aria-hidden="true" href="#当前线程">#</a></h3>
+<p>该模式下，各个线程相互独立，分别独立从<code>CSV Data Set Config</code>获取数据。</p>
+<p><strong>示例Jmeter脚本</strong></p>
+<ul>
+<li>
+<p><strong>测试计划下添加查看结果树、CSV 数据文件设置、线程组1、线程组2</strong></p>
+</li>
+<li>
+<p><strong>CSV 数据文件设置中配置参数<br>文件名：<code>txt文件的路径</code><br>文件编码：<code>UTF-8</code><br>变量名称：<code>a,b,c,d</code><br>线程共享模式：<code>当前线程</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1、线程组2的线程数配置为：<code>2</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加HTTP请求-1</strong></p>
+</li>
+<li>
+<p><strong>线程组2下添加HTTP请求-2</strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>所有取样器的请求方式：<code>GET</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-1中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求-2中添加参数。名称1：<code>a</code>值1：<code>${a}</code>；名称2：<code>b</code>，值2：<code>${b}</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="8.png" alt=""  /></div>
+</p>
+<p><strong>运行结果</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="9.png" alt=""  /></div>
+</p>
+<p>所有线程都获取第一行数据了。</p>
+<br>
+<h2 id="循环">循环<a hidden class="anchor" aria-hidden="true" href="#循环">#</a></h2>
+<p>另外在使用<code>CSV Data Set Config</code>时，还需注意循环次数。</p>
+<p><strong>配置<code>所有线程</code>，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环</strong></p>
+<p>执行时，首先两个线程组共四个线程获取文件的前四行数据，然后线程组(A)第二次循环获取第五、六行数据，线程组(A)第三次循环获取第七、八行数据后结束。</p>
+<p><strong>配置<code>当前线程组</code>，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环</strong></p>
+<p>执行时，首先线程组相互独立，两个线程组的两个线程都从数据文件中获取前两行数据，然后线程组(A)第二次循环获取第三、四行数据，线程组(A)第三次循环获取第五、六行数据后结束。</p>
+<p><strong>配置<code>当前线程</code>，如果有2个线程组、这两个线程组都是2个线程，线程组(A)有3次循环</strong></p>
+<p>执行时，首先各个线程相互独立，两个线程组共四个线程都从数据文件中获取第一行数据，然后线程组(A)第二次循环的两个线程都获取第二行数据，线程组(A)第三次循环的两个线程都获取第三行数据。</p>
+<h2 id="编辑">编辑<a hidden class="anchor" aria-hidden="true" href="#编辑">#</a></h2>
+<p>其中<code>忽略首行、是否允许带引号、遇到文件结束符再次循环、遇到文件结束符停止线程、线程共享模式</code>的选项中还有<code>编辑</code>选项，因未使用过，我并不知怎样使用，读者们可以去探究一番。</p>
+<br>
+
+<img src="/img/favicon.png" alt="">
+
+<hr>
+
+
+			<span style="font-size:0.8rem;">© 转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></span>
+        </div>
+
+        <footer class="post-footer">
+            
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on twitter"
+       href="https://twitter.com/intent/tweet/?text=Jmeter-CSV%20Data%20Set%20Config&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f&amp;hashtags=Jmeter">
+    <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on linkedin"
+       href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f&amp;title=Jmeter-CSV%20Data%20Set%20Config&amp;summary=Jmeter-CSV%20Data%20Set%20Config&amp;source=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on reddit"
+       href="https://reddit.com/submit?url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f&title=Jmeter-CSV%20Data%20Set%20Config">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on facebook"
+       href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on whatsapp"
+       href="https://api.whatsapp.com/send?text=Jmeter-CSV%20Data%20Set%20Config%20-%20http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-CSV Data Set Config on telegram"
+       href="https://telegram.me/share/url?text=Jmeter-CSV%20Data%20Set%20Config&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fcsvdatasetconfig%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+        </footer>
+    </div>
+</article>
+</main>
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        2024-2024
+        <a href="http://192.168.9.98/" style="color:#939393;">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+        版权所有
+    </span>
+	<span class="running-time">
+	&emsp;本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		&emsp;💭 11篇文章&emsp;⌨ 39.50k字
+	</span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        (function() {
+            document.cookie = "change-themes" + "="+ escape ("false");
+        })()
+
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    });
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = '复制';
+
+    function copyingDone() {
+        copybutton.innerText = '已复制！';
+        setTimeout(() => {
+            copybutton.innerText = '复制';
+        }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+        if ('clipboard' in navigator) {
+            let text = codeblock.textContent +
+                '\r\n————————————————\r\n' +
+                '版权声明：本文为「' + "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨" + '」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+            navigator.clipboard.writeText(text);
+            copyingDone();
+            return;
+        }
+
+        const range = document.createRange();
+        range.selectNodeContents(codeblock);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        try {
+            document.execCommand('copy');
+            copyingDone();
+        } catch (e) {}
+        selection.removeRange(range);
+    });
+
+    
+    let language = codeblock.className.split(" ").find(cls => cls.startsWith("language-"));
+    if (language) {
+        language = language.replace("language-", "");
+    } else {
+        language = ""; 
+    }
+
+    let macTool = document.createElement("div");
+    let macTool1 = document.createElement("div");
+    let macTool2 = document.createElement("div");
+    let macTool3 = document.createElement("div");
+    let languageType = document.createElement("div");
+    languageType.innerText = language;
+    macTool.setAttribute('class', 'mac-tool');
+    macTool1.setAttribute('class', 'mac bb1');
+    macTool2.setAttribute('class', 'mac bb2');
+    macTool3.setAttribute('class', 'mac bb3');
+    languageType.setAttribute('class', 'language-type');
+    macTool.appendChild(macTool1);
+    macTool.appendChild(macTool2);
+    macTool.appendChild(macTool3);
+    macTool.appendChild(languageType);
+
+    if (container.classList.contains("highlight")) {
+        container.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else if (container.parentNode.firstChild == container) {
+        
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+        
+        codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else {
+        
+        codeblock.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    }
+	});
+
+</script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button style="color: #f10707;position: absolute;top: 0;right: 0;text-align: center;background-color: #fff;border-radius: 5px;border: none;outline: none;cursor: pointer;padding: 5px;" id="close">X</button>
+        </div>
+		
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+
+</body>
+
+</html>

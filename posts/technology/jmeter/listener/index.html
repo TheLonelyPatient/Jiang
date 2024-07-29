@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Jmeter-监听器 | 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+<meta name="keywords" content="监听器,Jmeter,JZY">
+<meta name="description" content="介绍各种监听器的用法">
+<meta name="author" content="JZY">
+<link rel="canonical" href="http://192.168.9.98/posts/technology/jmeter/listener/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://192.168.9.98/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://192.168.9.98/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="http://192.168.9.98/favicon.ico">
+<link rel="apple-touch-icon" href="http://192.168.9.98/favicon.ico">
+<link rel="mask-icon" href="http://192.168.9.98/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://192.168.9.98/posts/technology/jmeter/listener/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+
+<meta property="og:title" content="Jmeter-监听器" />
+<meta property="og:description" content="介绍各种监听器的用法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://192.168.9.98/posts/technology/jmeter/listener/" />
+<meta property="og:image" content="http://192.168.9.98/img/Jmeter.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-06-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-06-18T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://192.168.9.98/img/Jmeter.png" />
+<meta name="twitter:title" content="Jmeter-监听器"/>
+<meta name="twitter:description" content="介绍各种监听器的用法"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+
+        {
+          "@type": "ListItem",
+          "position":  1 ,
+          "name": "文章",
+          "item": "http://192.168.9.98/posts/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  2 ,
+          "name": "技术",
+          "item": "http://192.168.9.98/posts/technology/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  3 ,
+          "name": "Jmeter系列",
+          "item": "http://192.168.9.98/posts/technology/jmeter/"
+        }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Jmeter-监听器",
+      "item": "http://192.168.9.98/posts/technology/jmeter/listener/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jmeter-监听器",
+  "name": "Jmeter-监听器",
+  "description": "介绍各种监听器的用法",
+  "keywords": [
+    "监听器,Jmeter,JZY"
+  ],
+  "articleBody": "关于监听器 在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的响应时间、吞吐量、错误率等信息。JMeter监听器包括：\n查看结果树(View Results Tree)\n汇总报告(Summary Report)\n聚合报告(Aggregate Report)\n后端监听器(Backend Listener)\nJSR223 监听器(JSR223 Listener)\n保存响应到文件(Save Responses to a file)\n响应时间图(Response Time Graph)\n图形结果(Graph Results）\n断言结果(Assertion Results)\n比较断言可视化器(Comparison Assertion Visualizer)\n汇总图(Aggregate Graph)\n生成概要结果(Generate Summary Results)\n用表格查看结果(View Results in Table)\n简单数据写入器(Simple Data Writer)\n邮件观察仪(Mailer Visualizer)\nBeanShell 监听器(BeanShell Listener)\n其实最常用的监听器就是查看结果树、聚合报告、JSR223 监听器，其他监听器特定情况也会用就是了。\n使用示例脚本，需下载示例接口源码并运行。\r查看结果树 该元件显示请求的取样器结果、请求信息、响应信息，可以通过查看结果树中的内容，检查脚本是否有问题，比如IP、端口或者请求数据。还可以检查，响应数据是否正常，常用于接口测试及验证脚本。\n进行性能测试时，它在过程中会消耗大量资源，尽量不要使用。\n结果列表\n绿色代表请求成功，红色代表请求失败(断言未通过也算失败)。\n取样器结果\nThread Name: 执行请求的线程名称，这里是线程组 1-1，表示这是属于线程组1的第1个线程。\nSample Start: 请求开始的时间，格式为年-月-日 时:分:秒，这里是2024-06-14 16:17:12 CST。\nLoad time: 请求的加载时间，包括建立连接、发送请求、接收响应的总时间，这里是2毫秒。\nConnect Time: 建立到服务器的连接所需的时间，这里是1毫秒。\nLatency: 服务器延迟时间，即从发送请求到接收到第一个字节响应的时间，这里是2毫秒。注意这里的延迟时间与连接时间相等，可能是因为这个值已经包含了连接时间。\nSize in bytes: 响应的总字节数，这里是192字节。\nSent bytes: 发送到服务器的请求的字节数，这里是265字节。\nHeaders size in bytes: 响应头的大小，这里是173字节。\nBody size in bytes: 响应体的大小，这里是19字节。\nSample Count: 在这个监听器中捕获的样本数量，这里是1。\nError Count: 遇到的错误数量，这里是0，表示请求成功。\nData type: 响应数据的类型，这里标记为text，表示响应是文本类型。\nResponse code: HTTP响应状态码，200表示请求成功。\nResponse message: HTTP响应消息，OK表示请求被成功处理。\nHTTPSampleResult fields:\nContentType: 响应的MIME类型和字符编码，这里是text/html; charset=utf-8，表示响应是HTML文本，使用UTF-8编码\nDataEncoding: 响应数据的编码，这里也是utf-8。\n请求数据\nConnection: 表示客户端与服务器的连接方式，这里是长连接。\nContent-Length: 表示请求体的长度是15个字节。\nContent-Type: 表示请求体的类型是application/x-www-form-urlencoded，并且使用UTF-8字符编码。\nHost: 指定了请求的目标服务器地址和端口号，这里是本地主机的5000端口。\nUser-Agent: 表示发送请求的客户端软件和版本，这里是Apache HttpClient库，运行在Java环境中。\nPOST http://127.0.0.1:5000/api/QuickUse/: 表示请求方式、URL(包括协议、主机、端口和请求的路径)。\nPOST data:显示请求体中的数据。\n[no cookies]: 这表示请求中没有携带任何Cookie。\n响应数据\nHTTP/1.1 200 OK: 这表示使用的是HTTP协议版本1.1，并且请求成功，状态码200表示服务器成功处理了请求并返回了所请求的资源。\nServer: 这里表明服务器使用的是Werkzeug服务器软件，版本为3.0.1，运行在Python环境下，Python的版本为3.12.3。\nDate: 表示响应的日期和时间，使用GMT（格林尼治标准时间）。\nContent-Type: 这里表示响应的内容类型是HTML，字符编码是UTF-8。\nContent-Length: 表示响应体的字节长度是19字节。\nConnection: close 表示服务器在发送完响应后将关闭连接。这与 Connection: keep-alive 相反，后者表示连接可以保持开启状态以用于发送多个请求。\n请求方式非 GET: 这就是响应体数据。\n所有数据写入一个文件\n建议不要保存文件到C盘，除非以管理员身份运行Jmeter。另外还可以配置日志内容，就请读者自己探究吧。\n这个功能有连个作用：\n配置运行结果保存到那个文件\n通过浏览-打开文件，可以读取文件的数据，在对应的监听器中显示数据。\n所有监听器的所有数据写入一个文件，都是同种作用。\n查找\u0026\u0026结果显示方式\n可以通过查找快速定位请求，支持正则表达式。查找的结果用红色框包裹。\n我自己标记的绿色框，可以选择结果显示方式。还是请读者自己去探究吧。\n汇总报告 可以查看事务或者取样器在某个时间范围内执行的汇总结果，一个取样器或事务占一行。数据包括样本(请求量)、平均值、最小值、最大值、标准偏差、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec、平均字节数。\nLable：每个请求的名称。每个 JMeter 的 element(例如 HTTP Request)都有一个 Name 属性，这里显示的就是 Name 属性的值。\n样本（Samples）：取样器请求的数量。\n平均值（Average）：请求（事务）的平均响应时间。\n最小值（Min）：请求的最小响应时间。\n最大值（Max）：请求的最大响应时间。\n标准偏差（Std.Dev）： 响应时间的标准方差。\n异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数。\n吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（ 注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数。\n接收 KB/sec（Received KB/sec）：每秒接收的千字节数。\n发送 KB/sec（Sent KB/sec）：每秒发送的千字节数。\n平均字节数（Avg.Bytes）：取样结果返回的平均大小。\n还可以保存数据到文件及保存表格数据。\n聚合报告 聚合报告与汇总报告类似，较于汇总报告更占用主机资源。数据包括样本(请求量)、平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec。\nLabel：Label：每个请求的名称。每个 JMeter 的 element(例如 HTTP Request)都有一个 Name 属性，这里显示的就是 Name 属性的值\n样本（Samples）：各请求发出的数量。表示你这次测试中一共发出了多少个请求，如果模拟10个用户，每个用户迭代10次，那么这里显示100\n平均值（Average：平均响应时间（单位：毫秒）。默认是单个Request的平均响应时间，当使用了Transaction Controller时，也可以以Transaction为单位显示平均响应时间。值 = 总运行时间 / 发送到服务器的总请求数\n中位数（Median）：50%用户的响应时间在小于该值，注意它与average平均响应时间的区别\n90%百分位：90%用户的响应时间小于该值，90%line是性能测试中比较重要的一个衡量指标。\n95%百分位：95%用户的响应时间小于该值\n99%百分位：99%用户的响应时间小于该值\n最小值（Min）：请求的最小响应时间\n最大值（Max）：请求的最大响应时间\n异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数\n吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数\n接收 KB/sec（Received KB/sec）：每秒接收的千字节数\n发送 KB/sec（Sent KB/sec）：每秒发送的千字节数\n还可以保存数据到文件及保存表格数据。另外可以访问百分位数了解概念。\n后端监听器 在Apache JMeter中，后端监听器（Backend Listener）是用于将测试结果实时发送到外部数据存储或监控系统的一种组件。它常用于将性能测试结果发送到外部系统，如Grafana、InfluxDB、ElasticSearch等数据库，以便实时监控和分析性能测试的结果。\n在“后端监听器”组件中，选择“Backend Listener Implementation”（后端监听器实现）类型。常见的实现有： org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient：发送数据到InfluxDB。 org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient：发送数据到Graphite。\n根据选择的实现类型，填写相应的配置信息，如数据库URL、用户名、密码等。\n比如配置InfluxDB后端监听器：\n选择InfluxdbBackendListenerClient作为实现类。\ninfluxdbMetricsSender: 默认值就行。\ninfluxdbUrl: InfluxDB的URL，例如http://localhost:8086/write?db=jmeter。\napplication: 应用名称，用于区分不同的应用或测试。\nmeasurement: 数据表名。\nsummaryOnly: 是否只发送汇总数据，默认false。\nsamplersRegex: 正则表达式，用于匹配要发送的采样器名称，默认是“.*”表示所有采样器。\npercentiles: 需要记录的百分位数，默认是90,95,99。\n启动InfluxDB和Grafana（如果使用这些工具）：\n确保InfluxDB和Grafana已启动并配置正确。\n在InfluxDB中创建一个数据库，用于存储JMeter发送的数据。\n在Grafana中配置一个数据源，指向InfluxDB数据库，并创建仪表盘用于展示数据。\n运行JMeter测试：\n启动JMeter测试计划。\n在Grafana或其他监控工具中查看实时性能测试结果，分析系统的性能表现。\n可以访问github开源JMeter后端监听器了解并使用更多方便、强大的后端监听器方案。\nJSR223 监听器 它允许用户通过自定义脚本来处理采样器的结果数据，使用的主要目的是数据存储、实时监控和报警。JSR223监听器支持多种脚本语言，如Groovy、JavaScript、BeanShell等，提供了很大的灵活性来执行复杂的数据处理和结果分析任务。\n示例\n选择脚本语言Groovy。\n在“脚本”区域中，编写脚本代码。\nimport org.apache.jmeter.samplers.SampleResult import java.nio.file.Files import java.nio.file.Paths import java.nio.file.StandardOpenOption // 获取当前采样器的结果 SampleResult sampleResult = prev // 获取采样器名称 String samplerName = sampleResult.getSampleLabel() // 获取响应时间 long responseTime = sampleResult.getTime() // 获取响应数据 String responseData = sampleResult.getResponseDataAsString() // 获取响应状态 boolean success = sampleResult.isSuccessful() // 构造日志信息 String logMessage = \"Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}\\n\" // 定义日志文件路径 String logFilePath = \"D:\\logfile.log\" // 将日志信息写入文件 Files.write(Paths.get(logFilePath), logMessage.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND) 输出的logfile.log文件\n当然你也可以在脚本中将结果数据传递到数据库或其他服务系统进行处理，或者直接进行处理。不过这会消耗主机资源，需要做好取舍。\n自定义参数\n你可以通过参数，其他元件（比如用户定义的变量、Jmeter-CSV Data Set Config、函数等）传递数据给脚本。\n参数中输入jiang 1（空格分割，值可以是列表、元组等）\n添加用户定义的变量\n修改上述脚本\n// 新增获取自定义参数，自定义参数会保存到args变量(列表)， String name = args[0] String number = args[1] // 构造日志信息,新增name，number, class, random。random是随机函数。 String logMessage = \"Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}, name: ${name}, number: ${number}, class: ${class}, random: ${__Random(111111,222222,)}\\n\" 输出的logfile.log文件\nname，number, class, random的值都被输出到logfile.log文件中了。\n脚本文件（覆盖脚本）\n符合字面意思，引用脚本文件会覆盖脚本内容。\n把示例脚本内容添加到空白的test.groovy文件中\n引用test.groovy`\n删除logfile.log文件\n输出的logfile.log文件\nname，number, class, random的值不再输出，因为执行的是test.groovy脚本。\n你也可以通过脚本实现阈值功能，比如错误率达到一定值时，自动停止测试。不过在这里我就不再过多阐述，读者可以自己探究。\n保存响应到文件 当结果太大，使用结果树监听器影响图形模式时，我们可以采用响应保存监听器来处理，可以将结果树数据保存到文件。\nSave Successful Responses only：仅保存成功响应。\nSave Failed Responses only：仅保存失败响应。\nDon’t save Transaction Controller SampleResult：不保存事务控制器样本结果。\n文件前缀：文件路径 + 文件前缀。\nDon’t add number to prefix：不添加数字到文件前缀。\nDon’t add content type suffix：不添加文件的后缀类型。\nAdd timestamp：添加时间戳到文件前缀。\nMinimum Length of sequence number：设置文件名称最小的序列号；例如4，文件序号为0001…。\n示例Jmeter\n文件前缀：D:\\Results\\Results1\n线程组线程数：200\n请求地址：HTTP://127.0.0.1:5000/GetList/\n请求方式：GET\n运行后结果\n一个请求结果独立一个文件。\n响应时间图 响应时间图是一个直方图，其中 X 轴表示时间，Y 轴表示响应时间。\n响应时间：就是一个请求从发送到接收到响应的总时间。在图中，每个数据点的Y坐标表示请求响应时间。\n时间：测试计划运行的持续时间。在图中，每个数据点的X坐标表示请求开始的时间。\n分布：数据点在图中的分布，可以分析出响应时间的变化。如果数据点在一条线附近，那么响应时间可能比较稳定。如果数据点在图中的分布比较广，那么响应时间可能有比较大的波动。\n趋势：我们也可以通过响应时间图来观察响应时间的趋势。例如，如果数据点从左至右逐渐上升，那么可能表明随着时间的推移，响应时间在增加。\n其余参数\n时间间隔关系X轴的显示。其它参数都是改变显示方式，如字体。读者可自行探究。\n断言结果 文本显示所有请求名称，如果断言失败，名称下方显示失败原因，成功则不显示。消耗资源较多，且我认为意义不大。\n比较断言可视化器 显示请求断言情况，若断言失败，标红。但无法给出断言信息。\n汇总图 较于汇总报告，多了柱形图功能。列可显示平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值。\n生成概要结果 生成概要结果没有配置参数。生成结果需要在Jmeter日志或者Jmeter-cmd窗口查看。\nin：TPS，每秒取样器执行的数量。\nAvg：平均值。平均响应时间，所有请求的平均响应时间，单位是毫秒。\nMin：最小值。请求的最小响应时间。\nMax：最大值。请求的最大响应时间。\nErr：异常百分比。（错误请求的数量/请求的总数)。\n用表格查看结果 与查看结果树不同，此元件将结果写进表格中，可查看数据也不同。不过都能查看各个请求结果状态。\nSample#：请求序号。\nStart Time：请求开始时间。\nThread Name：线程名称。\nLabel：请求的名称（实际请求中可使用参数化对每个请求做区分）。\nSample Time(ms)：请求的响应时间。\nStatus：请求状态，为勾则表示成功，为叉表示失败。\nBytes：响应的字节数及请求的字节数。\nSent Bytes：发送的字节数。\nLatency：延迟时间（单位：毫秒）。\nConnect Time(ms)：连接服务器的时间。（单位：毫秒）。\n样本数目：所有的请求个数。\n平均：所有请求的平均响应时间。（单位：毫秒）。\n最新样本：最新样本响应时间，表示服务器响应最后一个请求的时间。（单位：毫秒）。\n偏离：不知道怎么算的，不发表意见。\n简单数据写入器 使用该元件，需要在所有数据写入一个文件配置文件路径(建议保存到D盘)。运行后，数据就会保存到文件中。然后可以使用查看结果树、聚合报告、图形结果等查看数据。\n邮件观察仪 主要是做提示用。可以自定义请求成功或失败的次数阈值，触发后就会自动发送邮件。\n需要配置发送人、收件人以及SMTP server。\nFrom：发件人邮箱。\nAddressee(s)：收件人邮箱。\nSuccess Subject：成功的请求数达到阈值后，要发送的信息。\nFailure Subject：失败的请求数达到阈值后，要发送的信息。\nSuccess Limit：成功的请求数阈值。如果不想发送，可以将值设未极大，如10000000。\nFailure Limit：失败的请求数阈值。如果不想发送，可以将值设未极大，如10000000。\nHost：SMTP服务器的域名或IP。\nPort：SMTP服务器的端口号。\nLogin：发件人邮箱账号，一般为发件人邮箱。\nPassword：发件人的授权密码。\n163邮箱为例，在设置中获取：\nCommection security：连接协议。一般都是SSl，以SMTP服务器指定协议为准。\n收件人收到的邮件\nBeanShell 监听器 BeanShell 监听器类似JSR223 监听器。只不过BeanShell 监听器只可以使用BeanShell语言。\n如果会使用JSR223 监听器，那么BeanShell 监听器也没问题。本质上都是编写脚本。\n图形结果 这个可以不用了解，消耗资源多且生成的图表质量不高。\n",
+  "wordCount" : "6740",
+  "inLanguage": "zh",
+  "image":"http://192.168.9.98/img/Jmeter.png","datePublished": "2024-06-14T00:00:00Z",
+  "dateModified": "2024-06-18T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "JZY"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://192.168.9.98/posts/technology/jmeter/listener/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://192.168.9.98/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    (function () {
+        let  arr,reg = new RegExp("(^| )"+"change-themes"+"=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+        } else {
+            if (new Date().getHours() >= 19 || new Date().getHours() < 6) {
+                document.body.classList.add('dark');
+                localStorage.setItem("pref-theme", 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem("pref-theme", 'light');
+            }
+        }
+    })()
+
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://192.168.9.98/" accesskey="h" title="𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨 (Alt + H)">
+            <img src="http://192.168.9.98/img/favicon.png" alt="logo" aria-label="logo"
+                 height="35">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://192.168.9.98/" title="主页">
+                <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/posts" title="文章">
+                <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/archives/" title="时间轴">
+                <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/tags" title="标签">
+                <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/about" title="关于">
+                <span>关于</span>
+                </a>
+            </li>
+			<li>
+                <a href="https://www.jzy-blogs.cn/music.html" target="_blank" title="音乐">
+                <span>音乐</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+</style>
+
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="http://192.168.9.98/">主页</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/">文章</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/">技术</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/jmeter/">Jmeter系列</a></div>
+            <h1 class="post-title">
+                Jmeter-监听器
+            </h1>
+            <div class="post-description">
+                介绍各种监听器的用法
+            </div>
+            <div class="post-meta">
+
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2024-06-14
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_2">
+        <span class="fa fa-calendar-plus-o"></span>
+        <span>2024-06-18
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>6740字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>14分钟
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>JZY
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+            <span class="post-tags-meta">
+                <a href="http://192.168.9.98/tags/jmeter/" style="color: var(--secondary)!important;">Jmeter</a>
+            </span>
+        </span>
+    </span>
+</span>
+&nbsp;&nbsp;
+                    <span id="post_meta_style_8">
+                        <span class="fa fa-commenting-o"></span>
+                        <span>
+                            <script src="https://cdn.staticfile.org/twikoo/1.5.8/twikoo.all.min.js"></script>
+                            <script>
+                                let url = document.documentURI
+                                
+                                let dnsUrl = "http://192.168.9.98/"
+                                let urlSplit = url.split(dnsUrl)
+                                let finalUrl = urlSplit[1]
+                                if (finalUrl[0] !== '/') {
+                                    finalUrl = '/'+finalUrl
+                                }
+                                twikoo.getCommentsCount({
+                                    envId:  null , 
+                                region:  null , 
+                                urls: [ 
+                                    
+                                    finalUrl,
+                                ],
+                                    includeReply: false 
+                                }).then(function (res) {
+                                    let count = res[0].count
+                                    const obj = document.getElementById("comment_count");
+                                    obj.innerText = count
+                                    
+                                    
+                                    
+                                }).catch(function (err) {
+                                    
+                                    console.error(err);
+                                });
+                            </script>
+                            <span id="comment_count"></span>
+                        </span>
+                    </span>
+                </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img style="zoom:;" loading="lazy" src="http://192.168.9.98/img/Jmeter.png" alt="">
+    <p><text></p>
+</figure><aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%85%b3%e4%ba%8e%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="关于监听器">关于监听器</a></li>
+                <li>
+                    <a href="#%e6%9f%a5%e7%9c%8b%e7%bb%93%e6%9e%9c%e6%a0%91" aria-label="查看结果树">查看结果树</a></li>
+                <li>
+                    <a href="#%e6%b1%87%e6%80%bb%e6%8a%a5%e5%91%8a" aria-label="汇总报告">汇总报告</a></li>
+                <li>
+                    <a href="#%e8%81%9a%e5%90%88%e6%8a%a5%e5%91%8a" aria-label="聚合报告">聚合报告</a></li>
+                <li>
+                    <a href="#%e5%90%8e%e7%ab%af%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="后端监听器">后端监听器</a></li>
+                <li>
+                    <a href="#jsr223-%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="JSR223 监听器">JSR223 监听器</a></li>
+                <li>
+                    <a href="#%e4%bf%9d%e5%ad%98%e5%93%8d%e5%ba%94%e5%88%b0%e6%96%87%e4%bb%b6" aria-label="保存响应到文件">保存响应到文件</a></li>
+                <li>
+                    <a href="#%e5%93%8d%e5%ba%94%e6%97%b6%e9%97%b4%e5%9b%be" aria-label="响应时间图">响应时间图</a></li>
+                <li>
+                    <a href="#%e6%96%ad%e8%a8%80%e7%bb%93%e6%9e%9c" aria-label="断言结果">断言结果</a></li>
+                <li>
+                    <a href="#%e6%af%94%e8%be%83%e6%96%ad%e8%a8%80%e5%8f%af%e8%a7%86%e5%8c%96%e5%99%a8" aria-label="比较断言可视化器">比较断言可视化器</a></li>
+                <li>
+                    <a href="#%e6%b1%87%e6%80%bb%e5%9b%be" aria-label="汇总图">汇总图</a></li>
+                <li>
+                    <a href="#%e7%94%9f%e6%88%90%e6%a6%82%e8%a6%81%e7%bb%93%e6%9e%9c" aria-label="生成概要结果">生成概要结果</a></li>
+                <li>
+                    <a href="#%e7%94%a8%e8%a1%a8%e6%a0%bc%e6%9f%a5%e7%9c%8b%e7%bb%93%e6%9e%9c" aria-label="用表格查看结果">用表格查看结果</a></li>
+                <li>
+                    <a href="#%e7%ae%80%e5%8d%95%e6%95%b0%e6%8d%ae%e5%86%99%e5%85%a5%e5%99%a8" aria-label="简单数据写入器">简单数据写入器</a></li>
+                <li>
+                    <a href="#%e9%82%ae%e4%bb%b6%e8%a7%82%e5%af%9f%e4%bb%aa" aria-label="邮件观察仪">邮件观察仪</a></li>
+                <li>
+                    <a href="#beanshell-%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="BeanShell 监听器">BeanShell 监听器</a></li>
+                <li>
+                    <a href="#%e5%9b%be%e5%bd%a2%e7%bb%93%e6%9e%9c" aria-label="图形结果">图形结果</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        if (elements) {
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                    (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                    return element;
+                }
+            }) || activeElement
+
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                if (element === activeElement){
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+                } else {
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+                }
+            })
+        }
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        <div class="post-content"><h2 id="关于监听器">关于监听器<a hidden class="anchor" aria-hidden="true" href="#关于监听器">#</a></h2>
+<p>在JMeter中，监听器（Listeners）是用来收集和展示采样器（Samplers）产生的结果数据的元件。它们可以显示测试过程中的响应时间、吞吐量、错误率等信息。JMeter监听器包括：</p>
+<ul>
+<li>
+<p><code>查看结果树(View Results Tree)</code></p>
+</li>
+<li>
+<p><code>汇总报告(Summary Report)</code></p>
+</li>
+<li>
+<p><code>聚合报告(Aggregate Report)</code></p>
+</li>
+<li>
+<p><code>后端监听器(Backend Listener)</code></p>
+</li>
+<li>
+<p><code>JSR223 监听器(JSR223 Listener)</code></p>
+</li>
+<li>
+<p><code>保存响应到文件(Save Responses to a file)</code></p>
+</li>
+<li>
+<p><code>响应时间图(Response Time Graph)</code></p>
+</li>
+<li>
+<p><code>图形结果(Graph Results）</code></p>
+</li>
+<li>
+<p><code>断言结果(Assertion Results)</code></p>
+</li>
+<li>
+<p><code>比较断言可视化器(Comparison Assertion Visualizer)</code></p>
+</li>
+<li>
+<p><code>汇总图(Aggregate Graph)</code></p>
+</li>
+<li>
+<p><code>生成概要结果(Generate Summary Results)</code></p>
+</li>
+<li>
+<p><code>用表格查看结果(View Results in Table)</code></p>
+</li>
+<li>
+<p><code>简单数据写入器(Simple Data Writer)</code></p>
+</li>
+<li>
+<p><code>邮件观察仪(Mailer Visualizer)</code></p>
+</li>
+<li>
+<p><code>BeanShell 监听器(BeanShell Listener)</code></p>
+</li>
+</ul>
+<p>其实最常用的监听器就是<code>查看结果树、聚合报告、JSR223 监听器</code>，其他监听器特定情况也会用就是了。</p>
+
+
+
+
+<div style="display: inline-grid; grid-template-columns: 7% 93%; padding: 15px; background-color: rgb(255, 255, 255); border: 1px solid #ebe6e6; border-radius: 13px; margin-bottom: 0; width: 99%;">
+    <div style="display: flex; align-items: center; justify-content: center;">
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-tabler icon-tabler-alert-square-rounded" width="44" height="44" viewBox="0 0 44 44" fill="none">
+			<path d="M22 5.5C35.2 5.5 38.5 8.8 38.5 22C38.5 35.2 35.2 38.5 22 38.5C8.8 38.5 5.5 35.2 5.5 22C5.5 8.8 8.8 5.5 22 5.5Z" stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round" >
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round"  d="M22 13L22 20.3333">
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75"  stroke-linecap="round"  d="M22 26L22 28">
+			</path>
+		</svg>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: flex-start; margin-left: 15px; font-size: 1rem; width: 100%; height: 100%;">
+使用示例脚本，需下载示例接口源码并运行。
+</div>
+</div>
+
+
+<br>
+<h2 id="查看结果树">查看结果树<a hidden class="anchor" aria-hidden="true" href="#查看结果树">#</a></h2>
+<p>该元件显示<code>请求的取样器结果、请求信息、响应信息</code>，可以通过查看结果树中的内容，检查脚本是否有问题，比如IP、端口或者请求数据。还可以检查，响应数据是否正常，常用于接口测试及验证脚本。</p>
+<p>进行性能测试时，它在过程中会消耗大量资源，尽量不要使用。</p>
+<p><strong>结果列表</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="1.png" alt=""  /></div>
+</p>
+<p>绿色代表请求成功，红色代表请求失败(断言未通过也算失败)。</p>
+<p><strong>取样器结果</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="2.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>Thread Name: 执行请求的线程名称，这里是<code>线程组 1-1</code>，表示这是属于线程组1的第1个线程。</p>
+</li>
+<li>
+<p>Sample Start: 请求开始的时间，格式为年-月-日 时:分:秒，这里是<code>2024-06-14 16:17:12 CST</code>。</p>
+</li>
+<li>
+<p>Load time: 请求的加载时间，包括建立连接、发送请求、接收响应的总时间，这里是2毫秒。</p>
+</li>
+<li>
+<p>Connect Time: 建立到服务器的连接所需的时间，这里是1毫秒。</p>
+</li>
+<li>
+<p>Latency: 服务器延迟时间，即从发送请求到接收到第一个字节响应的时间，这里是2毫秒。注意这里的延迟时间与连接时间相等，可能是因为这个值已经包含了连接时间。</p>
+</li>
+<li>
+<p>Size in bytes: 响应的总字节数，这里是192字节。</p>
+</li>
+<li>
+<p>Sent bytes: 发送到服务器的请求的字节数，这里是265字节。</p>
+</li>
+<li>
+<p>Headers size in bytes: 响应头的大小，这里是173字节。</p>
+</li>
+<li>
+<p>Body size in bytes: 响应体的大小，这里是19字节。</p>
+</li>
+<li>
+<p>Sample Count: 在这个监听器中捕获的样本数量，这里是1。</p>
+</li>
+<li>
+<p>Error Count: 遇到的错误数量，这里是0，表示请求成功。</p>
+</li>
+<li>
+<p>Data type: 响应数据的类型，这里标记为<code>text</code>，表示响应是文本类型。</p>
+</li>
+<li>
+<p>Response code: HTTP响应状态码，200表示请求成功。</p>
+</li>
+<li>
+<p>Response message: HTTP响应消息，OK表示请求被成功处理。</p>
+</li>
+<li>
+<p>HTTPSampleResult fields:<br>ContentType: 响应的MIME类型和字符编码，这里是<code>text/html; charset=utf-8</code>，表示响应是HTML文本，使用UTF-8编码<br>DataEncoding: 响应数据的编码，这里也是<code>utf-8</code>。</p>
+</li>
+</ul>
+<p><strong>请求数据</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="3.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>Connection:  表示客户端与服务器的连接方式，这里是长连接。</p>
+</li>
+<li>
+<p>Content-Length: 表示请求体的长度是15个字节。</p>
+</li>
+<li>
+<p>Content-Type:  表示请求体的类型是application/x-www-form-urlencoded，并且使用UTF-8字符编码。</p>
+</li>
+<li>
+<p>Host:  指定了请求的目标服务器地址和端口号，这里是本地主机的5000端口。</p>
+</li>
+<li>
+<p>User-Agent:  表示发送请求的客户端软件和版本，这里是Apache HttpClient库，运行在Java环境中。</p>
+</li>
+<li>
+<p>POST http://127.0.0.1:5000/api/QuickUse/: 表示请求方式、URL(包括协议、主机、端口和请求的路径)。</p>
+</li>
+<li>
+<p>POST data:显示请求体中的数据。</p>
+</li>
+<li>
+<p>[no cookies]: 这表示请求中没有携带任何Cookie。</p>
+</li>
+</ul>
+<p><strong>响应数据</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="4.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>HTTP/1.1 200 OK: 这表示使用的是HTTP协议版本1.1，并且请求成功，状态码200表示服务器成功处理了请求并返回了所请求的资源。</p>
+</li>
+<li>
+<p>Server: 这里表明服务器使用的是Werkzeug服务器软件，版本为3.0.1，运行在Python环境下，Python的版本为3.12.3。</p>
+</li>
+<li>
+<p>Date: 表示响应的日期和时间，使用GMT（格林尼治标准时间）。</p>
+</li>
+<li>
+<p>Content-Type: 这里表示响应的内容类型是HTML，字符编码是UTF-8。</p>
+</li>
+<li>
+<p>Content-Length:  表示响应体的字节长度是19字节。</p>
+</li>
+<li>
+<p>Connection: close 表示服务器在发送完响应后将关闭连接。这与 Connection: keep-alive 相反，后者表示连接可以保持开启状态以用于发送多个请求。</p>
+</li>
+<li>
+<p>请求方式非 GET: 这就是响应体数据。</p>
+</li>
+</ul>
+<p><strong>所有数据写入一个文件</strong></p>
+<p>建议不要保存文件到C盘，除非以管理员身份运行Jmeter。另外还可以配置日志内容，就请读者自己探究吧。</p>
+<p>这个功能有连个作用：</p>
+<ul>
+<li>
+<p>配置运行结果保存到那个文件</p>
+</li>
+<li>
+<p>通过浏览-打开文件，可以读取文件的数据，在对应的监听器中显示数据。</p>
+</li>
+</ul>
+<p>所有监听器的<code>所有数据写入一个文件</code>，都是同种作用。</p>
+<p><strong>查找&amp;&amp;结果显示方式</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="5.png" alt=""  /></div>
+</p>
+<p>可以通过查找快速定位请求，支持正则表达式。查找的结果用红色框包裹。</p>
+<p>我自己标记的绿色框，可以选择结果显示方式。还是请读者自己去探究吧。</p>
+<br>
+<h2 id="汇总报告">汇总报告<a hidden class="anchor" aria-hidden="true" href="#汇总报告">#</a></h2>
+<p>可以查看事务或者取样器在某个时间范围内执行的汇总结果，一个取样器或事务占一行。数据包括样本(请求量)、平均值、最小值、最大值、标准偏差、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec、平均字节数。</p>
+<p><div class="bigImg"><img loading="lazy" src="6.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>Lable：每个请求的名称。每个 JMeter 的 element(例如 HTTP Request)都有一个 Name 属性，这里显示的就是 Name 属性的值。</p>
+</li>
+<li>
+<p>样本（Samples）：取样器请求的数量。</p>
+</li>
+<li>
+<p>平均值（Average）：请求（事务）的平均响应时间。</p>
+</li>
+<li>
+<p>最小值（Min）：请求的最小响应时间。</p>
+</li>
+<li>
+<p>最大值（Max）：请求的最大响应时间。</p>
+</li>
+<li>
+<p>标准偏差（Std.Dev）： 响应时间的标准方差。</p>
+</li>
+<li>
+<p>异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数。</p>
+</li>
+<li>
+<p>吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（
+注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数。</p>
+</li>
+<li>
+<p>接收 KB/sec（Received KB/sec）：每秒接收的千字节数。</p>
+</li>
+<li>
+<p>发送 KB/sec（Sent KB/sec）：每秒发送的千字节数。</p>
+</li>
+<li>
+<p>平均字节数（Avg.Bytes）：取样结果返回的平均大小。</p>
+</li>
+</ul>
+<p>还可以保存数据到文件及保存表格数据。</p>
+<br>
+<h2 id="聚合报告">聚合报告<a hidden class="anchor" aria-hidden="true" href="#聚合报告">#</a></h2>
+<p>聚合报告与汇总报告类似，较于汇总报告更占用主机资源。数据包括样本(请求量)、平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值、异常%(错误请求)、吞吐量、接受KB/sec、发送KB/sec。</p>
+<p><div class="bigImg"><img loading="lazy" src="7.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>Label：Label：每个请求的名称。每个 JMeter 的 element(例如 HTTP Request)都有一个 Name 属性，这里显示的就是 Name 属性的值</p>
+</li>
+<li>
+<p>样本（Samples）：各请求发出的数量。表示你这次测试中一共发出了多少个请求，如果模拟10个用户，每个用户迭代10次，那么这里显示100</p>
+</li>
+<li>
+<p>平均值（Average：平均响应时间（单位：毫秒）。默认是单个Request的平均响应时间，当使用了Transaction Controller时，也可以以Transaction为单位显示平均响应时间。值 = 总运行时间 / 发送到服务器的总请求数</p>
+</li>
+<li>
+<p>中位数（Median）：50%用户的响应时间在小于该值，注意它与average平均响应时间的区别</p>
+</li>
+<li>
+<p>90%百分位：90%用户的响应时间小于该值，90%line是性能测试中比较重要的一个衡量指标。</p>
+</li>
+<li>
+<p>95%百分位：95%用户的响应时间小于该值</p>
+</li>
+<li>
+<p>99%百分位：99%用户的响应时间小于该值</p>
+</li>
+<li>
+<p>最小值（Min）：请求的最小响应时间</p>
+</li>
+<li>
+<p>最大值（Max）：请求的最大响应时间</p>
+</li>
+<li>
+<p>异常 %（Error）：请求的错误率 = 错误请求的数量/请求的总数</p>
+</li>
+<li>
+<p>吞吐量（Throughput）：默认情况下表示每秒完成的请求数，一般认为它为TPS。（注意单位的变化，如上图中，当TPS很低时，jmeter中默认会统计成每分钟的值，这时我们需要换算成以秒为单位）。当使用了 Transaction Controller 时，也可以表示类似 LoadRunner 的 Transaction per Second 数</p>
+</li>
+<li>
+<p>接收 KB/sec（Received KB/sec）：每秒接收的千字节数</p>
+</li>
+<li>
+<p>发送 KB/sec（Sent KB/sec）：每秒发送的千字节数</p>
+</li>
+</ul>
+<p>还可以保存数据到文件及保存表格数据。另外可以访问<a href="https://wiki.mbalib.com/wiki/%E7%99%BE%E5%88%86%E4%BD%8D%E6%95%B0">百分位数</a>了解概念。</p>
+<br>
+<h2 id="后端监听器">后端监听器<a hidden class="anchor" aria-hidden="true" href="#后端监听器">#</a></h2>
+<p>在Apache JMeter中，后端监听器（Backend Listener）是用于将测试结果实时发送到外部数据存储或监控系统的一种组件。它常用于将性能测试结果发送到外部系统，如Grafana、InfluxDB、ElasticSearch等数据库，以便实时监控和分析性能测试的结果。</p>
+<p>在“后端监听器”组件中，选择“Backend Listener Implementation”（后端监听器实现）类型。常见的实现有：
+org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient：发送数据到InfluxDB。
+org.apache.jmeter.visualizers.backend.graphite.GraphiteBackendListenerClient：发送数据到Graphite。</p>
+<p>根据选择的实现类型，填写相应的配置信息，如数据库URL、用户名、密码等。</p>
+<p>比如配置InfluxDB后端监听器：</p>
+<ul>
+<li>
+<p>选择InfluxdbBackendListenerClient作为实现类。</p>
+</li>
+<li>
+<p>influxdbMetricsSender: 默认值就行。</p>
+</li>
+<li>
+<p>influxdbUrl: InfluxDB的URL，例如http://localhost:8086/write?db=jmeter。</p>
+</li>
+<li>
+<p>application: 应用名称，用于区分不同的应用或测试。</p>
+</li>
+<li>
+<p>measurement: 数据表名。</p>
+</li>
+<li>
+<p>summaryOnly: 是否只发送汇总数据，默认false。</p>
+</li>
+<li>
+<p>samplersRegex: 正则表达式，用于匹配要发送的采样器名称，默认是“.*”表示所有采样器。</p>
+</li>
+<li>
+<p>percentiles: 需要记录的百分位数，默认是90,95,99。</p>
+</li>
+<li>
+<p>启动InfluxDB和Grafana（如果使用这些工具）：</p>
+</li>
+<li>
+<p>确保InfluxDB和Grafana已启动并配置正确。</p>
+</li>
+<li>
+<p>在InfluxDB中创建一个数据库，用于存储JMeter发送的数据。</p>
+</li>
+<li>
+<p>在Grafana中配置一个数据源，指向InfluxDB数据库，并创建仪表盘用于展示数据。</p>
+</li>
+<li>
+<p>运行JMeter测试：</p>
+</li>
+<li>
+<p>启动JMeter测试计划。</p>
+</li>
+<li>
+<p>在Grafana或其他监控工具中查看实时性能测试结果，分析系统的性能表现。</p>
+<p><div class="bigImg"><img loading="lazy" src="8.png" alt=""  /></div>
+</p>
+</li>
+</ul>
+<p>可以访问<a href="https://github.com/rahulsinghai/jmeter-backend-listener-kafka">github开源JMeter后端监听器</a>了解并使用更多方便、强大的后端监听器方案。</p>
+<br>
+<h2 id="jsr223-监听器">JSR223 监听器<a hidden class="anchor" aria-hidden="true" href="#jsr223-监听器">#</a></h2>
+<p>它允许用户通过自定义脚本来处理采样器的结果数据，使用的主要目的是数据存储、实时监控和报警。JSR223监听器支持多种脚本语言，如Groovy、JavaScript、BeanShell等，提供了很大的灵活性来执行复杂的数据处理和结果分析任务。</p>
+<p><strong>示例</strong></p>
+<ul>
+<li>
+<p>选择脚本语言<code>Groovy</code>。</p>
+</li>
+<li>
+<p>在“脚本”区域中，编写脚本代码。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Groovy" data-lang="Groovy"><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.jmeter.samplers.SampleResult
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Files
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.Paths
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.nio.file.StandardOpenOption
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取当前采样器的结果
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>SampleResult sampleResult <span style="color:#f92672">=</span> prev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取采样器名称
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String samplerName <span style="color:#f92672">=</span> sampleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">getSampleLabel</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取响应时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> responseTime <span style="color:#f92672">=</span> sampleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">getTime</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取响应数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String responseData <span style="color:#f92672">=</span> sampleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">getResponseDataAsString</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取响应状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">boolean</span> success <span style="color:#f92672">=</span> sampleResult<span style="color:#f92672">.</span><span style="color:#a6e22e">isSuccessful</span><span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 构造日志信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String logMessage <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}\n&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 定义日志文件路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String logFilePath <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;D:\logfile.log&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 将日志信息写入文件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Files<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span>Paths<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>logFilePath<span style="color:#f92672">),</span> logMessage<span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(),</span> StandardOpenOption<span style="color:#f92672">.</span><span style="color:#a6e22e">CREATE</span><span style="color:#f92672">,</span> StandardOpenOption<span style="color:#f92672">.</span><span style="color:#a6e22e">APPEND</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div></li>
+</ul>
+<p><strong>输出的logfile.log文件</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="9.png" alt=""  /></div>
+</p>
+<p>当然你也可以在脚本中将结果数据传递到数据库或其他服务系统进行处理，或者直接进行处理。不过这会消耗主机资源，需要做好取舍。</p>
+<br>
+<p><strong>自定义参数</strong></p>
+<p>你可以通过<code>参数</code>，其他元件（比如用户定义的变量、Jmeter-CSV Data Set Config、函数等）传递数据给脚本。</p>
+<ul>
+<li>
+<p><code>参数</code>中输入<code>jiang 1</code>（空格分割，值可以是列表、元组等）</p>
+</li>
+<li>
+<p>添加用户定义的变量</p>
+<p><div class="bigImg"><img loading="lazy" src="img/Jmeter/Listener/10.png" alt=""  /></div>
+</p>
+</li>
+<li>
+<p>修改上述脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Groovy" data-lang="Groovy"><span style="display:flex;"><span><span style="color:#75715e">// 新增获取自定义参数，自定义参数会保存到args变量(列表)，
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String name <span style="color:#f92672">=</span> args<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>String number <span style="color:#f92672">=</span> args<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 构造日志信息,新增name，number, class, random。random是随机函数。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String logMessage <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Sampler: ${samplerName}, Response Time: ${responseTime}ms, Success: ${success}, Response Data: ${responseData}, name: ${name}, number: ${number}, class: ${class}, random: ${__Random(111111,222222,)}\n&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<p><strong>输出的logfile.log文件</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="img/Jmeter/Listener/11.png" alt=""  /></div>
+</p>
+<p><code>name，number, class, random</code>的值都被输出到logfile.log文件中了。</p>
+<p><strong>脚本文件（覆盖脚本）</strong></p>
+<p>符合字面意思，引用脚本文件会覆盖脚本内容。</p>
+<ul>
+<li>
+<p>把示例脚本内容添加到空白的test.groovy文件中</p>
+</li>
+<li>
+<p>引用test.groovy`</p>
+</li>
+<li>
+<p>删除logfile.log文件</p>
+</li>
+</ul>
+<p><strong>输出的logfile.log文件</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="12.png" alt=""  /></div>
+</p>
+<p><code>name，number, class, random</code>的值不再输出，因为执行的是test.groovy脚本。</p>
+<p>你也可以通过脚本实现阈值功能，比如错误率达到一定值时，自动停止测试。不过在这里我就不再过多阐述，读者可以自己探究。</p>
+<br>
+<h2 id="保存响应到文件">保存响应到文件<a hidden class="anchor" aria-hidden="true" href="#保存响应到文件">#</a></h2>
+<p>当结果太大，使用结果树监听器影响图形模式时，我们可以采用响应保存监听器来处理，可以将结果树数据保存到文件。</p>
+<ul>
+<li>
+<p>Save Successful Responses only：仅保存成功响应。</p>
+</li>
+<li>
+<p>Save Failed Responses only：仅保存失败响应。</p>
+</li>
+<li>
+<p>Don’t save Transaction Controller SampleResult：不保存事务控制器样本结果。</p>
+</li>
+<li>
+<p>文件前缀：文件路径 + 文件前缀。</p>
+</li>
+<li>
+<p>Don’t add number to prefix：不添加数字到文件前缀。</p>
+</li>
+<li>
+<p>Don’t add content type suffix：不添加文件的后缀类型。</p>
+</li>
+<li>
+<p>Add timestamp：添加时间戳到文件前缀。</p>
+</li>
+<li>
+<p>Minimum Length of sequence number：设置文件名称最小的序列号；例如4，文件序号为0001…。</p>
+</li>
+</ul>
+<p><strong>示例Jmeter</strong></p>
+<ul>
+<li>
+<p>文件前缀：<code>D:\Results\Results1</code></p>
+</li>
+<li>
+<p>线程组线程数：<code>200</code></p>
+</li>
+<li>
+<p>请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></p>
+</li>
+<li>
+<p>请求方式：<code>GET</code></p>
+</li>
+</ul>
+<p><strong>运行后结果</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="13.png" alt=""  /></div>
+</p>
+<p>一个请求结果独立一个文件。</p>
+<br>
+<h2 id="响应时间图">响应时间图<a hidden class="anchor" aria-hidden="true" href="#响应时间图">#</a></h2>
+<p>响应时间图是一个直方图，其中 X 轴表示时间，Y 轴表示响应时间。</p>
+<p><div class="bigImg"><img loading="lazy" src="14.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>响应时间：就是一个请求从发送到接收到响应的总时间。在图中，每个数据点的Y坐标表示请求响应时间。</p>
+</li>
+<li>
+<p>时间：测试计划运行的持续时间。在图中，每个数据点的X坐标表示请求开始的时间。</p>
+</li>
+<li>
+<p>分布：数据点在图中的分布，可以分析出响应时间的变化。如果数据点在一条线附近，那么响应时间可能比较稳定。如果数据点在图中的分布比较广，那么响应时间可能有比较大的波动。</p>
+</li>
+<li>
+<p>趋势：我们也可以通过响应时间图来观察响应时间的趋势。例如，如果数据点从左至右逐渐上升，那么可能表明随着时间的推移，响应时间在增加。</p>
+</li>
+</ul>
+<p><strong>其余参数</strong></p>
+<p><code>时间间隔</code>关系X轴的显示。其它参数都是改变显示方式，如字体。读者可自行探究。</p>
+<br>
+<h2 id="断言结果">断言结果<a hidden class="anchor" aria-hidden="true" href="#断言结果">#</a></h2>
+<p>文本显示所有请求名称，如果断言失败，名称下方显示失败原因，成功则不显示。消耗资源较多，且我认为意义不大。</p>
+<p><div class="bigImg"><img loading="lazy" src="15.png" alt=""  /></div>
+</p>
+<br>
+<h2 id="比较断言可视化器">比较断言可视化器<a hidden class="anchor" aria-hidden="true" href="#比较断言可视化器">#</a></h2>
+<p>显示请求断言情况，若断言失败，标红。但无法给出断言信息。</p>
+<p><div class="bigImg"><img loading="lazy" src="16.png" alt=""  /></div>
+</p>
+<br>
+<h2 id="汇总图">汇总图<a hidden class="anchor" aria-hidden="true" href="#汇总图">#</a></h2>
+<p>较于汇总报告，多了柱形图功能。列可显示<code>平均值、中位数、90%百分位、95%百分位、99%百分位、最小值、最大值</code>。</p>
+<p><div class="bigImg"><img loading="lazy" src="17.png" alt=""  /></div>
+</p>
+<br>
+<h2 id="生成概要结果">生成概要结果<a hidden class="anchor" aria-hidden="true" href="#生成概要结果">#</a></h2>
+<p><code>生成概要结果</code>没有配置参数。生成结果需要在Jmeter日志或者Jmeter-cmd窗口查看。</p>
+<p><div class="bigImg"><img loading="lazy" src="18.png" alt=""  /></div>
+</p>
+<p><div class="bigImg"><img loading="lazy" src="19.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>in：TPS，每秒取样器执行的数量。</p>
+</li>
+<li>
+<p>Avg：平均值。平均响应时间，所有请求的平均响应时间，单位是毫秒。</p>
+</li>
+<li>
+<p>Min：最小值。请求的最小响应时间。</p>
+</li>
+<li>
+<p>Max：最大值。请求的最大响应时间。</p>
+</li>
+<li>
+<p>Err：异常百分比。（错误请求的数量/请求的总数)。</p>
+</li>
+</ul>
+<br>
+<h2 id="用表格查看结果">用表格查看结果<a hidden class="anchor" aria-hidden="true" href="#用表格查看结果">#</a></h2>
+<p>与<code>查看结果树</code>不同，此元件将结果写进表格中，可查看数据也不同。不过都能查看各个请求结果状态。</p>
+<p><div class="bigImg"><img loading="lazy" src="20.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>Sample#：请求序号。</p>
+</li>
+<li>
+<p>Start Time：请求开始时间。</p>
+</li>
+<li>
+<p>Thread Name：线程名称。</p>
+</li>
+<li>
+<p>Label：请求的名称（实际请求中可使用参数化对每个请求做区分）。</p>
+</li>
+<li>
+<p>Sample Time(ms)：请求的响应时间。</p>
+</li>
+<li>
+<p>Status：请求状态，为勾则表示成功，为叉表示失败。</p>
+</li>
+<li>
+<p>Bytes：响应的字节数及请求的字节数。</p>
+</li>
+<li>
+<p>Sent Bytes：发送的字节数。</p>
+</li>
+<li>
+<p>Latency：延迟时间（单位：毫秒）。</p>
+</li>
+<li>
+<p>Connect Time(ms)：连接服务器的时间。（单位：毫秒）。</p>
+</li>
+<li>
+<p>样本数目：所有的请求个数。</p>
+</li>
+<li>
+<p>平均：所有请求的平均响应时间。（单位：毫秒）。</p>
+</li>
+<li>
+<p>最新样本：最新样本响应时间，表示服务器响应最后一个请求的时间。（单位：毫秒）。</p>
+</li>
+<li>
+<p>偏离：不知道怎么算的，不发表意见。</p>
+</li>
+</ul>
+<br>
+<h2 id="简单数据写入器">简单数据写入器<a hidden class="anchor" aria-hidden="true" href="#简单数据写入器">#</a></h2>
+<p>使用该元件，需要在<code>所有数据写入一个文件</code>配置文件路径(建议保存到D盘)。运行后，数据就会保存到文件中。然后可以使用<code>查看结果树、聚合报告、图形结果等</code>查看数据。</p>
+<p><div class="bigImg"><img loading="lazy" src="21.png" alt=""  /></div>
+</p>
+<br>
+<h2 id="邮件观察仪">邮件观察仪<a hidden class="anchor" aria-hidden="true" href="#邮件观察仪">#</a></h2>
+<p>主要是做提示用。可以自定义请求成功或失败的次数阈值，触发后就会自动发送邮件。</p>
+<p>需要配置发送人、收件人以及SMTP server。</p>
+<p><div class="bigImg"><img loading="lazy" src="22.png" alt=""  /></div>
+</p>
+<ul>
+<li>
+<p>From：发件人邮箱。</p>
+</li>
+<li>
+<p>Addressee(s)：收件人邮箱。</p>
+</li>
+<li>
+<p>Success Subject：成功的请求数达到阈值后，要发送的信息。</p>
+</li>
+<li>
+<p>Failure Subject：失败的请求数达到阈值后，要发送的信息。</p>
+</li>
+<li>
+<p>Success Limit：成功的请求数阈值。如果不想发送，可以将值设未极大，如10000000。</p>
+</li>
+<li>
+<p>Failure Limit：失败的请求数阈值。如果不想发送，可以将值设未极大，如10000000。</p>
+</li>
+<li>
+<p>Host：SMTP服务器的域名或IP。</p>
+</li>
+<li>
+<p>Port：SMTP服务器的端口号。</p>
+</li>
+<li>
+<p>Login：发件人邮箱账号，一般为发件人邮箱。</p>
+</li>
+<li>
+<p>Password：发件人的授权密码。</p>
+<p>163邮箱为例，在设置中获取：</p>
+<p><div class="bigImg"><img loading="lazy" src="23.png" alt=""  /></div>
+</p>
+</li>
+<li>
+<p>Commection security：连接协议。一般都是SSl，以SMTP服务器指定协议为准。</p>
+</li>
+</ul>
+<p><strong>收件人收到的邮件</strong></p>
+<p><div class="bigImg"><img loading="lazy" src="24.png" alt=""  /></div>
+</p>
+<br>
+<h2 id="beanshell-监听器">BeanShell 监听器<a hidden class="anchor" aria-hidden="true" href="#beanshell-监听器">#</a></h2>
+<p><code>BeanShell 监听器</code>类似<code>JSR223 监听器</code>。只不过<code>BeanShell 监听器</code>只可以使用BeanShell语言。</p>
+<p>如果会使用<code>JSR223 监听器</code>，那么<code>BeanShell 监听器</code>也没问题。本质上都是编写脚本。</p>
+<br>
+<h2 id="图形结果">图形结果<a hidden class="anchor" aria-hidden="true" href="#图形结果">#</a></h2>
+<p>这个可以不用了解，消耗资源多且生成的图表质量不高。</p>
+<br>
+
+<img src="/img/favicon.png" alt="">
+
+<hr>
+
+
+			<span style="font-size:0.8rem;">© 转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></span>
+        </div>
+
+        <footer class="post-footer">
+            
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on twitter"
+       href="https://twitter.com/intent/tweet/?text=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f&amp;hashtags=Jmeter">
+    <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on linkedin"
+       href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f&amp;title=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8&amp;summary=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8&amp;source=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on reddit"
+       href="https://reddit.com/submit?url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f&title=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on facebook"
+       href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on whatsapp"
+       href="https://api.whatsapp.com/send?text=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8%20-%20http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-监听器 on telegram"
+       href="https://telegram.me/share/url?text=Jmeter-%e7%9b%91%e5%90%ac%e5%99%a8&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2flistener%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+        </footer>
+    </div>
+</article>
+</main>
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        2024-2024
+        <a href="http://192.168.9.98/" style="color:#939393;">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+        版权所有
+    </span>
+	<span class="running-time">
+	&emsp;本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		&emsp;💭 11篇文章&emsp;⌨ 39.50k字
+	</span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        (function() {
+            document.cookie = "change-themes" + "="+ escape ("false");
+        })()
+
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    });
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = '复制';
+
+    function copyingDone() {
+        copybutton.innerText = '已复制！';
+        setTimeout(() => {
+            copybutton.innerText = '复制';
+        }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+        if ('clipboard' in navigator) {
+            let text = codeblock.textContent +
+                '\r\n————————————————\r\n' +
+                '版权声明：本文为「' + "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨" + '」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+            navigator.clipboard.writeText(text);
+            copyingDone();
+            return;
+        }
+
+        const range = document.createRange();
+        range.selectNodeContents(codeblock);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        try {
+            document.execCommand('copy');
+            copyingDone();
+        } catch (e) {}
+        selection.removeRange(range);
+    });
+
+    
+    let language = codeblock.className.split(" ").find(cls => cls.startsWith("language-"));
+    if (language) {
+        language = language.replace("language-", "");
+    } else {
+        language = ""; 
+    }
+
+    let macTool = document.createElement("div");
+    let macTool1 = document.createElement("div");
+    let macTool2 = document.createElement("div");
+    let macTool3 = document.createElement("div");
+    let languageType = document.createElement("div");
+    languageType.innerText = language;
+    macTool.setAttribute('class', 'mac-tool');
+    macTool1.setAttribute('class', 'mac bb1');
+    macTool2.setAttribute('class', 'mac bb2');
+    macTool3.setAttribute('class', 'mac bb3');
+    languageType.setAttribute('class', 'language-type');
+    macTool.appendChild(macTool1);
+    macTool.appendChild(macTool2);
+    macTool.appendChild(macTool3);
+    macTool.appendChild(languageType);
+
+    if (container.classList.contains("highlight")) {
+        container.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else if (container.parentNode.firstChild == container) {
+        
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+        
+        codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else {
+        
+        codeblock.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    }
+	});
+
+</script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button style="color: #f10707;position: absolute;top: 0;right: 0;text-align: center;background-color: #fff;border-radius: 5px;border: none;outline: none;cursor: pointer;padding: 5px;" id="close">X</button>
+        </div>
+		
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+
+</body>
+
+</html>

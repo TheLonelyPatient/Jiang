@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Jmeter-线程组 | 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+<meta name="keywords" content="线程组,Jmeter,JZY">
+<meta name="description" content="线程组的作用及使用方法">
+<meta name="author" content="JZY">
+<link rel="canonical" href="http://192.168.9.98/posts/technology/jmeter/threadgroup/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="http://192.168.9.98/img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://192.168.9.98/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="http://192.168.9.98/favicon.ico">
+<link rel="apple-touch-icon" href="http://192.168.9.98/favicon.ico">
+<link rel="mask-icon" href="http://192.168.9.98/favicon.ico">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="http://192.168.9.98/posts/technology/jmeter/threadgroup/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = ""; 
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+
+<meta property="og:title" content="Jmeter-线程组" />
+<meta property="og:description" content="线程组的作用及使用方法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://192.168.9.98/posts/technology/jmeter/threadgroup/" />
+<meta property="og:image" content="http://192.168.9.98/img/Jmeter.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-07-15T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="http://192.168.9.98/img/Jmeter.png" />
+<meta name="twitter:title" content="Jmeter-线程组"/>
+<meta name="twitter:description" content="线程组的作用及使用方法"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+
+        {
+          "@type": "ListItem",
+          "position":  1 ,
+          "name": "文章",
+          "item": "http://192.168.9.98/posts/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  2 ,
+          "name": "技术",
+          "item": "http://192.168.9.98/posts/technology/"
+        },
+
+        {
+          "@type": "ListItem",
+          "position":  3 ,
+          "name": "Jmeter系列",
+          "item": "http://192.168.9.98/posts/technology/jmeter/"
+        }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Jmeter-线程组",
+      "item": "http://192.168.9.98/posts/technology/jmeter/threadgroup/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Jmeter-线程组",
+  "name": "Jmeter-线程组",
+  "description": "线程组的作用及使用方法",
+  "keywords": [
+    "线程组,Jmeter,JZY"
+  ],
+  "articleBody": "关于线程组 线程组定义了将针对您的服务器执行特定测试用例的用户池。在线程组 GUI 中，您可以控制模拟的用户数（线程数）、加速时间（启动所有线程所需的时间）、执行测试的次数，以及可选的启动并停止测试时间。\nApache JMeter中文网\r线程组\r🌐\r线程组是JMeter测试计划的核心组件之一，是整个测试计划的入口，所有的取样器和控制器必须放置在线程组下。\n可以将线程组视为一个虚拟用户池，其中的线程可被理解为虚拟用户，多个线程即多个虚拟用户，它们同时执行相同的一批任务。\n在这个虚拟用户池中，每个线程之间是相互隔离且互不影响的。每个线程的执行过程中，操作的变量不会对其他线程的变量值产生影响。\n线程组可以定义用户的行为，包括设置线程数、循环次数、启动延迟等关键参数。可以通过配置这些参数来模拟现实中用户可能的操作。\n线程组分为四类:\n线程组 setUp线程组 tearDown线程组 开放模型线程组 线程组、setUp线程组、tearDown线程组控制面板中的元素基本一致：\n名称、注释 在取样器错误后执行的动作 线程数 Ramp-Up时间 Same user on each iteration 延迟创建线程直到需要（只有线程组有） 调度器 开放模型线程组控制面板中的元素：\n名称、注释 在取样器错误后执行的动作 调度计划 随机种子 使用示例脚本，需下载示例接口源码并运行。 执行优先级 JMeter中，不同类型的线程组有着不同的优先级。优先级关系可用表达式表示：setUp线程组 \u003e 线程组 = 开放模型线程组 \u003e tearDown线程组。\n这意味着在测试计划执行过程中，setUp线程组将首先执行，其后是线程组和开放模型线程组，最后执行tearDown线程组。\n通常情况下，setUp线程组用于在测试执行之前进行一些初始化工作，而tearDown线程组用于测试执行结束后的清理工作。\n示例Jmeter脚本\n测试计划下添加tearDown线程组、线程组、setUp线程组、固定定时器（作用于测试计划下的所有取样器）\ntearDown线程组排在最前，setUp线程组排在最后\n固定定时器的线程延迟：3000\ntearDown线程组、线程组、setUp线程组下皆添加HTTP请求取样器。名称分别为：tearDown线程组-HTTP请求、线程组-HTTP请求、setUp线程组-HTTP请求\nHTTP请求取样器的请求地址皆为：HTTP://127.0.0.1:5000/GetList/\nHTTP请求取样器的请求方式皆为：GET\n运行结果\nsetUp 线程组-HTTP请求取样器在2024-07-11 17:21:00 CST 时，发送了请求。\n线程组-HTTP请求取样器在2024-07-11 17:21:03 CST 时，发送了请求。\ntearDown线程组-HTTP请求取样器在2024-07-11 17:21:06 CST 时，发送了请求。\n优先级正是：setUp线程组 \u003e 线程组 = 开放模型线程组 \u003e tearDown线程组。\n线程数 线程组中的线程数即是同时运行的虚拟用户数量。可以配置线程数量来模拟多少用户同时访问目标应用程序或服务。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树\n线程组面板中的线程数配置为：3\n线程组下添加HTTP请求取样器\n取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\n取样器的请求方式：GET\n运行结果\n结果中有3个请求，Thread Name分别为线程组 1-1、线程组 1-2、线程组 1-3。 这代表Jmeter启功了3个线程，1个线程就代表1个用户，可以说现在是3个用户一起执行线程组。\n循环次数 JMeter中，循环次数是指每个线程（用户）执行测试计划的次数。可以配置循环次数模拟用户访问目标应用程序或服务的次数。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树\n线程组面板中的循环次数配置为：3\n线程组下添加HTTP请求取样器\n取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\n取样器的请求方式：GET\n运行结果\n结果中有3个请求，Thread Name分别为线程组 1-1、线程组 1-1、线程组 1-1。 这是因为线程（用户）循环执行了3次。\n取样器错误后执行的动作 取样器（Sampler）是用于模拟用户请求发送到目标服务器的组件，例如HTTP请求、FTP请求等。当取样器执行过程中出现错误时，可以通过配置相应的动作来处理这些错误。以下是处理取样器错误时，线程组中常见方式：\n继续\n停止测试\n立即停止测试\n停止线程\n启动下一进程循环\n继续 线程组-取样器错误后执行的动作的默认选项，JMeter将在取样器执行错误时，忽略错误继续执行本线程的后续操作及执行其他线程。\n停止测试\u0026单线程组 任何一个取样器在执行过程中遇到错误时，整个测试计划将会在所有当前正在执行的线程执行完毕后停止。\n取样器也有执行优先级，线程组下的取样器，从上到下顺序执行。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树\n线程组面板中取样器错误后执行的动作配置为停止测试\n线程组下添加2个HTTP请求取样器，名称分别为错误请求、正确请求\n错误请求排序在上，正确请求排序在下\n错误请求的请求地址：HTTP://127.0.0.1:5000/api/\n正确请求的请求地址：HTTP://127.0.0.1:5000/GetList/\n错误请求和正确请求的请求方式：GET\n运行结果\n停止测试使Jmeter在错误请求发生错误后，等待所有当前正在执行的线程执行完毕后停止测试计划。 正确请求总会在错误请求执行完毕后执行，所以错误发生时，正确请求还没开始执行，此时Jemter已经停止测试计划了。\n我们再仔细想一下，多线程及多循环时，它是怎么运作的。\nJmeter中，线程组配置多线程时，线程之间也有优先级，以线程组 1-1\u003e线程组 1-2\u003e线程组 1-3类推。 当线程组 1-2的某个取样器发生错误时，Jmeter不会执行线程组 1-3。\n多循环时，不用多说，大家都能明白优先级的情况。第二次循环，某个取样器发生错误时，Jmeter不会执行第三次循环。\n停止测试\u0026多线程组 任何一个取样器在执行过程中遇到错误时，整个测试计划将会在所有当前正在执行的线程执行完毕后停止。\n不同线程组下的取样器，以线程组的优先级为准，例如线程组内的取样器执行优先级比tearDown线程组的高。\n示例Jmeter脚本\n测试计划下添加2个线程组,名称分别为：线程组1、线程组2\n测试计划下添加查看结果树\n测试计划面板中不勾选独立运行每个线程组\n线程组1面板中取样器错误后执行的动作配置为停止测试\n线程组1下添加HTTP请求取样器，名称为：错误请求\n错误请求的请求地址：HTTP://127.0.0.1:5000/api/\n线程组1下添加2个HTTP请求取样器，名称分别为：Sleeper接口请求、GetList接口请求\nSleeper接口请求排序在前，GetList接口请求排序在后\nSleeper接口请求的请求地址：HTTP://127.0.0.1:5000/Sleeper/（接口中已设置延迟3秒响应）\nGetList接口请求的请求地址：HTTP://127.0.0.1:5000/GetList/\n三个取样器的请求方式皆配置为：GET\n运行结果\n第一道红线上的信息是错误请求-线程组1 1-1发出请求的时间，为：2024-07-12 16:01:26,761。\n第二道红线上的信息是Sleeper接口请求-线程组2 2-1发出请求的时间，为：2024-07-12 16:01:26,763。\n第三道红线上的信息是错误请求-线程组1-1检测到了一个关闭测试的信号。\n后面的信息就是等待Sleeper接口请求-线程组2 2-1完成，然后关闭测试。\nSleeper接口请求延迟3秒响应导致GetList接口请求会在3秒后执行（执行优先级），所以错误请求发生错误时，GetList接口请求还未执行，那就不会执行GetList接口请求了。\n或许已经有读者在思考测试计划配置独立运行每个线程组时，它应该如何运作。我直接给你答案罢。经过测试，它存在Bug，表现为排序在前的线程组中取样器发生错误，但后面的线程组仍有概率会执行。虽然我们的期望是后面的线程组必然不会执行。\n立即停止测试 任何一个取样器在执行过程中遇到错误时，JMeter会立即停止当前运行的测试，不再执行任何后续的请求或操作。\n单线程组中的取样器有严格的执行优先级，仅单线程组场景下，配置停止测试与配置立即停止测试的作用一致。我们就只探究多线程组场景下，它的作用。\n需要注意，测试计划配置独立运行每个线程组时，会出现与配置停止测试一样的Bug。\n示例Jmeter脚本\n测试计划下添加2个线程组,名称分别为：线程组1、线程组2\n测试计划下添加查看结果树\n测试计划面板中不勾选独立运行每个线程组\n线程组1面板中取样器错误后执行的动作配置为立即停止测试\n线程组1下添加HTTP请求取样器，名称为：错误请求\n错误请求的请求地址：HTTP://127.0.0.1:5000/api/\n线程组1下添加2个HTTP请求取样器，名称分别为：Sleeper接口请求、GetList接口请求\nSleeper接口请求排序在前，GetList接口请求排序在后\nSleeper接口请求的请求地址：HTTP://127.0.0.1:5000/Sleeper/（接口中已设置延迟3秒响应）\nGetList接口请求的请求地址：HTTP://127.0.0.1:5000/GetList/\n三个取样器的请求方式皆配置为：GET\n运行结果\n与配置停止测试不同的是，第三道红线上的信息不再是关闭测试的信号，而是直接关闭测试。导致Sleeper接口请求被强制关闭与服务器端的连接，红框中的响应体信息显示读取数据错误。\n停止线程 任何一个线程（用户）在执行过程中遇到错误时，该线程被停止，不影响其他线程（用户）。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树、用户参数(右键-添加-前置处理器)\n用户参数添加三个变量，名称分别为：name、name1、lujing\n用户参数添加三个用户（可用于参数化，1个线程引用一个用户变量）\n用户_1的name变量值：线程1的错误请求\n用户_2的name变量值：线程2的正确请求\n用户_3的name变量值：线程3的正确请求\n用户_1的name1变量值：线程1的\n用户_2的name1变量值：线程2的\n用户_3的name1变量值：线程3的\n用户_1的lujing变量值：/api/\n用户_2的lujing变量值：/GetList/\n用户_3的lujing变量值：/GetList/\n线程组面板中取样器错误后执行的动作配置为：停止线程，线程数配置为：3，循环次数配置为：2\n线程组下添加2个HTTP请求取样器，名称分别为：${name}、${name1}GetList接口请求\n${name}的请求地址：HTTP://127.0.0.1:5000${lujing}\n${name1}GetList接口请求的请求地址：HTTP://127.0.0.1:5000/GetList/\n两个取样器的请求方式：GET\n运行结果\n线程1的第1取样器-线程1的错误请求发生错误后，线程1后续的取样器及循环不再执行。但不影响其他线程取样器的执行，线程2和线程3正常执行。\n多线程组也是多线程，读者在实际的脚本编写中，需注意每个线程的情况去使用停止线程。\n启动下一进程循环 任何一个线程（用户）在执行过程中遇到错误时，Jmeter会立即停止当前线程的本次执行，并进行当前线程（用户）的下次执行，不影响其他线程，主要应用于线程多次循环时。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树、用户参数\n用户参数添加三个变量，名称分别为：name、name1、lujing\n用户参数添加三个用户\n用户_1的name变量值：线程1的错误请求\n用户_2的name变量值：线程2的正确请求\n用户_3的name变量值：线程3的正确请求\n用户_1的name1变量值：线程1的\n用户_2的name1变量值：线程2的\n用户_3的name1变量值：线程3的\n用户_1的lujing变量值：/api/\n用户_2的lujing变量值：/GetList/\n用户_3的lujing变量值：/GetList/\n线程组面板中取样器错误后执行的动作配置为：启动下一进程循环，线程数配置为：3，循环次数配置为：2\n线程组下添加2个HTTP请求取样器，名称分别为：${name}、${name1}GetList接口请求\n${name}的请求地址：HTTP://127.0.0.1:5000${lujing}\n${name1}GetList接口请求的请求地址：HTTP://127.0.0.1:5000/GetList/\n两个取样器的请求方式：GET\n运行结果\n线程1的第1取样器-线程1的错误请求发生错误后，线程1后续的取样器不再执行，但循环会继续-线程1的错误请求执行第二次。也不影响其他线程取样器的执行，线程2和线程3正常执行。\nramp-up时间 ramp-up时间用于设置启动所有线程所需要的时间。例如：线程数设置为10，ramp-up时间设置为100秒，那么各线程启动间隔为10秒(100/10)，即每个用户将在前一个用户启动后的10秒启动。\n如果ramp-up值设置得很小、线程数又设置得很大，刚开始执行测试时会对服务器产生很大的压力。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树\n线程组面板中Ramp-Up时间配置为：9，线程数配置为：3\n线程组下添加HTTP请求取样器\nHTTP请求取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\nHTTP请求取样器的请求方式：GET\n运行结果\n各个线程的执行间隔正好是3秒(9/3)。\nsame user on each iteration（在每次迭代中使用相同的用户） 没有研究出来它有什么用。经过我的测试，same user on each iteration（在每次迭代中使用相同的用户）启用与否，作用是一样的。\n如读者有什么见解，欢迎谈论，共同探讨。目前，我十分费解。\n延迟创建线程直到需要 启用延迟创建线程直到需要时，JMeter会根据预设的Ramp-up时间动态地分配线程。假设Ramp-up时间设置为20秒，线程数为10，那么JMeter会在测试启动后立即创建第一个线程并开始请求处理。随后，每隔2秒，JMeter将创建下一个线程，直到所有线程都被启动。\n如果关闭延迟创建线程直到需要选项，JMeter会在测试开始时一次性创建所有线程，然后间隔执行。即在测试一开始，JMeter会立即创建全部的10个线程，然后每个线程将间隔2秒启动。\n这一配置的目的是为了应对测试机性能有限的情况。通过这种方式，可以避免在测试初期就创建所有线程，导致资源过度占用和可能的性能问题。这种方法有助于平滑地增加系统负载，同时防止资源瞬间紧张导致测试无法正常进行。\n调度器 调度器主要控制线程操作时间，包含持续时间、启动延迟两个参数。\n持续时间（值不能为空）可以设置线程组的执行时间上限，达到上限后停止线程组的执行（已执行的不受影响）。\n启动延迟可以为线程组的线程执行添加延迟时间。\n持续时间，启动延迟同时有值时，启动延迟的时间计算到持续时间里。如启动延迟3秒，持续时间20秒，总执行时间为20秒。\n示例Jmeter脚本\n测试计划下添加线程组、查看结果树\n线程组面板中持续时间配置为10，启动延迟配置为：3，循环次数配置为：永远\n线程组下添加HTTP请求取样器、固定定时器\nHTTP请求取样器的请求地址：HTTP://127.0.0.1:5000/GetList/\nHTTP请求取样器的请求方式：GET\n固定定时器的线程延迟配置为：2000（防止请求过多）\n运行结果\n红线第1行的All thread groups have been started 表示所有线程组都已经开始执行。再上面一行表示线程组1已开始执行。时间是2024-07-15 14:03:56,234。\n红线第2行的Thread started: 线程组 1-1表示线程组1中的线程1-1已经开始。时间是2024-07-15 14:03:59,234。\n红线第三行的Notifying test listeners of end of test表示测试结束，正在通知所有测试监听器。时间是2024-07-15 14:04:07,296。\n线程组1和线程组1中的线程1-1的执行间隔就是3秒，再到结束测试的时间间隔为11秒左右（持续时间存有误差）。\n",
+  "wordCount" : "6559",
+  "inLanguage": "zh",
+  "image":"http://192.168.9.98/img/Jmeter.png","datePublished": "2024-03-19T00:00:00Z",
+  "dateModified": "2024-07-15T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "JZY"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://192.168.9.98/posts/technology/jmeter/threadgroup/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "http://192.168.9.98/img/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    (function () {
+        let  arr,reg = new RegExp("(^| )"+"change-themes"+"=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+        } else {
+            if (new Date().getHours() >= 19 || new Date().getHours() < 6) {
+                document.body.classList.add('dark');
+                localStorage.setItem("pref-theme", 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem("pref-theme", 'light');
+            }
+        }
+    })()
+
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://192.168.9.98/" accesskey="h" title="𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨 (Alt + H)">
+            <img src="http://192.168.9.98/img/favicon.png" alt="logo" aria-label="logo"
+                 height="35">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                </ul>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://192.168.9.98/" title="主页">
+                <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/posts" title="文章">
+                <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/search" title="搜索 (Alt &#43; /)" accesskey=/>
+                <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/archives/" title="时间轴">
+                <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/tags" title="标签">
+                <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://192.168.9.98/about" title="关于">
+                <span>关于</span>
+                </a>
+            </li>
+			<li>
+                <a href="https://www.jzy-blogs.cn/music.html" target="_blank" title="音乐">
+                <span>音乐</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main page">
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+</style>
+
+<article class="post-single">
+    <div id="single-content">
+        <header class="post-header">
+            <div class="breadcrumbs"><a href="http://192.168.9.98/">主页</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/">文章</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/">技术</a>&nbsp;»&nbsp;<a href="http://192.168.9.98/posts/technology/jmeter/">Jmeter系列</a></div>
+            <h1 class="post-title">
+                Jmeter-线程组
+            </h1>
+            <div class="post-description">
+                线程组的作用及使用方法
+            </div>
+            <div class="post-meta">
+
+<style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2024-03-19
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_2">
+        <span class="fa fa-calendar-plus-o"></span>
+        <span>2024-07-15
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>6559字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>14分钟
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>JZY
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+            <span class="post-tags-meta">
+                <a href="http://192.168.9.98/tags/jmeter/" style="color: var(--secondary)!important;">Jmeter</a>
+            </span>
+        </span>
+    </span>
+</span>
+&nbsp;&nbsp;
+                    <span id="post_meta_style_8">
+                        <span class="fa fa-commenting-o"></span>
+                        <span>
+                            <script src="https://cdn.staticfile.org/twikoo/1.5.8/twikoo.all.min.js"></script>
+                            <script>
+                                let url = document.documentURI
+                                
+                                let dnsUrl = "http://192.168.9.98/"
+                                let urlSplit = url.split(dnsUrl)
+                                let finalUrl = urlSplit[1]
+                                if (finalUrl[0] !== '/') {
+                                    finalUrl = '/'+finalUrl
+                                }
+                                twikoo.getCommentsCount({
+                                    envId:  null , 
+                                region:  null , 
+                                urls: [ 
+                                    
+                                    finalUrl,
+                                ],
+                                    includeReply: false 
+                                }).then(function (res) {
+                                    let count = res[0].count
+                                    const obj = document.getElementById("comment_count");
+                                    obj.innerText = count
+                                    
+                                    
+                                    
+                                }).catch(function (err) {
+                                    
+                                    console.error(err);
+                                });
+                            </script>
+                            <span id="comment_count"></span>
+                        </span>
+                    </span>
+                </span>
+
+</div>
+        </header> 
+<figure class="entry-cover1"><img style="zoom:;" loading="lazy" src="http://192.168.9.98/img/Jmeter.png" alt="">
+    <p><text></p>
+</figure><aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%85%b3%e4%ba%8e%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="关于线程组">关于线程组</a></li>
+                <li>
+                    <a href="#%e6%89%a7%e8%a1%8c%e4%bc%98%e5%85%88%e7%ba%a7" aria-label="执行优先级">执行优先级</a></li>
+                <li>
+                    <a href="#%e7%ba%bf%e7%a8%8b%e6%95%b0" aria-label="线程数">线程数</a></li>
+                <li>
+                    <a href="#%e5%be%aa%e7%8e%af%e6%ac%a1%e6%95%b0" aria-label="循环次数">循环次数</a></li>
+                <li>
+                    <a href="#%e5%8f%96%e6%a0%b7%e5%99%a8%e9%94%99%e8%af%af%e5%90%8e%e6%89%a7%e8%a1%8c%e7%9a%84%e5%8a%a8%e4%bd%9c" aria-label="取样器错误后执行的动作">取样器错误后执行的动作</a><ul>
+                        
+                <li>
+                    <a href="#%e7%bb%a7%e7%bb%ad" aria-label="继续">继续</a></li>
+                <li>
+                    <a href="#%e5%81%9c%e6%ad%a2%e6%b5%8b%e8%af%95%e5%8d%95%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="停止测试&amp;amp;单线程组">停止测试&amp;单线程组</a></li>
+                <li>
+                    <a href="#%e5%81%9c%e6%ad%a2%e6%b5%8b%e8%af%95%e5%a4%9a%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="停止测试&amp;amp;多线程组">停止测试&amp;多线程组</a></li>
+                <li>
+                    <a href="#%e7%ab%8b%e5%8d%b3%e5%81%9c%e6%ad%a2%e6%b5%8b%e8%af%95" aria-label="立即停止测试">立即停止测试</a></li>
+                <li>
+                    <a href="#%e5%81%9c%e6%ad%a2%e7%ba%bf%e7%a8%8b" aria-label="停止线程">停止线程</a></li>
+                <li>
+                    <a href="#%e5%90%af%e5%8a%a8%e4%b8%8b%e4%b8%80%e8%bf%9b%e7%a8%8b%e5%be%aa%e7%8e%af" aria-label="启动下一进程循环">启动下一进程循环</a></li></ul>
+                </li>
+                <li>
+                    <a href="#ramp-up%e6%97%b6%e9%97%b4" aria-label="ramp-up时间">ramp-up时间</a></li>
+                <li>
+                    <a href="#same-user-on-each-iteration%e5%9c%a8%e6%af%8f%e6%ac%a1%e8%bf%ad%e4%bb%a3%e4%b8%ad%e4%bd%bf%e7%94%a8%e7%9b%b8%e5%90%8c%e7%9a%84%e7%94%a8%e6%88%b7" aria-label="same user on each iteration（在每次迭代中使用相同的用户）">same user on each iteration（在每次迭代中使用相同的用户）</a></li>
+                <li>
+                    <a href="#%e5%bb%b6%e8%bf%9f%e5%88%9b%e5%bb%ba%e7%ba%bf%e7%a8%8b%e7%9b%b4%e5%88%b0%e9%9c%80%e8%a6%81" aria-label="延迟创建线程直到需要">延迟创建线程直到需要</a></li>
+                <li>
+                    <a href="#%e8%b0%83%e5%ba%a6%e5%99%a8" aria-label="调度器">调度器</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        if (elements) {
+            activeElement = Array.from(elements).find((element) => {
+                if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                    (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                    return element;
+                }
+            }) || activeElement
+
+            elements.forEach(element => {
+                const id = encodeURI(element.getAttribute('id')).toLowerCase();
+                if (element === activeElement){
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+                } else {
+                    document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+                }
+            })
+        }
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+        <div class="post-content"><h2 id="关于线程组">关于线程组<a hidden class="anchor" aria-hidden="true" href="#关于线程组">#</a></h2>
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+
+
+
+
+  
+
+
+<blockquote>
+  <p>线程组定义了将针对您的服务器执行特定测试用例的用户池。在线程组 GUI 中，您可以控制模拟的用户数（线程数）、加速时间（启动所有线程所需的时间）、执行测试的次数，以及可选的启动并停止测试时间。</p>
+  <footer>
+    <strong>Apache JMeter中文网</strong>
+    
+      <cite>
+        线程组
+        
+          <a href="https://jmeter.net/usermanual/component_reference.html#Thread_Group" title="🌐" target="_blank" style="text-decoration:none">🌐</a>
+        
+      </cite>
+    
+  </footer>
+</blockquote>
+
+<br>
+<p>线程组是JMeter测试计划的核心组件之一，是整个测试计划的入口，所有的取样器和控制器必须放置在线程组下。</p>
+<p>可以将线程组视为一个虚拟用户池，其中的线程可被理解为虚拟用户，多个线程即多个虚拟用户，它们同时执行相同的一批任务。</p>
+<p>在这个虚拟用户池中，每个线程之间是相互隔离且互不影响的。每个线程的执行过程中，操作的变量不会对其他线程的变量值产生影响。</p>
+<p>线程组可以定义用户的行为，包括设置线程数、循环次数、启动延迟等关键参数。可以通过配置这些参数来模拟现实中用户可能的操作。</p>
+<p>线程组分为四类:</p>
+<ul>
+<li><code>线程组</code></li>
+<li><code>setUp线程组</code></li>
+<li><code>tearDown线程组</code></li>
+<li><code>开放模型线程组</code></li>
+</ul>
+<p>线程组、setUp线程组、tearDown线程组控制面板中的元素基本一致：</p>
+<ul>
+<li><code>名称、注释</code></li>
+<li><code>在取样器错误后执行的动作</code></li>
+<li><code>线程数</code></li>
+<li><code>Ramp-Up时间</code></li>
+<li><code>Same user on each iteration</code></li>
+<li><code>延迟创建线程直到需要（只有线程组有）</code></li>
+<li><code>调度器</code></li>
+</ul>
+<p>开放模型线程组控制面板中的元素：</p>
+<ul>
+<li><code>名称、注释</code></li>
+<li><code>在取样器错误后执行的动作</code></li>
+<li><code>调度计划</code></li>
+<li><code>随机种子</code></li>
+</ul>
+
+
+
+
+<div style="display: inline-grid; grid-template-columns: 7% 93%; padding: 15px; background-color: rgb(255, 255, 255); border: 1px solid #ebe6e6; border-radius: 13px; margin-bottom: 0; width: 99%;">
+    <div style="display: flex; align-items: center; justify-content: center;">
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="icon icon-tabler icon-tabler-alert-square-rounded" width="44" height="44" viewBox="0 0 44 44" fill="none">
+			<path d="M22 5.5C35.2 5.5 38.5 8.8 38.5 22C38.5 35.2 35.2 38.5 22 38.5C8.8 38.5 5.5 35.2 5.5 22C5.5 8.8 8.8 5.5 22 5.5Z" stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round" >
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75" stroke-linejoin="round" stroke-linecap="round"  d="M22 13L22 20.3333">
+			</path>
+			<path    stroke="rgba(108, 185, 224, 1)" stroke-width="2.75"  stroke-linecap="round"  d="M22 26L22 28">
+			</path>
+		</svg>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: flex-start; margin-left: 15px; font-size: 1rem; width: 100%; height: 100%;">
+使用示例脚本，需下载示例接口源码并运行。
+</div>
+</div>
+
+
+<p><br><br></p>
+<h2 id="执行优先级">执行优先级<a hidden class="anchor" aria-hidden="true" href="#执行优先级">#</a></h2>
+<p>JMeter中，不同类型的线程组有着不同的优先级。优先级关系可用表达式表示：<code>setUp线程组 &gt; 线程组 = 开放模型线程组 &gt; tearDown线程组</code>。</p>
+<p>这意味着在测试计划执行过程中，<code>setUp线程组</code>将首先执行，其后是<code>线程组</code>和<code>开放模型线程组</code>，最后执行<code>tearDown线程组</code>。</p>
+<p>通常情况下，<code>setUp线程组</code>用于在测试执行之前进行一些初始化工作，而<code>tearDown线程组</code>用于测试执行结束后的清理工作。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加tearDown线程组、线程组、setUp线程组、固定定时器（作用于测试计划下的所有取样器）</strong></p>
+</li>
+<li>
+<p><strong>tearDown线程组排在最前，setUp线程组排在最后</strong></p>
+</li>
+<li>
+<p><strong>固定定时器的线程延迟：<code>3000</code></strong></p>
+</li>
+<li>
+<p><strong>tearDown线程组、线程组、setUp线程组下皆添加HTTP请求取样器。名称分别为：<code>tearDown线程组-HTTP请求</code>、<code>线程组-HTTP请求</code>、<code>setUp线程组-HTTP请求</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求地址皆为：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求方式皆为：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="1.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="2.png" alt=""  /></div>
+</p>
+<p><code>setUp 线程组-HTTP请求</code>取样器在<code>2024-07-11 17:21:00 CST</code> 时，发送了请求。</p>
+<p><code>线程组-HTTP请求</code>取样器在<code>2024-07-11 17:21:03 CST</code> 时，发送了请求。</p>
+<p><code>tearDown线程组-HTTP请求</code>取样器在<code>2024-07-11 17:21:06 CST</code> 时，发送了请求。</p>
+<p>优先级正是：<code>setUp线程组</code> &gt; <code>线程组</code> = <code>开放模型线程组</code> &gt; <code>tearDown线程组</code>。</p>
+<p><br><br></p>
+<h2 id="线程数">线程数<a hidden class="anchor" aria-hidden="true" href="#线程数">#</a></h2>
+<p>线程组中的<code>线程数</code>即是同时运行的虚拟用户数量。可以配置线程数量来模拟多少用户同时访问目标应用程序或服务。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树</strong></p>
+</li>
+<li>
+<p><strong>线程组面板中的线程数配置为：<code>3</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加HTTP请求取样器</strong></p>
+</li>
+<li>
+<p><strong>取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>取样器的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="3.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="4.png" alt=""  /></div>
+</p>
+<p>结果中有<code>3</code>个请求，Thread Name分别为<code>线程组 1-1</code>、<code>线程组 1-2</code>、<code>线程组 1-3</code>。
+这代表Jmeter启功了3个线程，1个线程就代表1个用户，可以说现在是3个用户一起执行<code>线程组</code>。</p>
+<p><br><br></p>
+<h2 id="循环次数">循环次数<a hidden class="anchor" aria-hidden="true" href="#循环次数">#</a></h2>
+<p>JMeter中，循环次数是指每个线程（用户）执行测试计划的次数。可以配置循环次数模拟用户访问目标应用程序或服务的次数。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树</strong></p>
+</li>
+<li>
+<p><strong>线程组面板中的循环次数配置为：<code>3</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加HTTP请求取样器</strong></p>
+</li>
+<li>
+<p><strong>取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>取样器的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="5.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="6.png" alt=""  /></div>
+</p>
+<p>结果中有<code>3</code>个请求，Thread Name分别为<code>线程组 1-1</code>、<code>线程组 1-1</code>、<code>线程组 1-1</code>。
+这是因为线程（用户）循环执行了3次。</p>
+<p><br><br></p>
+<h2 id="取样器错误后执行的动作">取样器错误后执行的动作<a hidden class="anchor" aria-hidden="true" href="#取样器错误后执行的动作">#</a></h2>
+<p>取样器（Sampler）是用于模拟用户请求发送到目标服务器的组件，例如HTTP请求、FTP请求等。当取样器执行过程中出现错误时，可以通过配置相应的动作来处理这些错误。以下是处理取样器错误时，线程组中常见方式：</p>
+<ul>
+<li>
+<p><code>继续</code></p>
+</li>
+<li>
+<p><code>停止测试</code></p>
+</li>
+<li>
+<p><code>立即停止测试</code></p>
+</li>
+<li>
+<p><code>停止线程</code></p>
+</li>
+<li>
+<p><code>启动下一进程循环</code></p>
+</li>
+</ul>
+<br>
+<h3 id="继续">继续<a hidden class="anchor" aria-hidden="true" href="#继续">#</a></h3>
+<p>线程组-取样器错误后执行的动作的默认选项，JMeter将在取样器执行错误时，忽略错误继续执行本线程的后续操作及执行其他线程。</p>
+<br>
+<h3 id="停止测试单线程组">停止测试&amp;单线程组<a hidden class="anchor" aria-hidden="true" href="#停止测试单线程组">#</a></h3>
+<p>任何一个取样器在执行过程中遇到错误时，整个测试计划将会在所有当前正在执行的线程执行完毕后停止。</p>
+<p>取样器也有执行优先级，线程组下的取样器，从上到下顺序执行。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树</strong></p>
+</li>
+<li>
+<p><strong>线程组面板中取样器错误后执行的动作配置为<code>停止测试</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加2个HTTP请求取样器，名称分别为<code>错误请求</code>、<code>正确请求</code></strong></p>
+</li>
+<li>
+<p><strong>错误请求排序在上，正确请求排序在下</strong></p>
+</li>
+<li>
+<p><strong>错误请求的请求地址：<code>HTTP://127.0.0.1:5000/api/</code></strong></p>
+</li>
+<li>
+<p><strong>正确请求的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>错误请求和正确请求的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="7.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="8.png" alt=""  /></div>
+</p>
+<p>停止测试使Jmeter在<code>错误请求</code>发生错误后，等待所有当前正在执行的线程执行完毕后停止测试计划。
+<code>正确请求</code>总会在<code>错误请求</code>执行完毕后执行，所以错误发生时，<code>正确请求</code>还没开始执行，此时Jemter已经停止测试计划了。</p>
+<p>我们再仔细想一下，多线程及多循环时，它是怎么运作的。</p>
+<p>Jmeter中，线程组配置多线程时，线程之间也有优先级，以<code>线程组 1-1&gt;线程组 1-2&gt;线程组 1-3</code>类推。
+当<code>线程组 1-2</code>的某个取样器发生错误时，Jmeter不会执行<code>线程组 1-3</code>。</p>
+<p>多循环时，不用多说，大家都能明白优先级的情况。第二次循环，某个取样器发生错误时，Jmeter不会执行第三次循环。</p>
+<br>
+<h3 id="停止测试多线程组">停止测试&amp;多线程组<a hidden class="anchor" aria-hidden="true" href="#停止测试多线程组">#</a></h3>
+<p>任何一个取样器在执行过程中遇到错误时，整个测试计划将会在所有当前正在执行的线程执行完毕后停止。</p>
+<p>不同线程组下的取样器，以线程组的优先级为准，例如线程组内的取样器执行优先级比tearDown线程组的高。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加2个线程组,名称分别为：<code>线程组1</code>、<code>线程组2</code></strong></p>
+</li>
+<li>
+<p><strong>测试计划下添加查看结果树</strong></p>
+</li>
+<li>
+<p><strong>测试计划面板中不勾选独立运行每个线程组</strong></p>
+</li>
+<li>
+<p><strong>线程组1面板中取样器错误后执行的动作配置为<code>停止测试</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加HTTP请求取样器，名称为：<code>错误请求</code></strong></p>
+</li>
+<li>
+<p><strong>错误请求的请求地址：<code>HTTP://127.0.0.1:5000/api/</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加2个HTTP请求取样器，名称分别为：<code>Sleeper接口请求</code>、<code>GetList接口请求</code></strong></p>
+</li>
+<li>
+<p><strong>Sleeper接口请求排序在前，GetList接口请求排序在后</strong></p>
+</li>
+<li>
+<p><strong>Sleeper接口请求的请求地址：<code>HTTP://127.0.0.1:5000/Sleeper/</code>（接口中已设置延迟3秒响应）</strong></p>
+</li>
+<li>
+<p><strong>GetList接口请求的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>三个取样器的请求方式皆配置为：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="9.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="10.png" alt=""  /></div>
+</p>
+<p>第一道红线上的信息是<code>错误请求-线程组1 1-1</code>发出请求的时间，为：<code>2024-07-12 16:01:26,761</code>。</p>
+<p>第二道红线上的信息是<code>Sleeper接口请求-线程组2 2-1</code>发出请求的时间，为：<code>2024-07-12 16:01:26,763</code>。</p>
+<p>第三道红线上的信息是<code>错误请求-线程组1-1</code>检测到了一个关闭测试的信号。</p>
+<p>后面的信息就是等待<code>Sleeper接口请求-线程组2 2-1</code>完成，然后关闭测试。</p>
+<p><code>Sleeper接口请求</code>延迟3秒响应导致<code>GetList接口请求</code>会在3秒后执行（执行优先级），所以<code>错误请求</code>发生错误时，<code>GetList接口请求</code>还未执行，那就不会执行<code>GetList接口请求</code>了。</p>
+<p>或许已经有读者在思考测试计划配置<code>独立运行每个线程组</code>时，它应该如何运作。我直接给你答案罢。经过测试，它存在Bug，表现为排序在前的线程组中取样器发生错误，但后面的线程组仍有概率会执行。虽然我们的期望是后面的线程组必然不会执行。</p>
+<br>
+<h3 id="立即停止测试">立即停止测试<a hidden class="anchor" aria-hidden="true" href="#立即停止测试">#</a></h3>
+<p>任何一个取样器在执行过程中遇到错误时，JMeter会立即停止当前运行的测试，不再执行任何后续的请求或操作。</p>
+<p>单线程组中的取样器有严格的执行优先级，仅单线程组场景下，配置<code>停止测试</code>与配置<code>立即停止测试</code>的作用一致。我们就只探究多线程组场景下，它的作用。</p>
+<p>需要注意，测试计划配置<code>独立运行每个线程组</code>时，会出现与配置<code>停止测试</code>一样的Bug。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加2个线程组,名称分别为：<code>线程组1</code>、<code>线程组2</code></strong></p>
+</li>
+<li>
+<p><strong>测试计划下添加查看结果树</strong></p>
+</li>
+<li>
+<p><strong>测试计划面板中不勾选独立运行每个线程组</strong></p>
+</li>
+<li>
+<p><strong>线程组1面板中取样器错误后执行的动作配置为<code>立即停止测试</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加HTTP请求取样器，名称为：<code>错误请求</code></strong></p>
+</li>
+<li>
+<p><strong>错误请求的请求地址：<code>HTTP://127.0.0.1:5000/api/</code></strong></p>
+</li>
+<li>
+<p><strong>线程组1下添加2个HTTP请求取样器，名称分别为：<code>Sleeper接口请求</code>、<code>GetList接口请求</code></strong></p>
+</li>
+<li>
+<p><strong>Sleeper接口请求排序在前，GetList接口请求排序在后</strong></p>
+</li>
+<li>
+<p><strong>Sleeper接口请求的请求地址：<code>HTTP://127.0.0.1:5000/Sleeper/</code>（接口中已设置延迟3秒响应）</strong></p>
+</li>
+<li>
+<p><strong>GetList接口请求的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>三个取样器的请求方式皆配置为：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="11.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="12.png" alt=""  /></div>
+</p>
+<p>与配置<code>停止测试</code>不同的是，第三道红线上的信息不再是关闭测试的信号，而是直接关闭测试。导致<code>Sleeper接口请求</code>被强制关闭与服务器端的连接，红框中的响应体信息显示读取数据错误。</p>
+<br>
+<h3 id="停止线程">停止线程<a hidden class="anchor" aria-hidden="true" href="#停止线程">#</a></h3>
+<p>任何一个线程（用户）在执行过程中遇到错误时，该线程被停止，不影响其他线程（用户）。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树、用户参数(右键-添加-前置处理器)</strong></p>
+</li>
+<li>
+<p><strong>用户参数添加三个变量，名称分别为：<code>name</code>、<code>name1</code>、<code>lujing</code></strong></p>
+</li>
+<li>
+<p><strong>用户参数添加三个用户（可用于参数化，1个线程引用一个用户变量）</strong></p>
+<p><strong>用户_1的name变量值：<code>线程1的错误请求</code></strong></p>
+<p><strong>用户_2的name变量值：<code>线程2的正确请求</code></strong></p>
+<p><strong>用户_3的name变量值：<code>线程3的正确请求</code></strong></p>
+<p><strong>用户_1的name1变量值：<code>线程1的</code></strong></p>
+<p><strong>用户_2的name1变量值：<code>线程2的</code></strong></p>
+<p><strong>用户_3的name1变量值：<code>线程3的</code></strong></p>
+<p><strong>用户_1的lujing变量值：<code>/api/</code></strong></p>
+<p><strong>用户_2的lujing变量值：<code>/GetList/</code></strong></p>
+<p><strong>用户_3的lujing变量值：<code>/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>线程组面板中取样器错误后执行的动作配置为：<code>停止线程</code>，线程数配置为：<code>3</code>，循环次数配置为：<code>2</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加2个HTTP请求取样器，名称分别为：<code>${name}</code>、<code>${name1}GetList接口请求</code></strong></p>
+</li>
+<li>
+<p><strong>${name}的请求地址：<code>HTTP://127.0.0.1:5000${lujing}</code></strong></p>
+</li>
+<li>
+<p><strong>${name1}GetList接口请求的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>两个取样器的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="13.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="14.png" alt=""  /></div>
+</p>
+<p>线程1的第1取样器-<code>线程1的错误请求</code>发生错误后，线程1后续的取样器及循环不再执行。但不影响其他线程取样器的执行，线程2和线程3正常执行。</p>
+<p>多线程组也是多线程，读者在实际的脚本编写中，需注意每个线程的情况去使用<code>停止线程</code>。</p>
+<br>
+<h3 id="启动下一进程循环">启动下一进程循环<a hidden class="anchor" aria-hidden="true" href="#启动下一进程循环">#</a></h3>
+<p>任何一个线程（用户）在执行过程中遇到错误时，Jmeter会立即停止当前线程的本次执行，并进行当前线程（用户）的下次执行，不影响其他线程，主要应用于线程多次循环时。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树、用户参数</strong></p>
+</li>
+<li>
+<p><strong>用户参数添加三个变量，名称分别为：<code>name</code>、<code>name1</code>、<code>lujing</code></strong></p>
+</li>
+<li>
+<p><strong>用户参数添加三个用户</strong></p>
+<p><strong>用户_1的name变量值：<code>线程1的错误请求</code></strong></p>
+<p><strong>用户_2的name变量值：<code>线程2的正确请求</code></strong></p>
+<p><strong>用户_3的name变量值：<code>线程3的正确请求</code></strong></p>
+<p><strong>用户_1的name1变量值：<code>线程1的</code></strong></p>
+<p><strong>用户_2的name1变量值：<code>线程2的</code></strong></p>
+<p><strong>用户_3的name1变量值：<code>线程3的</code></strong></p>
+<p><strong>用户_1的lujing变量值：<code>/api/</code></strong></p>
+<p><strong>用户_2的lujing变量值：<code>/GetList/</code></strong></p>
+<p><strong>用户_3的lujing变量值：<code>/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>线程组面板中取样器错误后执行的动作配置为：<code>启动下一进程循环</code>，线程数配置为：<code>3</code>，循环次数配置为：<code>2</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加2个HTTP请求取样器，名称分别为：<code>${name}</code>、<code>${name1}GetList接口请求</code></strong></p>
+</li>
+<li>
+<p><strong>${name}的请求地址：<code>HTTP://127.0.0.1:5000${lujing}</code></strong></p>
+</li>
+<li>
+<p><strong>${name1}GetList接口请求的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>两个取样器的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="15.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="16.png" alt=""  /></div>
+</p>
+<p>线程1的第1取样器-<code>线程1的错误请求</code>发生错误后，线程1后续的取样器不再执行，但循环会继续-<code>线程1的错误请求</code>执行第二次。也不影响其他线程取样器的执行，线程2和线程3正常执行。</p>
+<p><br><br></p>
+<h2 id="ramp-up时间">ramp-up时间<a hidden class="anchor" aria-hidden="true" href="#ramp-up时间">#</a></h2>
+<p>ramp-up时间用于设置启动所有线程所需要的时间。例如：线程数设置为10，ramp-up时间设置为100秒，那么各线程启动间隔为10秒(100/10)，即每个用户将在前一个用户启动后的10秒启动。</p>
+<p>如果ramp-up值设置得很小、线程数又设置得很大，刚开始执行测试时会对服务器产生很大的压力。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树</strong></p>
+</li>
+<li>
+<p><strong>线程组面板中Ramp-Up时间配置为：<code>9</code>，线程数配置为：<code>3</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加HTTP请求取样器</strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求方式：<code>GET</code></strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="17.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="18.png" alt=""  /></div>
+</p>
+<p>各个线程的执行间隔正好是3秒(9/3)。</p>
+<p><br><br></p>
+<h2 id="same-user-on-each-iteration在每次迭代中使用相同的用户">same user on each iteration（在每次迭代中使用相同的用户）<a hidden class="anchor" aria-hidden="true" href="#same-user-on-each-iteration在每次迭代中使用相同的用户">#</a></h2>
+<p>没有研究出来它有什么用。经过我的测试，<code>same user on each iteration（在每次迭代中使用相同的用户）</code>启用与否，作用是一样的。</p>
+<p>如读者有什么见解，欢迎谈论，共同探讨。目前，我十分费解。</p>
+<p><br><br></p>
+<h2 id="延迟创建线程直到需要">延迟创建线程直到需要<a hidden class="anchor" aria-hidden="true" href="#延迟创建线程直到需要">#</a></h2>
+<p>启用<code>延迟创建线程直到需要</code>时，JMeter会根据预设的<code>Ramp-up时间</code>动态地分配线程。假设<code>Ramp-up时间</code>设置为20秒，<code>线程数</code>为10，那么JMeter会在测试启动后立即创建第一个线程并开始请求处理。随后，每隔2秒，JMeter将创建下一个线程，直到所有线程都被启动。</p>
+<p>如果关闭<code>延迟创建线程直到需要</code>选项，JMeter会在测试开始时一次性创建所有线程，然后间隔执行。即在测试一开始，JMeter会立即创建全部的10个线程，然后每个线程将间隔2秒启动。</p>
+<p>这一配置的目的是为了应对测试机性能有限的情况。通过这种方式，可以避免在测试初期就创建所有线程，导致资源过度占用和可能的性能问题。这种方法有助于平滑地增加系统负载，同时防止资源瞬间紧张导致测试无法正常进行。</p>
+<p><br><br></p>
+<h2 id="调度器">调度器<a hidden class="anchor" aria-hidden="true" href="#调度器">#</a></h2>
+<p>调度器主要控制线程操作时间，包含<code>持续时间、启动延迟</code>两个参数。</p>
+<p>持续时间（值不能为空）可以设置线程组的执行时间上限，达到上限后停止线程组的执行（已执行的不受影响）。</p>
+<p>启动延迟可以为线程组的线程执行添加延迟时间。</p>
+<p>持续时间，启动延迟同时有值时，启动延迟的时间计算到持续时间里。如启动延迟<code>3秒</code>，持续时间<code>20秒</code>，总执行时间为<code>20秒</code>。</p>
+<p><em><strong>示例Jmeter脚本</strong></em></p>
+<ul>
+<li>
+<p><strong>测试计划下添加线程组、查看结果树</strong></p>
+</li>
+<li>
+<p><strong>线程组面板中持续时间配置为<code>10</code>，启动延迟配置为：<code>3</code>，循环次数配置为：<code>永远</code></strong></p>
+</li>
+<li>
+<p><strong>线程组下添加HTTP请求取样器、固定定时器</strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求地址：<code>HTTP://127.0.0.1:5000/GetList/</code></strong></p>
+</li>
+<li>
+<p><strong>HTTP请求取样器的请求方式：<code>GET</code></strong></p>
+</li>
+<li>
+<p><strong>固定定时器的线程延迟配置为：<code>2000</code>（防止请求过多）</strong></p>
+</li>
+</ul>
+<p><div class="bigImg"><img loading="lazy" src="19.png" alt=""  /></div>
+</p>
+<p><em><strong>运行结果</strong></em></p>
+<p><div class="bigImg"><img loading="lazy" src="20.png" alt=""  /></div>
+</p>
+<p>红线第1行的<code>All thread groups have been started</code> 表示所有线程组都已经开始执行。再上面一行表示线程组1已开始执行。时间是<code>2024-07-15 14:03:56,234</code>。</p>
+<p>红线第2行的<code>Thread started: 线程组 1-1</code>表示线程组1中的线程1-1已经开始。时间是<code>2024-07-15 14:03:59,234</code>。</p>
+<p>红线第三行的<code>Notifying test listeners of end of test</code>表示测试结束，正在通知所有测试监听器。时间是<code>2024-07-15 14:04:07,296</code>。</p>
+<p>线程组1和线程组1中的线程1-1的执行间隔就是<code>3秒</code>，再到结束测试的时间间隔为<code>11秒左右</code>（持续时间存有误差）。</p>
+<br>
+
+<img src="/img/favicon.png" alt="">
+
+<hr>
+
+			<span style="font-size:0.8rem;">© 转载需要保留原始链接，未经明确许可，禁止商业使用。<a class="link" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a></span>
+        </div>
+
+        <footer class="post-footer">
+            
+
+
+<div class="share-buttons">
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on twitter"
+       href="https://twitter.com/intent/tweet/?text=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f&amp;hashtags=Jmeter">
+    <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.218 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.18,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.494 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.881 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 -91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.41 112.95,33.41Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on linkedin"
+       href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f&amp;title=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84&amp;summary=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84&amp;source=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.891 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.02,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-27.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.264,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.485,-22.092 -16.241,-38.954 -41.943,-39.002Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on reddit"
+       href="https://reddit.com/submit?url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f&title=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l18.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 166.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.003 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.882 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on facebook"
+       href="https://facebook.com/sharer/sharer.php?u=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.042,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -107.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on whatsapp"
+       href="https://api.whatsapp.com/send?text=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84%20-%20http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f">
+        <svg version="1.1" viewBox="0 0 512 512" xml:space="preserve">
+            <path
+                    d="M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 -75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-14.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8.583,-5.232Z" />
+        </svg>
+    </a>
+    <a target="_blank" rel="noopener noreferrer" aria-label="share Jmeter-线程组 on telegram"
+       href="https://telegram.me/share/url?text=Jmeter-%e7%ba%bf%e7%a8%8b%e7%bb%84&amp;url=http%3a%2f%2f192.168.9.98%2fposts%2ftechnology%2fjmeter%2fthreadgroup%2f">
+        <svg version="1.1" xml:space="preserve" viewBox="2 2 28 28">
+            <path
+                    d="M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.46.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z" />
+        </svg>
+    </a>
+</div>
+
+        </footer>
+    </div>
+</article>
+</main>
+
+<footer class="footer">
+    <span>
+        Copyright
+        &copy;
+        2024-2024
+        <a href="http://192.168.9.98/" style="color:#939393;">𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</a>
+        版权所有
+    </span>
+	<span class="running-time">
+	&emsp;本博客已稳定运行
+	<span id="runningdays" class="running-days"></span>
+		
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		&emsp;💭 11篇文章&emsp;⌨ 39.50k字
+	</span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <span class="topInner">
+        <svg class="topSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+            <path d="M12 6H0l6-6z"/>
+        </svg>
+        <span id="read_progress"></span>
+    </span>
+</a>
+<script>
+    let s1 = '2024-1-23'; 
+    s1 = new Date(s1.replace(/-/g, "/"));
+    let s2 = new Date();
+    let timeDifference = s2.getTime() - s1.getTime();
+
+    let days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60)); 
+
+    let result = days + "天" + hours + "小时" + minutes + "分钟";
+    document.getElementById('runningdays').innerHTML = result;
+</script>
+<script>
+    document.addEventListener('scroll', function (e) {
+        const readProgress = document.getElementById("read_progress");
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        readProgress.innerText = ((scrollTop / (scrollHeight - clientHeight)).toFixed(2) * 100).toFixed(0);
+    })
+</script>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+</script>
+<script>
+    let mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        (function() {
+            document.cookie = "change-themes" + "="+ escape ("false");
+        })()
+
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    });
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode.parentNode;
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code');
+    copybutton.innerText = '复制';
+
+    function copyingDone() {
+        copybutton.innerText = '已复制！';
+        setTimeout(() => {
+            copybutton.innerText = '复制';
+        }, 2000);
+    }
+
+    copybutton.addEventListener('click', (cb) => {
+        if ('clipboard' in navigator) {
+            let text = codeblock.textContent +
+                '\r\n————————————————\r\n' +
+                '版权声明：本文为「' + "𝙅𝙕𝙔'𝙨 𝘽𝙡𝙤𝙜𝙨" + '」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+            navigator.clipboard.writeText(text);
+            copyingDone();
+            return;
+        }
+
+        const range = document.createRange();
+        range.selectNodeContents(codeblock);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        try {
+            document.execCommand('copy');
+            copyingDone();
+        } catch (e) {}
+        selection.removeRange(range);
+    });
+
+    
+    let language = codeblock.className.split(" ").find(cls => cls.startsWith("language-"));
+    if (language) {
+        language = language.replace("language-", "");
+    } else {
+        language = ""; 
+    }
+
+    let macTool = document.createElement("div");
+    let macTool1 = document.createElement("div");
+    let macTool2 = document.createElement("div");
+    let macTool3 = document.createElement("div");
+    let languageType = document.createElement("div");
+    languageType.innerText = language;
+    macTool.setAttribute('class', 'mac-tool');
+    macTool1.setAttribute('class', 'mac bb1');
+    macTool2.setAttribute('class', 'mac bb2');
+    macTool3.setAttribute('class', 'mac bb3');
+    languageType.setAttribute('class', 'language-type');
+    macTool.appendChild(macTool1);
+    macTool.appendChild(macTool2);
+    macTool.appendChild(macTool3);
+    macTool.appendChild(languageType);
+
+    if (container.classList.contains("highlight")) {
+        container.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else if (container.parentNode.firstChild == container) {
+        
+    } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+        
+        codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    } else {
+        
+        codeblock.parentNode.appendChild(copybutton);
+        container.appendChild(macTool);
+    }
+	});
+
+</script>
+<script>
+(function () {
+  init();
+
+  function init() {
+    addZheZhao();
+    addBigImgClick();
+    yinCangZheZhao();
+  }
+
+  
+  function addZheZhao() {
+    let zhezhao2 = `
+      <div id="zhezhao">
+        <div id="xianshi">
+          <img src="" id="bigImgbei" alt="" />
+          <button style="color: #f10707;position: absolute;top: 0;right: 0;text-align: center;background-color: #fff;border-radius: 5px;border: none;outline: none;cursor: pointer;padding: 5px;" id="close">X</button>
+        </div>
+		
+      </div>
+    `;
+
+    var div = document.createElement("div"); 
+    div.innerHTML = zhezhao2;
+    document.body.appendChild(div); 
+  }
+
+  
+  function addBigImgClick() {
+    
+    let bigImgs = document.querySelectorAll(".bigImg img");
+    console.log(bigImgs);
+
+    
+    bigImgs.forEach((item) => {
+      item.onclick = function (e) {
+        console.log("bigImg");
+        
+        
+
+        
+        let imgSrc = e.target.getAttribute("src");
+        displayImage(imgSrc);
+      };
+    });
+  }
+
+  
+  function displayImage(imgSrc) {
+    
+    document.getElementById("zhezhao").style.display = "block";
+    
+    document.getElementById("bigImgbei").src = imgSrc;
+  }
+
+  
+  function yinCangZheZhao() {
+    console.log("yinCangZheZhao");
+    let yinCang = document.querySelector("#close");
+    yinCang.onclick = yinCangHanShu;
+  }
+
+  function yinCangHanShu() {
+    document.getElementById("zhezhao").style.display = "none";
+  }
+
+})();
+</script>
+
+</body>
+
+</html>

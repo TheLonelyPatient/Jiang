@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Categories on 姜振园的博客</title>
-        <link>https://www.jzy-blogs.cn/categories/</link>
-        <description>Recent content in Categories on 姜振园的博客</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <copyright>姜振园</copyright>
-        <lastBuildDate>Sat, 15 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.jzy-blogs.cn/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Jmeter</title>
-        <link>https://www.jzy-blogs.cn/categories/jmeter/</link>
-        <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
-        
-        <guid>https://www.jzy-blogs.cn/categories/jmeter/</guid>
-        <description>&lt;img src="https://www.jzy-blogs.cn/img/Jmeter/0.png" alt="Featured image of post Jmeter" /&gt;</description>
-        </item>
-        <item>
-        <title>杂篇</title>
-        <link>https://www.jzy-blogs.cn/categories/other/</link>
-        <pubDate>Tue, 28 May 2024 00:00:00 +0000</pubDate>
-        
-        <guid>https://www.jzy-blogs.cn/categories/other/</guid>
-        <description>&lt;img src="https://www.jzy-blogs.cn/img/Other/0.jpg" alt="Featured image of post 杂篇" /&gt;</description>
-        </item>
-        
-    </channel>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+    <link>http://192.168.9.98/categories/</link>
+    <description>Recent content in Categories on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 15 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://192.168.9.98/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jmeter</title>
+      <link>http://192.168.9.98/categories/jmeter/</link>
+      <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/categories/jmeter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Other</title>
+      <link>http://192.168.9.98/categories/other/</link>
+      <pubDate>Tue, 28 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/categories/other/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Essays</title>
+      <link>http://192.168.9.98/categories/essays/</link>
+      <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/categories/essays/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
 </rss>

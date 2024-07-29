@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Jmeter系列 on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+    <link>http://192.168.9.98/posts/technology/jmeter/</link>
+    <description>Recent content in Jmeter系列 on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 15 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://192.168.9.98/posts/technology/jmeter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jmeter-定时器</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/timer/</link>
+      <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/timer/</guid>
+      <description>介绍各种定时器的用法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-定时器</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/timer1/</link>
+      <pubDate>Sat, 15 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/timer1/</guid>
+      <description>介绍各种定时器的用法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-监听器</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/listener/</link>
+      <pubDate>Fri, 14 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/listener/</guid>
+      <description>介绍各种监听器的用法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-CSV Data Set Config</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/</link>
+      <pubDate>Tue, 14 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/csvdatasetconfig/</guid>
+      <description>CSV Data Set Config的作用及使用方法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-HTTP请求取样器</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/httprequest/</link>
+      <pubDate>Wed, 03 Apr 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/httprequest/</guid>
+      <description>HTTP请求取样器的作用及使用方法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-线程组</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/threadgroup/</link>
+      <pubDate>Tue, 19 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/threadgroup/</guid>
+      <description>线程组的作用及使用方法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-测试计划</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/testplan/</link>
+      <pubDate>Fri, 26 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/testplan/</guid>
+      <description>测试计划的作用及使用方法</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-环境配置</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/envconfig/</link>
+      <pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/envconfig/</guid>
+      <description>JDK的安装、环境配置及Jmeter的安装、汉化配置等</description>
+    </item>
+    
+    <item>
+      <title>Jmeter-前言</title>
+      <link>http://192.168.9.98/posts/technology/jmeter/preface/</link>
+      <pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/jmeter/preface/</guid>
+      <description>简单介绍下Jmeter及做一些说明</description>
+    </item>
+    
+  </channel>
+</rss>

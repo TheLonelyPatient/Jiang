@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Essays on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</title>
+    <link>http://192.168.9.98/categories/essays/</link>
+    <description>Recent content in Essays on 𝙅𝙕𝙔&#39;𝙨 𝘽𝙡𝙤𝙜𝙨</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 10 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://192.168.9.98/categories/essays/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用VMware搭建测试环境</title>
+      <link>http://192.168.9.98/posts/technology/essays/vmware/</link>
+      <pubDate>Fri, 10 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://192.168.9.98/posts/technology/essays/vmware/</guid>
+      <description>使用Vmware搭建虚拟Linux服务器</description>
+    </item>
+    
+  </channel>
+</rss>
